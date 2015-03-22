@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>2015东南大学最具影响力毕业生投票</title>
+        <link href="../bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body
+            {
+                padding-top: 50px;
+                
+                font-family: "Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+            }
+
+            #jumbotron_main
+            {
+                background-image: url("../RESORCE/brickroad.jpg");
+                background-position: center;
+
+                min-height: 512px;
+            }
+
+            #jumbotron_main h1,#jumbotron_main h2
+            {
+                color: white;
+            }
+            
+            #form_container
+            {
+                min-height: 512px;
+                
+                border-radius: 8px;
+                
+                background-color: rgba(255,255,255,1);
+            }
+            
+            #loginType_tags
+            {
+                margin-top: 32px;
+            }
+            
+            .login_form_inputs
+            {
+                margin-top: 32px;
+            }
+            
+            #alert_container
+            {
+                margin-top: 32px;
+                
+                height: 64px;
+            }
+            
+            .login_form_submit
+            {
+                margin-top: 122px;
+            }
+            
+            #jumbotron_intro
+            {
+                min-height: 512px;
+            }
+            
+            .login_btn
+            {
+                background-color: #337ab7;
+                
+                color: white;
+            }
+            
+            .intro_btn_container
+            {
+                min-height: 452px;
+            }
+            
+            .intro_btn
+            {
+                width: 192px;
+                min-height: 192px;
+                
+                margin: auto;
+                margin-top: 112px;
+                
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            
+            .intro_btn_discription
+            {
+                width: 192px;
+                min-height: 48px;
+                
+                margin: auto;
+                
+                text-align: center;
+            }
+            
+            #profile
+            {
+                background-image: url(../RESORCE/profile.png);
+            }
+            #needknow
+            {
+                background-image: url(../RESORCE/needknow.png);
+            }
+            #rules
+            {
+                background-image: url(../RESORCE/rules.png);
+            }
+            
+            .intro_detail
+            {
+                background-color: white;
+                
+                min-height: 256px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> &nbsp;&nbsp;&nbsp;&nbsp;活动介绍</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-king" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;候选人</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;登录以投票</a></li>
+                            <li class="active"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;0/15&nbsp;已投</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="jumbotron_main" class="jumbotron">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1>
+                            东南大学
+                        </h1>
+                        <h2>
+                            2015最具影响力毕业生投票
+                        </h2>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="container-fluid" id="form_container">
+                            <ul class="nav nav-tabs" id="loginType_tags">
+                                <li role="presentation" class="active"><a href="#">校内投票</a></li>
+                                <li role="presentation"><a href="#">校外注册</a></li>
+                                <li role="presentation"><a href="#">校外登录</a></li>
+                            </ul>
+                            <div class="container">
+                                <div class="input-group input-group-lg login_form_inputs">
+                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></span>
+                                    <input type="text" class="form-control" placeholder="一卡通号" aria-describedby="sizing-addon1">
+                                </div>
+                                <div class="input-group input-group-lg login_form_inputs">
+                                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
+                                    <input type="password" class="form-control" placeholder="统一身份认证密码" aria-describedby="sizing-addon1">
+                                </div>
+                                <div class="container-fluid" id="alert_container">
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>登录信息错误</strong>
+                                </div>
+                                </div>
+                                <div class="btn-group btn-group-lg login_form_submit" role="group" aria-label="...">
+                                    <button type="button" class="btn btn-default login_btn">登录</button>
+                                    <button type="button" class="btn btn-default">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="page-header">
+                <h1>活动介绍<br><small>Introduction/Voting Rules/Ranking Rules</small></h1>
+            </div>
+        </div>
+        <div id="jumbotron_intro" class="jumbotron">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="container-fluid intro_btn_container">
+                            <div class="intro_btn" id="profile">
+                            </div>
+                            <div class="intro_btn_discription">
+                                <h2>简介</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="container-fluid intro_btn_container">
+                            <div class="intro_btn" id="needknow">
+                            </div>
+                            <div class="intro_btn_discription">
+                                <h2>投票规则</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="container-fluid intro_btn_container">
+                            <div class="intro_btn" id="rules">
+                            </div>
+                            <div class="intro_btn_discription">
+                                <h2>排名规则</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid intro_detail">
+            </div>
+        </div>
+        <script src="../JS/jquery-1.11.1.js"></script>
+        <script src="../bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+    </body>
+</html>
