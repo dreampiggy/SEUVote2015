@@ -5,6 +5,6 @@ $check_h = $my_t['hours'];
 if ($check_h>=7 && $check_h<=22) {
 	header("Location: vote.html");
 } else {
-	header("Location: vote.html");
+	header("Location: cannot.html");
 }
 ?>

@@ -150,12 +150,12 @@ var ajax = false;
 			  }
 			}
 			var postStr = "signal=shortIntroduce";
-			xmlhttp.open("post","namelistDet.php",true);
+			xmlhttp.open("GET","/introduce/introduction.json",true);
 			xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 			xmlhttp.send(postStr);
 		
 
-alert("　　自“东南大学2014年最具影响力毕业生评选 ”启动以来，活动受到各界关注，广大同学、亲友、师生、朋友所投出的每一票，既是对参评选手的肯定，也是对我们活动的支持。由衷的感谢各位！\n　　为保证活动的公开、公平、公正，组委会高度重视网络票选工作。近日，经过严格的数据分析与筛查，认定存在个别的刷票现象，凡被认定为“刷票”行为的所有相关票数均视作无效。\n　　特此公告。\n　　　　　　　　　最具影响力毕业生评选活动组委会\n 　　　　　　　　　　　　　二〇一四年四月二十一日");
+// alert("　　自“东南大学2014年最具影响力毕业生评选 ”启动以来，活动受到各界关注，广大同学、亲友、师生、朋友所投出的每一票，既是对参评选手的肯定，也是对我们活动的支持。由衷的感谢各位！\n　　为保证活动的公开、公平、公正，组委会高度重视网络票选工作。近日，经过严格的数据分析与筛查，认定存在个别的刷票现象，凡被认定为“刷票”行为的所有相关票数均视作无效。\n　　特此公告。\n　　　　　　　　　最具影响力毕业生评选活动组委会\n 　　　　　　　　　　　　　二〇一四年四月二十一日");
 	
 
 var userAgent=navigator.userAgent.toLowerCase(), s, o = {};  

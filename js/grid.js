@@ -1261,10 +1261,10 @@ function _loadDet($items,$item){
 	    //_addDetail(textR1);//这个是正常使用的代码
 	  }
 	}
-	var postStr = "signal=loadDetails&studentId="+student_num;
-	xmlhttp.open("post","namelistDet.php",true);
+	var getDetailStr = "/introduce/introduce_"+student_num+".json";
+	xmlhttp.open("get",getDetailStr,true);
 	xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-	xmlhttp.send(postStr);
+	xmlhttp.send(getDetailStr);
 }
 	function initItemsEvents( $items ) {
 		$items.on( 'click', 'span.og-close', function() {
