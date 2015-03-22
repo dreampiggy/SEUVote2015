@@ -1,0 +1,177 @@
+.og-grid {
+	list-style: none;
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+}
+
+.og-grid li {
+	display: inline-block;
+	margin: 10px 5px 0 5px;
+	vertical-align: top;
+	height: 250px;
+}
+/*小三角的位置*/
+.og-grid li > a,
+.og-grid li > a img {
+	border: none;
+	outline: none;
+	display: block;
+	position: relative;
+}
+
+.og-grid li.og-expanded > a::after {
+	top: auto;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-bottom-color: #dbdbdb;
+	border-width: 15px;
+	left: 50%;
+	margin: -20px 0 0 -15px;
+}
+
+.og-expander {
+	position: absolute;
+	/*background: black;*/
+	/*opacity: 0.5;*/
+	/*filter: progid:DXImageTransform.Microsoft.Alpha(opacity=40); */
+	background:rgba(186, 186, 186, 0.5) none repeat scroll 0 0 !important;/*实现FF背景透明，文字不透明*/
+	filter:Alpha(opacity=50);
+	background:#bfbfbf;/*实现IE背景透明*/
+	top: auto;
+	left: 0;
+	width: 100%;
+	margin-top: 10px;
+	text-align: left;
+	height: 0;
+	overflow: hidden;
+}
+.og-expander img,dt,dd{ position:relative;}
+
+.og-expander-inner {
+	padding: 50px 30px;
+	height: 100%;
+}
+
+.og-close {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top: 0px;
+	right: 20px;
+	font-size:70px;text-align:center;line-height:0.9em;cursor:pointer;
+	color: #333;
+}
+.og-close:hover{
+	color: gray;
+}
+
+.og-fullimg,
+.og-details {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	float: left;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.og-details {
+	width: 76%;
+	padding: 0 0 0 30px;
+}
+
+.og-fullimg {
+	width: 24%;
+	text-align: center;
+}
+
+.og-fullimg img {
+	display: inline-block;
+	max-height: 100%;
+	max-width: 100%;
+}
+h4{
+	position: absolute;float: left;
+	font-family:  "华文中宋";
+	font-size: 30px;
+	font-weight: 700;
+}
+.og-details h3{
+	font-family: "华文细黑";
+	font-weight: 100;
+	position: relative;
+	top: 40px;
+	font-size: 20px;color: gray;
+	/*padding: 40px 0 10px;*/
+	/*margin-bottom: 10px;*/
+}
+
+.og-details p {
+	position: relative;float: left;
+	width: 44%;height: 75%;top: 70px;
+	overflow: scroll;
+	font-family: "Microsoft Yahei";
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 15px;
+	color: #3c3c3c;
+}
+#p1{
+	left: 100px;
+}
+
+.og-loading {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #ddd;
+	box-shadow: 0 0 1px #ccc, 15px 30px 1px #ccc, -15px 30px 1px #ccc;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -25px 0 0 -25px;
+	-webkit-animation: loader 0.5s infinite ease-in-out both;
+	-moz-animation: loader 0.5s infinite ease-in-out both;
+	animation: loader 0.5s infinite ease-in-out both;
+}
+
+@-webkit-keyframes loader {
+	0% { background: #ddd; }
+	33% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ccc, -15px 30px 1px #ddd; }
+	66% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ddd, -15px 30px 1px #ccc; }
+}
+
+@-moz-keyframes loader {
+	0% { background: #ddd; }
+	33% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ccc, -15px 30px 1px #ddd; }
+	66% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ddd, -15px 30px 1px #ccc; }
+}
+
+@keyframes loader {
+	0% { background: #ddd; }
+	33% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ccc, -15px 30px 1px #ddd; }
+	66% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ddd, -15px 30px 1px #ccc; }
+}
+
+@media screen and (max-width: 830px) {
+
+	.og-expander h3 { font-size: 32px; }
+	.og-expander p { font-size: 13px; }
+	.og-expander a { font-size: 12px; }
+
+}
+
+@media screen and (max-width: 650px) {
+
+	.og-fullimg { display: none; }
+	.og-details { float: none; width: 100%; }
+	
+}
