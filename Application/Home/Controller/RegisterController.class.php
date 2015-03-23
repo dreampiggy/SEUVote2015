@@ -24,6 +24,11 @@ class RegisterController extends Controller {
 	public function canRegister(){
 		$_SESSION['loginName'] = $_POST['loginName'];
 		$_SESSION['type'] = "out";
+		if($_SESSION['emailCheck'] != $_POST['emailCheck']){
+			$return = 7;
+			echo $return;
+			return;
+		}
 		$password = $_POST['password'];
 		/*后台判断用户名和密码是否均为6-12位的字母和数字组合，防止注入，先判断用户名*/
 		if (!ereg("([0-9a-zA-Z]+)([@])([0-9a-zA-Z]+)([.])([0-9a-zA-Z]{2,4})",$_SESSION['loginName'])) {
@@ -34,7 +39,7 @@ class RegisterController extends Controller {
 		} else {
 			# code...
 			/*后台再判断密码是否符合规定*/
-			if (!preg_match("/^[a-z\d]{6,15}$/i",$password)) {
+			if (!preg_match("/^[a-zA-Z\d]{6,15}$/",$password)) {
 				# code...
 				//密码不符合规定
 				$return = 5;

@@ -654,6 +654,29 @@ skipurl = "/ranking";
 		}
 	}//end else 3
 }
+function sendEmail(){
+	var emailAddress = $('#mailReg').val();
+	var emailCheck = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(emailAddress);
+	if(!emailCheck){
+		alert('邮箱格式不正确哦，请检查');
+		return;
+	}
+	$.ajax({
+		type: 'POST',
+		url: '/email',
+		data: {
+			"address" : emailAddress
+		},
+		success: function(){
+			alert("邮件验证码已发送，请查看并在下方输入验证码!");
+		},
+		error: function(){
+			alert("邮件未发送，请检查您的邮箱格式!");
+		}
+	});
+}
+
+
 //社会人员注册
 function _register(){  
     var loginName=$('#mailReg').val();
@@ -666,28 +689,24 @@ function _register(){
 	password2 = password2.Trim();
 	if (!loginName) {
 		alert("邮箱不能为空！");
-		document.getElementById('validatePic').src = '/captcha';
 	}
 	else{//else 0
 		var reg = /^[\w-]+[\.]*[\w-]+[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/;
 		if(reg.test(loginName)){
 			if(!password){
 				alert("密码不能为空！")
-				document.getElementById('validatePic').src = '/captcha';
 			}
 			else{//else 1
-				var reg = /^[a-zA-Z|\d]{6,12}$/;
+				var reg = /^[a-zA-Z\d]{6,15}$/;
 				if(reg.test(password)){
 					if (password != password2){
 						alert("两次输入不一致！");
 						$('#pwd1').val() = '';
 						$('#pwd2').val() = '';
-						document.getElementById('validatePic').src = '/captcha';
 					}
 					else {//else 2
 						if (validateNum==''){
 							alert("请输入验证码！");
-							document.getElementById('validatePic').src = '/captcha';
 						}
 						else{//else 3
 							var ajax;
@@ -701,7 +720,7 @@ function _register(){
 							}
 							ajax.onreadystatechange=updatePage;
 							
-							var postStr="loginName="+loginName+"&password="+password+"&validateNum="+validateNum+"&refere=reference1";
+							var postStr="loginName="+loginName+"&password="+password+"&emailCheck="+validateNum+"&refere=reference1";
 							ajax.open("post","/register",true);
 							ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
 							ajax.send(postStr);
@@ -713,12 +732,14 @@ function _register(){
 						   		if (ajax.readyState == 4 && ajax.status == 200)
 								{ 
 									var ret = ajax.responseText;
+									if (ret == 7){
+										alert('邮箱验证码错误！');
+									}
 									if (ret == 6){
 										alert("用户名已存在！");
 										document.getElementById('mailReg').value='';//核对名字
 										document.getElementById('pwd1').value='';//核对名字
 										document.getElementById('pwd2').value='';
-										$id("validatePic").src=$id("validatePic").src;
 									}
 									else if(ret == 2){
 										alert("错误！");
@@ -728,22 +749,18 @@ function _register(){
 										document.getElementById('mailReg').value='';//核对
 										document.getElementById('pwd1').value='';
 										document.getElementById('pwd2').value='';
-										$id("validatePic").src=$id("validatePic").src;
 									}
 									else if(ret == 3){
 										alert("请诚信投票！");
 										document.getElementById('mailReg').value='';//核对
-										$id("validatePic").src=$id("validatePic").src;
 									}
 									else if(ret == 5){
 										alert("密码格式不符合规定！");
 										document.getElementById('pwd1').value='';//核对
 										document.getElementById('pwd2').value='';
-										$id("validatePic").src=$id("validatePic").src;
 									}
 									else{
 										alert("注册成功！");
-										$id("validatePic").src=$id("validatePic").src;
 										close_log();
 										document.getElementById("dddddd").value="查看排名";
 										skipurl = "/ranking";

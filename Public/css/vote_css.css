@@ -295,11 +295,11 @@ h2{
 	overflow: hidden;
 	background: none;
 	width:360px;
-	height:440px;
+	height:500px;
 	left: 50%;
 	margin-left: -180px;
 	top: 100px;
-	position: relative;
+	position: absolute;
 }
 #leftBlock{
 	background: none;

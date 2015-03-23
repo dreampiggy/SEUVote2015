@@ -6,12 +6,12 @@ class IndexController extends Controller {
 		date_default_timezone_set('prc');
 		$my_t=getdate(date("U"));
 		$check_h = $my_t['hours'];
-		if ($check_h>=7 && $check_h<=22) {
-			$this->display('Index:vote');
-		} else {
-			$this->display('Index:cannot');
-		}
-		// $this->display('Index/vote');
+		// if ($check_h>=7 && $check_h<=22) {
+		// 	$this->display('Index:vote');
+		// } else {
+		// 	$this->display('Index:cannot');
+		// }
+		$this->display('Index/vote');
     }
 
 

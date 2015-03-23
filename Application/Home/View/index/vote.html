@@ -164,7 +164,6 @@ var userAgent=navigator.userAgent.toLowerCase(), s, o = {};
 		<script type="text/javascript">
 			function skip_2(){
 				window.location.href='#';
-				$id("validatePic").src=$id("validatePic").src;
 				$('#loginBlock').fadeIn("normal");
 				$(document.body).css({"overflow-x":"hidden","overflow-y":"hidden"});
 				$id("innerBlock").style.left="-360px";
@@ -263,10 +262,10 @@ var userAgent=navigator.userAgent.toLowerCase(), s, o = {};
 							<br/>
 							<input type="password" class="input" id="pwd2" style="position: relative;top: 20px;left: 50%;margin-left: -170px;" placeholder="再次确认"/><br/>
 							<input type="text" class="input" id="vali_reg" style="position: relative;top: 30px;left: 50%;margin-left: -170px;" placeholder="验证码"/>
-							<img src="/captcha" id='validatePic' onclick="this.src=this.src"/>
 					</div>
 					<br/><br/>
 						<!--方便起见没改class-->
+						<input class='btn' type="button" value="发 送 验 证 码" onclick="sendEmail()"/><br/><br/>
 						<input class='btn' type="button" value="校  外  注  册" onclick="_register()"/><br/><br/>
 						<input class='btn' type="button" value="返   	        回" id="ret_3"/>
 					</form>

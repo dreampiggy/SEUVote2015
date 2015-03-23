@@ -2,102 +2,67 @@
 namespace Home\Controller;
 use Think\Controller;
 class EmailController extends Controller {
-    public function email(){
-		// class email_validation_class 
-		// { 
-		//var $email_regular_expression="^([a-z0-9_] |//- |//.)+@(([a-z0-9_] |//-)+//.)+[a-z]{2,4}$"; 
-		var $timeout=0; 
-		var $localhost=""; 
-		var $localuser=""; 
-		var $hosts=0;
-		 
-		Function GetLine($connection) 
-		{ 
-		for($line="";;) 
-		{ 
-		if(feof($connection)) 
-		return(0); 
-		$line.=fgets($connection,100); 
-		$length=strlen($line); 
-		if($length>=2 && substr($line,$length-2,2)=="/r/n") 
-		return(substr($line,0,$length-2)); 
-		} 
-		} 
-		 
-		Function PutLine($connection,$line) 
-		{ 
-		return(fputs($connection,"$line/r/n")); 
-		} 
-		 
-		Function ValidateEmailAddress($email) { 
-		//return(eregi($this->email_regular_expression,$email)!=0); 
-		//origin:
-		//return(eregi("^([a-z0-9_] |//- |//.)+@(([a-z0-9_] |//-)+//.)+[a-z]{2,4}$",$email)!=0); 
-		 
-		//return preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", $_REQUEST[$email]);
-		return preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", $_REQUEST[$email]);
-		 
-		} 
-		 
-		Function ValidateEmailHost($email,$hosts=0) 
-		{ 
-		if(!$this->ValidateEmailAddress($email)) 
-		return(0); 
-		$user=strtok($email,"@"); 
-		$domain=strtok(""); 
-		if(GetMXRR($domain,$hosts,$weights)) 
-		{ 
-		$mxhosts=array(); 
-		for($host=0;$host<count($hosts);$host++) 
-		$mxhosts[$weights[$host]]=$hosts[$host]; 
-		KSort($mxhosts); 
-		for(Reset($mxhosts),$host=0;$host<count($mxhosts);Next($mxhosts),$host++) 
-		$hosts[$host]=$mxhosts[Key($mxhosts)]; 
-		} 
-		else 
-		{ 
-		$hosts=array(); 
-		if(strcmp(@gethostbyname($domain),$domain)!=0) 
-		$hosts[]=$domain; 
-		} 
-		return(count($hosts)!=0); 
-		} 
-		 
-		Function VerifyResultLines($connection,$code) 
-		{ 
-		while(($line=$this->GetLine($connection))) 
-		{ 
-		if(!strcmp(strtok($line," "),$code)) 
-		return(1); 
-		if(strcmp(strtok($line,"-"),$code)) 
-		return(0); 
-		} 
-		return(-1); 
-		} 
-		 
-		Function ValidateEmailBox($email) 
-		{ 
-		if(!$this->ValidateEmailHost($email,$hosts)) 
-		return(0); 
-		if(!strcmp($localhost=$this->localhost,"") && !strcmp($localhost=getenv("SERVER_NAME"),"") && !strcmp($localhost=getenv("HOST"),"")) 
-		$localhost="localhost"; 
-		if(!strcmp($localuser=$this->localuser,"") && !strcmp($localuser=getenv("USERNAME"),"") && !strcmp($localuser=getenv("USER"),"")) 
-		$localuser="root"; 
-		for($host=0;$host<count($hosts);$host++) 
-		{ 
-		if(($connection=($this->timeout ? fsockopen($hosts[$host],25,$errno,$error,$this->timeout) : fsockopen($hosts[$host],25)))) 
-		{ 
-		if($this->VerifyResultLines($connection,"220")>0 && $this->PutLine($connection,"HELO $localhost") && $this->VerifyResultLines($connection,"250")>0 && $this->PutLine($connection,"MAIL FROM: <$localuser@$localhost>") && $this->VerifyResultLines($connection,"250")>0 && $this->PutLine($connection,"RCPT TO: <$email>") && ($result=$this->VerifyResultLines($connection,"250"))>=0) 
-		{ 
-		fclose($connection); 
-		return($result); 
-		} 
-		fclose($connection); 
-		} 
-		} 
-		return(-1); 
-		} 
-		// }; 
+	/**
+	 * 系统邮件发送函数
+	 * @param string $to    接收邮件者邮箱
+	 * @param string $name  接收邮件者名称
+	 * @param string $subject 邮件主题 
+	 * @param string $body    邮件内容
+	 * @param string $attachment 附件列表
+	 * @return boolean 
+	 */
+	function email($to, $name = '最有影响力毕业生用户', $subject = '', $body = '', $attachment = null){
+		session_start();
+		$to = $_POST['address'];
+		$this->generateCode();
+		$body = '欢迎加入最有影响力毕业生投票！<p>这里是验证码：<p>'.$_SESSION['emailCheck'];
+		$name = $_POST['name'];
+	    $config = C('THINK_EMAIL');
+	    $mail             = new \Org\PHPMailer\PHPMailer(); //PHPMailer对象
+	    $mail->CharSet    = 'UTF-8'; //设定邮件编码，默认ISO-8859-1，如果发中文此项必须设置，否则乱码
+	    $mail->IsSMTP();  // 设定使用SMTP服务
+	    $mail->SMTPDebug  = 0;                     // 关闭SMTP调试功能
+	                                               // 1 = errors and messages
+	                                               // 2 = messages only
+	    $mail->SMTPAuth   = true;                  // 启用 SMTP 验证功能
+	    // $mail->SMTPSecure = 'ssl';                 // 使用安全协议
+	    $mail->Host       = $config['SMTP_HOST'];  // SMTP 服务器
+	    $mail->Port       = $config['SMTP_PORT'];  // SMTP服务器的端口号
+	    $mail->Username   = $config['SMTP_USER'];  // SMTP服务器用户名
+	    $mail->Password   = $config['SMTP_PASS'];  // SMTP服务器密码
+	    $mail->SetFrom($config['FROM_EMAIL'], $config['FROM_NAME']);
+	    $replyEmail       = $config['REPLY_EMAIL']?$config['REPLY_EMAIL']:$config['FROM_EMAIL'];
+	    $replyName        = $config['REPLY_NAME']?$config['REPLY_NAME']:$config['FROM_NAME'];
+	    $mail->AddReplyTo($replyEmail, $replyName);
+	    $mail->Subject    = $subject;
+	    $mail->MsgHTML($body);
+	    $mail->AddAddress($to, $name);
+	    if(is_array($attachment)){ // 添加附件
+	        foreach ($attachment as $file){
+	            is_file($file) && $mail->AddAttachment($file);
+	        }
+	    }
+	    if($mail->Send()){
+	    	$this->ajaxReturn('OK','Send OK',1);
+	    }
+	    else{
+	    	$this->ajaxReturn('Error','Send Wrong',0);
+	    }
+	}
+
+	public function generateCode(){
+		session_start();
+		$Str[0] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
+        $Str[1] = "abcdefghijklmnopqrstuvwxyz"; 
+        $Str[2] = "01234567891234567890123456"; 
+		//获取随机文字 
+		$imstr[0]["s"] = $Str[rand(0,2)][rand(0,25)]; 
+        $imstr[1]["s"] = $Str[rand(0,2)][rand(0,25)]; 
+        $imstr[2]["s"] = $Str[rand(0,2)][rand(0,25)]; 
+        $imstr[3]["s"] = $Str[rand(0,2)][rand(0,25)]; 
+
+        $checkCode = $imstr[0]["s"].$imstr[1]["s"].$imstr[2]["s"].$imstr[3]["s"];
+        $_SESSION['emailCheck'] = strtolower($checkCode);
 	}
 }
 ?> 
