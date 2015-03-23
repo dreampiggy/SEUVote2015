@@ -8,11 +8,6 @@ class LoginController extends Controller {
 		session_start();
 		header('Content-Type:text/html;charset=UTF-8');
 		$return = 5;//默认为用户名不存在
-		// $loginName = $_POST['name'];
-		// printf("SELECT password FROM users_in WHERE loginName = '%s' ",$loginName);
-		// $this->Model = M();
-		// $lalala = $this->Model->query("SELECT password FROM users_in WHERE loginName = '%s' ",$loginName);
-		// echo $lalala;
 		$judge = $_POST['refere'];
 		if ($judge=="reference2") {
 			# code...

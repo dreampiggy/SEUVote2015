@@ -1,2 +1,3 @@
 .DS_Store
-Application/Runtime/Cache/
+Application/Runtime/Cache
+Application/Runtime/Logs

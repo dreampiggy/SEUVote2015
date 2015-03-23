@@ -12,11 +12,12 @@ class VoteController extends Controller {
 	private $voteTotal;//用户投给毕业生列表的长度，暂时是15个
 	private $currnetIP;//当前用户的IP地址
 	private $currentUnixTime;//当前的UNIX时间戳
-	private $getValidateNum;//验证码的值
+	private $validateNum;//验证码的值
 
 
 	public function checkCaptcha(){
-		if(!($this->getValidateNum == $_SESSION['validateNum'])){
+
+		if(!($this->validateNum == $_SESSION['validateNum'])){
 			return false;
 		}
 		$_SESSION['validateNum'] = rand(0,25000000005);
@@ -57,11 +58,11 @@ class VoteController extends Controller {
 		$this->type = $_SESSION['type'];
 		$this->db_table = "users_".$this->type;
 		$checked = $this->Model->query("SELECT voted FROM %s WHERE loginName='%s'",$this->db_table,$this->loginName);
-		if(!$checked){
-			return false;
+		if($checked && !$checked[0]['voted']){
+			return true;
 		}
 		else if ($checked[0]['voted'] == 1) {
-			return true;
+			return false;
 		}
 	}
 
@@ -106,7 +107,7 @@ class VoteController extends Controller {
 		for($i = 0;$i < $this->voteTotal;$i++){
 			$rinfo .= $this->voteFor[$i];
 		}
-		$keydb ="../voteLog.txt";//php写文本保存的文件名
+		$keydb ="/voteLog.txt";//php写文本保存的文件名
 		$fp=fopen($keydb,"a");//写入方法
 		$result = fwrite($fp,$rinfo."\r\n\r\n"); //写入数据
 		fclose($fp);
@@ -132,8 +133,8 @@ class VoteController extends Controller {
 		$this->my_t=getdate(date("U"));
 		$return = 2;//默认为未登录状态
 
-		$getValidateNum = $_REQUEST['postValidateNum'];
-		$this->getValidateNum = strtolower($getValidateNum);
+		$validateNum = $_REQUEST['postValidateNum'];
+		$this->validateNum = strtolower($validateNum);
 
 		$getVoteArray = $_REQUEST['voteArray'];
 		$getVoteArray = json_decode($getVoteArray,true);
@@ -149,6 +150,7 @@ class VoteController extends Controller {
     public function vote(){
     	//初始化
     	$this->init();
+    	$this->Model = M();
 		//是否存在Session
 		if(!isset($_SESSION['loginName'])){
 			$return = 2;
