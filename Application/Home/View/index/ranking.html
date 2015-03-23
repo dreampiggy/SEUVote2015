@@ -1,0 +1,601 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="/public/js/json.js"></script>
+<title>排名情况</title>
+<style type="text/css">
+body {background:#e8e8e8;}
+.content{
+	background-color: white;
+	position: relative;
+	width: 1000px;
+	left: 50%;
+	margin-left: -500px;
+	border: 2px solid;
+	border-color: white;
+	border-radius: 8px;
+}
+.bighead{
+	position: relative;
+	background-color: #F8F8F8;
+	text-align: center;
+	width: 980px;
+	left: 50%;
+	margin-left: -490px;
+	margin-top: 10px;
+	height: 68px;
+	font-family: Microsoft YaHei;
+	font-size: 42px;
+	font-weight: bold;
+	color: #66CCCC;
+}
+.head{
+	position: relative;
+	background-color: #F8F8F8;
+	text-align: center;
+	width: 980px;
+	left: 50%;
+	margin-left: -490px;
+	margin-top: 8px;
+	height: 50px;
+	font-family: Microsoft YaHei;
+	font-size: 36px;
+	color: #66CCCC;
+}
+.candidate{
+	position: relative;
+	background-color: #F8F8F8;
+	width: 980px;
+	height: 30px;
+	margin: 8px 10px;
+}
+.name{
+	float: left;
+	font-family: Microsoft YaHei;
+	color: #66CCCC;
+	width: 175px;
+	margin-top: 3px;
+	margin-left: 5px;
+	font-size: 18px;
+}
+.poll{
+	float: right;
+	font-family: Microsoft YaHei;
+	color: #00CED1;
+	margin-top: 3px;
+	margin-right: 5px;
+	font-size: 20px;
+}
+.chart{
+	position: relative;
+	left: 200px;
+	width: 0px;
+	height: 24px;
+	top: 3px;
+	background-color: #bdbdbd;
+}
+.button{
+	position: relative;
+	top: -4px;
+	width: 260px;
+	height: 30px;
+	font-family: Microsoft YaHei;
+	color: #66CCCC;
+	font-size: 20px;
+	border: 2px;
+}
+</style>
+
+<script type="text/javascript">
+function changecolor1(tempid){
+	tempid.style.backgroundColor="#66CCCC";
+}
+function changecolor2(tempid){
+	tempid.style.backgroundColor="#bdbdbd";
+}
+function changecolor3(tempid){
+	tempid.style.height="34px";
+	tempid.style.fontSize="22px";
+}
+function changecolor4(tempid){
+	tempid.style.height="30px";
+	tempid.style.fontSize="20px";
+}
+
+function get(tempX){
+	var x = tempX;
+	var newPostStr = "typeX="+x+"&refere=reference4";
+
+	var ajax = false;
+	//开始初始化XMLHttpRequest对象
+    if(window.XMLHttpRequest) 
+	{ 	//Mozilla 浏览器
+        ajax = new XMLHttpRequest();
+    	if (ajax.overrideMimeType) 
+		{	//设置MiME类别
+            ajax.overrideMimeType("text/xml");
+   		}
+ 	}
+    else if (window.ActiveXObject) 
+	{ 	// IE浏览器
+        try 
+		{
+        	ajax = new ActiveXObject("Msxml2.XMLHTTP");
+        } 
+		catch (e) 
+		{
+        	try
+        	{
+            	ajax = new ActiveXObject("Microsoft.XMLHTTP");
+            } 
+			catch (e) {}
+		}
+	}
+    if (!ajax) 
+	{ 	// 异常，创建对象实例失败
+        window.alert("不能创建XMLHttpRequest对象实例.");
+        return false;
+	}
+                
+	//通过Post方式打开连接
+	ajax.open("post", "/rank", true);
+
+	//定义传输的文件HTTP头信息
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+
+	ajax.onreadystatechange = updatePage;
+	//发送POST数据
+	ajax.send(newPostStr);
+	//获取执行状态
+	function updatePage(){
+		if(ajax.readyState == 4 && ajax.status == 200)
+		{
+			textR = ajax.responseText;
+			//alert(textR);
+			if (textR == 2)
+			{
+				alert("您还没有投票哦！请先投票~");
+			}else if (textR == 3)
+			{
+				alert("请您诚信投票哦~");
+			}else
+			{
+				change(textR);
+			};
+
+		}
+	}
+}
+
+function change(str){
+
+	var rankObj = JSON.parse(str);
+	
+var total = 77;
+	var pollMax = rankObj['maxPoll'];
+
+	for (var i = 0; i < total; i++) {
+		var nameTemp = rankObj['people'][i]['nameA'];//name
+		var idTemp = rankObj['people'][i]['numberA'];//id
+		var pollTemp = rankObj['people'][i]['pollA'];//poll
+		var nameToAdd =idTemp.substr(0,2) + "系-"+nameTemp;
+		var divNameId="name"+i;
+		var divPollId="poll"+i;
+		var divChartId = "chart"+i;
+		document.getElementById(divChartId).style.width = "0px";
+		
+		document.getElementById(divNameId).innerText = nameToAdd;
+		document.getElementById(divPollId).innerText = pollTemp;
+		widthTemp = pollTemp/pollMax *700;
+		document.getElementById(divChartId).style.width = widthTemp+"px";
+	}
+}
+</script>
+
+</head>
+
+<body>
+	<div class="content">
+		
+		<div class="bighead">东南大学最具影响力毕业生网络投票</div>
+		<div class="head">各选手得票情况(按学号顺序排列)</div>
+		<div class="head">
+			<input class="button" type="button" onclick="get('in')"  value="点击查看校内投票情况" onmouseover="changecolor3(this)" onmouseout="changecolor4(this)">
+			<input class="button" type="button" onclick="get('out')" value="点击查看校外投票情况" onmouseover="changecolor3(this)" onmouseout="changecolor4(this)">
+		</div>
+
+		<div class="candidate">
+			<div id="name0" class="name"></div>
+			<div id="poll0" class="poll" ></div>
+			<div id="chart0" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name1" class="name"></div>
+			<div id="poll1" class="poll" ></div>
+			<div id="chart1" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name2" class="name"></div>
+			<div id="poll2" class="poll"></div>
+			<div id="chart2" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name3" class="name"></div>
+			<div id="poll3" class="poll"></div>
+			<div id="chart3" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name4" class="name"></div>
+			<div id="poll4" class="poll"></div>
+			<div id="chart4" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name5" class="name"></div>
+			<div id="poll5" class="poll"></div>
+			<div id="chart5" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name6" class="name"></div>
+			<div id="poll6" class="poll"></div>
+			<div id="chart6" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name7" class="name"></div>
+			<div id="poll7" class="poll"></div>
+			<div id="chart7" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name8" class="name"></div>
+			<div id="poll8" class="poll"></div>
+			<div id="chart8" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name9" class="name"></div>
+			<div id="poll9" class="poll"></div>
+			<div id="chart9" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+
+		<div class="candidate">
+			<div id="name10" class="name"></div>
+			<div id="poll10" class="poll" ></div>
+			<div id="chart10" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name11" class="name"></div>
+			<div id="poll11" class="poll" ></div>
+			<div id="chart11" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name12" class="name"></div>
+			<div id="poll12" class="poll"></div>
+			<div id="chart12" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name13" class="name"></div>
+			<div id="poll13" class="poll"></div>
+			<div id="chart13" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name14" class="name"></div>
+			<div id="poll14" class="poll"></div>
+			<div id="chart14" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name15" class="name"></div>
+			<div id="poll15" class="poll"></div>
+			<div id="chart15" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name16" class="name"></div>
+			<div id="poll16" class="poll"></div>
+			<div id="chart16" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name17" class="name"></div>
+			<div id="poll17" class="poll"></div>
+			<div id="chart17" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name18" class="name"></div>
+			<div id="poll18" class="poll"></div>
+			<div id="chart18" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name19" class="name"></div>
+			<div id="poll19" class="poll"></div>
+			<div id="chart19" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+
+		<div class="candidate">
+			<div id="name20" class="name"></div>
+			<div id="poll20" class="poll" ></div>
+			<div id="chart20" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name21" class="name"></div>
+			<div id="poll21" class="poll" ></div>
+			<div id="chart21" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name22" class="name"></div>
+			<div id="poll22" class="poll"></div>
+			<div id="chart22" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name23" class="name"></div>
+			<div id="poll23" class="poll"></div>
+			<div id="chart23" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name24" class="name"></div>
+			<div id="poll24" class="poll"></div>
+			<div id="chart24" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name25" class="name"></div>
+			<div id="poll25" class="poll"></div>
+			<div id="chart25" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name26" class="name"></div>
+			<div id="poll26" class="poll"></div>
+			<div id="chart26" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name27" class="name"></div>
+			<div id="poll27" class="poll"></div>
+			<div id="chart27" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name28" class="name"></div>
+			<div id="poll28" class="poll"></div>
+			<div id="chart28" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name29" class="name"></div>
+			<div id="poll29" class="poll"></div>
+			<div id="chart29" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+
+		<div class="candidate">
+			<div id="name30" class="name"></div>
+			<div id="poll30" class="poll" ></div>
+			<div id="chart30" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name31" class="name"></div>
+			<div id="poll31" class="poll" ></div>
+			<div id="chart31" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name32" class="name"></div>
+			<div id="poll32" class="poll"></div>
+			<div id="chart32" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name33" class="name"></div>
+			<div id="poll33" class="poll"></div>
+			<div id="chart33" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name34" class="name"></div>
+			<div id="poll34" class="poll"></div>
+			<div id="chart34" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name35" class="name"></div>
+			<div id="poll35" class="poll"></div>
+			<div id="chart35" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name36" class="name"></div>
+			<div id="poll36" class="poll"></div>
+			<div id="chart36" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name37" class="name"></div>
+			<div id="poll37" class="poll"></div>
+			<div id="chart37" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name38" class="name"></div>
+			<div id="poll38" class="poll"></div>
+			<div id="chart38" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name39" class="name"></div>
+			<div id="poll39" class="poll"></div>
+			<div id="chart39" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name40" class="name"></div>
+			<div id="poll40" class="poll" ></div>
+			<div id="chart40" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name41" class="name"></div>
+			<div id="poll41" class="poll" ></div>
+			<div id="chart41" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name42" class="name"></div>
+			<div id="poll42" class="poll"></div>
+			<div id="chart42" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name43" class="name"></div>
+			<div id="poll43" class="poll"></div>
+			<div id="chart43" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name44" class="name"></div>
+			<div id="poll44" class="poll"></div>
+			<div id="chart44" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name45" class="name"></div>
+			<div id="poll45" class="poll"></div>
+			<div id="chart45" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name46" class="name"></div>
+			<div id="poll46" class="poll"></div>
+			<div id="chart46" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name47" class="name"></div>
+			<div id="poll47" class="poll"></div>
+			<div id="chart47" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name48" class="name"></div>
+			<div id="poll48" class="poll"></div>
+			<div id="chart48" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name49" class="name"></div>
+			<div id="poll49" class="poll"></div>
+			<div id="chart49" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+
+		<div class="candidate">
+			<div id="name50" class="name"></div>
+			<div id="poll50" class="poll" ></div>
+			<div id="chart50" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name51" class="name"></div>
+			<div id="poll51" class="poll" ></div>
+			<div id="chart51" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name52" class="name"></div>
+			<div id="poll52" class="poll"></div>
+			<div id="chart52" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name53" class="name"></div>
+			<div id="poll53" class="poll"></div>
+			<div id="chart53" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name54" class="name"></div>
+			<div id="poll54" class="poll"></div>
+			<div id="chart54" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name55" class="name"></div>
+			<div id="poll55" class="poll"></div>
+			<div id="chart55" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name56" class="name"></div>
+			<div id="poll56" class="poll"></div>
+			<div id="chart56" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name57" class="name"></div>
+			<div id="poll57" class="poll"></div>
+			<div id="chart57" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name58" class="name"></div>
+			<div id="poll58" class="poll"></div>
+			<div id="chart58" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name59" class="name"></div>
+			<div id="poll59" class="poll"></div>
+			<div id="chart59" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+
+		<div class="candidate">
+			<div id="name60" class="name"></div>
+			<div id="poll60" class="poll" ></div>
+			<div id="chart60" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name61" class="name"></div>
+			<div id="poll61" class="poll" ></div>
+			<div id="chart61" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name62" class="name"></div>
+			<div id="poll62" class="poll"></div>
+			<div id="chart62" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name63" class="name"></div>
+			<div id="poll63" class="poll"></div>
+			<div id="chart63" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name64" class="name"></div>
+			<div id="poll64" class="poll"></div>
+			<div id="chart64" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name65" class="name"></div>
+			<div id="poll65" class="poll"></div>
+			<div id="chart65" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name66" class="name"></div>
+			<div id="poll66" class="poll"></div>
+			<div id="chart66" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name67" class="name"></div>
+			<div id="poll67" class="poll"></div>
+			<div id="chart67" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name68" class="name"></div>
+			<div id="poll68" class="poll"></div>
+			<div id="chart68" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name69" class="name"></div>
+			<div id="poll69" class="poll"></div>
+			<div id="chart69" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name70" class="name"></div>
+			<div id="poll70" class="poll" ></div>
+			<div id="chart70" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name71" class="name"></div>
+			<div id="poll71" class="poll" ></div>
+			<div id="chart71" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name72" class="name"></div>
+			<div id="poll72" class="poll"></div>
+			<div id="chart72" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name73" class="name"></div>
+			<div id="poll73" class="poll"></div>
+			<div id="chart73" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name74" class="name"></div>
+			<div id="poll74" class="poll"></div>
+			<div id="chart74" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name75" class="name"></div>
+			<div id="poll75" class="poll"></div>
+			<div id="chart75" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+		<div class="candidate">
+			<div id="name76" class="name"></div>
+			<div id="poll76" class="poll"></div>
+			<div id="chart76" class="chart" onmouseover="changecolor1(this)" onmouseout="changecolor2(this)"></div>
+		</div>
+
+	</div>
+</body>
+</html>

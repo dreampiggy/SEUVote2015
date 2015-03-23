@@ -1,0 +1,448 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+	<title>2014东南大学最具影响力毕业生投票系统</title>
+	<meta name="description" content="Thumbnail Grid with Expanding Preview" />
+	<meta name="keywords" content="thumbnails, grid, preview, google image search, jquery, image grid, expanding, preview, portfolio" />
+	<meta name="author" content="Codrops" />
+</head>
+<link rel="shortcut icon" href="../favicon.ico"> 
+<link rel="stylesheet" type="text/css" href="/public/css/default.css" />
+<link rel="stylesheet" type="text/css" href="/public/css/component.css" />
+<script src="/public/js/modernizr.custom.js"></script>	
+<script type="text/javascript" src="/public/js/jquery-1.7.2.min.js"></script>
+<link rel="stylesheet" href="/public/css/vote_css.css"/>
+<script src="/public/js/grid.js"></script>
+<script src="/public/js/json.js"></script>
+<body id="b" onload="load();">
+	<script type="text/javascript">
+		var total_people = 77;
+		var total_type = 10;
+		var flag_type = new Array("显示全部","学术影响","创业影响","道德影响","公益影响","自强影响","正义影响","领袖影响","文体影响","其他类型");
+		var count = 0;
+		function load(){
+		var ajax = false;
+		//开始初始化XMLHttpRequest对象
+	    if(window.XMLHttpRequest) 
+		{
+			//Mozilla 浏览器
+	        ajax = new XMLHttpRequest();
+	    	if (ajax.overrideMimeType) 
+			{
+				//设置MiME类别
+	            ajax.overrideMimeType("text/xml");
+	   		}
+	 	}
+	    else if (window.ActiveXObject) 
+		{ 	
+			// IE浏览器
+	        try 
+			{
+	        	ajax = new ActiveXObject("Msxml2.XMLHTTP");
+	        } 
+			catch (e) 
+			{
+	        	try
+	        	{
+	            	ajax = new ActiveXObject("Microsoft.XMLHTTP");
+	            } 
+				catch (e) {}
+			}
+		}
+	    if (!ajax) 
+		{
+			// 异常，创建对象实例失败
+	        window.alert("不能创建XMLHttpRequest对象实例.");
+	        return false;
+		}
+		// //通过Post方式打开连接
+		// ajax.open("post", "check.php", true);
+		// //定义传输的文件HTTP头信息
+		// ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		// ajax.onreadystatechange = updatePage;
+		// //发送POST数据
+		// ajax.send();
+
+		// //获取执行状态
+		// function updatePage() 
+		// { 
+	 //   		//如果执行状态成功，那么就把返回信息写到指定的层里
+	 //   		if (ajax.readyState == 4 && ajax.status == 200)
+		// 	{
+		// 		var ret = ajax.responseText;
+		// 		if(ret!='x')
+		// 			window.location.href=ret;
+	 //   		} 
+		// }
+
+			var $get_json;
+			var $shortItr;
+			var xmlhttp;
+			if (window.XMLHttpRequest)
+		  	{
+		  	// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp=new XMLHttpRequest();
+			}
+			else
+			{
+			// code for IE6, IE5
+			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function()
+			{
+			  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+			  {
+			  	$get_json = xmlhttp.responseText;//这里的responseText是Json
+			  	$shortItr = JSON.parse($get_json);
+			  	for(var i=0;i<total_people;i++){
+			  		$id(num[i]).firstChild.childNodes[0].innerHTML = $shortItr[i]['realname'];
+			  		$id(num[i]).firstChild.childNodes[2].innerHTML = "　" + $shortItr[i]['describe'];
+			  	}
+			  }
+			}
+			var postStr = "signal=shortIntroduce";
+			xmlhttp.open("GET","/public/json/introduction.json",true);
+			xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+			xmlhttp.send(postStr);
+		
+
+// alert("　　自“东南大学2014年最具影响力毕业生评选 ”启动以来，活动受到各界关注，广大同学、亲友、师生、朋友所投出的每一票，既是对参评选手的肯定，也是对我们活动的支持。由衷的感谢各位！\n　　为保证活动的公开、公平、公正，组委会高度重视网络票选工作。近日，经过严格的数据分析与筛查，认定存在个别的刷票现象，凡被认定为“刷票”行为的所有相关票数均视作无效。\n　　特此公告。\n　　　　　　　　　最具影响力毕业生评选活动组委会\n 　　　　　　　　　　　　　二〇一四年四月二十一日");
+	
+
+var userAgent=navigator.userAgent.toLowerCase(), s, o = {};  
+
+    var browser={
+
+        version:(userAgent.match(/(?:firefox|opera|safari|chrome|msie)[\/: ]([\d.]+)/))[1],
+
+        safari:/version.+safari/.test(userAgent),
+
+        chrome:/chrome/.test(userAgent),
+
+        firefox:/firefox/.test(userAgent),
+
+        ie:/msie/.test(userAgent),
+
+        opera: /opera/.test(userAgent )
+
+    } /* 获得浏览器的名称及版本信息 */
+
+    if (browser.ie && browser.version <=9)
+
+    {
+
+      /* 判断是否为IE 9 以下版本，是则执行以下操作 */
+
+      alert("请使用IE10及以上浏览器!（推荐使用Chrome浏览器）");
+
+      window.open("","_self");
+
+      this.window.opener=null;
+
+      window.close();
+
+  }
+
+		}
+	</script>
+	<div id="header_pic"><img id="pic_true" style="width:100%;" src="/public/pic/header.jpg"/></div>
+	
+	<div id="header">
+		<img style="position:relative;height:44px;margin-top:15px;left:0%;"src="/public/pic/sloganlogo.png"/>
+		<div style="height:30px;width:440px;position:relative;left:50%;margin-left:-220px;top:-30px;">
+			<p style="position:relative;top:-15px\9;" id="0009">
+			<a style="position:relative;" href="#profile" title="点击滑动到此内容">活动简介</a><a style="position:relative;left:30px;" href="#needknow" title="点击滑动到此内容">投票须知</a><a style="position:relative;left:60px;" href="#rules" title="点击滑动到此内容">评选规则</a><a style="position:relative;left:90px;" href="#vote" title="点击滑动到此内容">进入投票</a><a style="position:relative;left:120px;" href="#contact" title="点击滑动到此内容">联系我们</a></p>
+			<div class="tips" id="tips_1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▲<div class = "tmp_tips">点击可以直接滑动到此处~<br><a onclick = "$('#tips_1').fadeOut('slow');">&nbsp;OK&nbsp;</a></div>
+      		</div>
+		</div>
+		<input class="top_button" type="button" style="margin-left:30px;margin-right:15px;" value="注　册" onclick="skip_2();"/>
+		<input class="top_button" type="button" value="登　录" onclick="skip_1();" id="dddddd"/>
+		<!--跳转关闭-->
+		<script type="text/javascript">
+			function skip_2(){
+				window.location.href='#';
+				$id("validatePic").src=$id("validatePic").src;
+				$('#loginBlock').fadeIn("normal");
+				$(document.body).css({"overflow-x":"hidden","overflow-y":"hidden"});
+				$id("innerBlock").style.left="-360px";
+				$id("regBlock").style.left="0px";
+				$id("rightBlock").style.left="360px";
+				$id("leftBlock").style.left="-360px";
+			}
+			function skip_1(){
+				if($id("dddddd").value=="登　录"){
+					window.location.href='#';
+					$('#loginBlock').fadeIn("normal");
+					$(document.body).css({"overflow-x":"hidden","overflow-y":"hidden"});
+					$id("innerBlock").style.left="0px";
+					$id("regBlock").style.left="360px";
+					$id("rightBlock").style.left="360px";
+					$id("leftBlock").style.left="-360px";
+				}else
+					window.open(skip_url());
+			}
+			function close_log(){
+				$('#loginBlock').fadeOut("normal");
+				$(document.body).css({"overflow-x":"auto","overflow-y":"auto"});
+			}
+			function _skip(){
+				if($id("dddddd").value=="登　录"){
+					alert('请登录或注册后再投票');
+					skip_1();
+				}else{
+					$("#submitVali").fadeIn("normal");
+					window.location.href='#img77';
+					$(document.body).css({"overflow-x":"hidden","overflow-y":"hidden"});
+					$id("submitVali").src=$id("submitVali").src;
+				}	
+			}
+			function close_blo(){
+				$('#submitVali').fadeOut("normal");
+				$(document.body).css({"overflow-x":"auto","overflow-y":"auto"});
+			}
+		</script>
+	</div>
+	<!--登录Block-->
+	<div id = 'loginBlock'>
+			<div id="close_log" style="width:60px;height:60px;font-size:70px;float:right;text-align:center;line-height:0.7em;color:#ffffff;cursor:pointer;" onclick="close_log();">×</div>
+			<div id='inner'>
+				<div id='leftBlock'>
+					<h id='logintxt' style="left:-11px;">SIGN IN</h><br/>
+					<form>
+					<div id='form'>
+							<input type='text' class='input' placeholder="学号" name="inputLogName" id="oneCard" style="position: relative;left: 50%;margin-left: -170px;"/>
+							<br/>
+							<input type='password' class='input' id='pwd_in' placeholder="身份证后六位" name="pwd" id="pwd" style="position: relative;top: 20px;left: 50%;margin-left: -170px;"/>
+							<br/>
+							<input type="text" class="input" id="vali_in" style="position: relative;top: 40px;left: 50%;margin-left: -170px;" placeholder="验证码"/>
+							<img src="/captcha" id="valiPic_in" class='validatePic' onclick="this.src=this.src"/>
+					</div>
+					<br/><br/><br/><br/>
+						<!--方便起见没改class-->
+						<input class='btn' type="button" value="校  内  登  录" onclick="_inLogin();"/><br/><br/>
+						<input class='btn' type="button" value="返   	        回" id="ret_1"/>
+					</form>
+				</div>
+
+				<div id='innerBlock'>
+					<h id='logintxt' style="left:-28px;">WELCOME</h><br/>
+					<form>
+						<br/><br/><br/><br/>
+							<input class='btn' type="button" value="校  内  登  录" id="log_1"/><br/><br/>
+							<input class='btn' type="button" value="校  外  登  录" id="log_2"/>
+							<input type="button" value="校外注册" id="btnReg"/>
+					</form>
+				</div>
+				<div id='rightBlock'>
+					<h id='logintxt' style="left:-11px;">SIGN IN</h><br/>
+					<form>
+					<div id='form'>
+							<input type='text' class='input' placeholder="邮箱" name="inputLogName" id="mail" style="position: relative;left: 50%;margin-left: -170px;"/>
+							<br/>
+							<input type='password' class='input' placeholder="密码" name="pwd" id="pwd_out" style="position: relative;top: 20px;left: 50%;margin-left: -170px;"/>
+							<br/>
+							<input type="text" class="input" id="vali_out" style="position: relative;top: 40px;left: 50%;margin-left: -170px;" placeholder="验证码"/>
+							<img src="/captcha" id="valiPic_out" class='validatePic' onclick="this.src=this.src"/>
+					</div>
+					<br/><br/><br/><br/>
+						<!--方便起见没改class-->
+						<input class='btn' type="button" value="校  外  登  录" onclick="_outLogin()"/><br/><br/>
+						<input class='btn' type="button" value="返   	        回" id="ret_2"/>
+					</form>
+				</div>
+				<div id='regBlock'>
+					<h id='logintxt' style="left:-25px;">REGISTER</h><br/>
+					<form>
+					<div id='form'>
+							<input type='text' class='input' placeholder="邮箱" name="inputLogName" id="mailReg" style="position: relative;left: 50%;margin-left: -170px;"/>
+							<br/>
+							<input type='password' class='input' id='pwd1' placeholder="密码" name="pwd" id="pwd" style="position: relative;top: 10px;left: 50%;margin-left: -170px;"/>
+							<br/>
+							<input type="password" class="input" id="pwd2" style="position: relative;top: 20px;left: 50%;margin-left: -170px;" placeholder="再次确认"/><br/>
+							<input type="text" class="input" id="vali_reg" style="position: relative;top: 30px;left: 50%;margin-left: -170px;" placeholder="验证码"/>
+							<img src="/captcha" id='validatePic' onclick="this.src=this.src"/>
+					</div>
+					<br/><br/>
+						<!--方便起见没改class-->
+						<input class='btn' type="button" value="校  外  注  册" onclick="_register()"/><br/><br/>
+						<input class='btn' type="button" value="返   	        回" id="ret_3"/>
+					</form>
+				</div>
+			</div>
+		<script type="text/javascript">
+			$("#log_1").click(function(){$("#leftBlock").stop().animate({left:"0px"});$("#innerBlock").stop().animate({left:"360px"});$id("valiPic_in").src=$id("valiPic_in").src;});
+			$("#log_2").click(function(){$("#innerBlock").stop().animate({left:"-360px"});$("#rightBlock").stop().animate({left:"0px"});$id("valiPic_out").src=$id("valiPic_out").src;});
+			$("#ret_1").click(function(){$("#leftBlock").stop().animate({left:"-360px"});$("#innerBlock").stop().animate({left:"0px"});});
+			$("#ret_2").click(function(){$("#innerBlock").stop().animate({left:"0px"});$("#rightBlock").stop().animate({left:"360px"});});
+			$("#ret_3").click(function(){$("#innerBlock").stop().animate({left:"0px"});$("#regBlock").stop().animate({left:"360px"});});
+			$("#btnReg").click(function(){$("#innerBlock").stop().animate({left:"-360px"});$("#regBlock").stop().animate({left:"0px"});$id("validatePic").src=$id("validatePic").src;});
+		</script>
+	</div><!--end loginBlock-->
+	<div id="bigBlock">
+		<!--大块假body-->
+		<div id="floatDiv"><h2 style="position:relative;top:5px;" id="count">00/</h2><h2 style="position:relative;">&nbsp;&nbsp;&nbsp;/15</h2></div>
+
+		<div id="submit" onclick="_skip();">提交<br/>选票</div>
+
+		<div class="tips" id="tips_5" style="position:fixed;z-index:100;left:91%;text-align:center;top:160px;">▲<div class = "tmp_tips">这里显示已经投票人数~<br><a onclick = "$('#tips_5').fadeOut('slow');">&nbsp;OK&nbsp;</a></div>
+		</div>
+
+		<div id="down" style="position:absolute;z-index:0;width:100%;background: #fbfbfb;">
+			<div id="colorSlid">
+				<!--有用的开始-->
+				<p class="title_font" id="profile"><img class="click_pic" id="prof" title="点击展开或收起" src="/public/pic/profile_.png" onclick="profile_click();" onmouseover="profile_over();" onmouseout="profile_out();">　活动简介</p>
+				<p class="mintitle_font">　　　　　　　　　Introduction contest</p>
+				<div class="tips" id="tips_2" style="position:absolute;z-index:10;left:25%;top:150px;text-align:right;">▲&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class = "tmp_tips">点击展开或收起详细内容~<br><a onclick = "$('#tips_2').fadeOut('slow');">&nbsp;OK&nbsp;</a></div>
+      			</div>
+				<div class="content_font" id="profile_font">
+					&nbsp;&nbsp;　东南大学最具影响力毕业生评选活动始于2011年，是我校榜样教育的新尝试和突破口。活动打破了传统上榜样“高大全”的特点，建立了更加符合时代特征的榜样选择标准，充分利用网络等媒体让选择过程民主化，以广大学子乐于接受的语言和方式实现榜样展现形式的多样化、宣传力度的全面化，让榜样与普通学子之间产生情感上的心意相通，真正提升精英育人的成效。<br/><br/>
+					&nbsp;&nbsp;　三年来，在东南大学最具影响力毕业生评选的舞台上，涌现出了一批杰出学子的代表，既有学术骄子、创业精英，也有半脑男孩、打工皇帝。他们在引领广大学子追求优秀与卓越的同时，受到校内外媒体及社会公众的认同，使得其学习生活经历得以广泛传播，产生了积极的社会影响。<br/>
+				</div>
+
+				<p class="title_font" id="needknow"><img class="click_pic" id="need" title="点击展开或收起" src="/public/pic/needknow_.png" onclick="needknow_click();" onmouseover="needknow_over();" onmouseout="needknow_out();">投票须知</p>
+				<p class="mintitle_font">　　　　　　　　Voting rules explained</p>
+				<div class="content_font" id="needknow_font">
+					&nbsp;&nbsp;　1、候选人按照姓名拼音以升序排序。<br/><br/>
+					&nbsp;&nbsp;　2、校内人员投票：通过学号、身份证号后6位（若身份证号末位为X，请填写大写X）登陆。(留学生现在也可以登录了哦)<br/> 
+					&nbsp;&nbsp;　3、校外人员投票：通过邮箱注册帐号后投票。(教师用户请选择校外人员投票)<br/><br/>
+					&nbsp;&nbsp;　4、投票期间，每人每天可投票一次，每次投15位候选人，多于或少于15位候选人，均无法完成投票。<br/><br/>
+					&nbsp;&nbsp;　5、投票方式：注册或登录后，选择“进入投票”，点击候选人照片可查看详细信息；如若投票，点击候选人照片右上角“赞”，然后点击右下角等提交选票，系统告知后则表示投票成功。<br/><br/>
+					&nbsp;&nbsp;　6、抵制刷票行为。投票时间：2014年4月15日----2014年4月22日 7：00至23：00<br/><br/>
+				</div>
+
+				<p class="title_font" id="rules"><img class="click_pic" id="rule" title="点击展开或收起" src="/public/pic/rules_.png" onclick="rule_click();" onmouseover="rule_over();" onmouseout="rule_out();">评选规则</p>
+				<p class="mintitle_font">　　　　　　　　Activities selection rules</p>
+				<div class="content_font" id="rule_font">
+					&nbsp;&nbsp;　1、通过本次投票，最终确定15位候选人进入现场决选，15位候选人按照最后得分由高至低确定。候选人最后得分为校内人员、校外人员投票数经换算和记分后的得分之和。<br/><br/>
+					&nbsp;&nbsp;　2、校内人员投票的最终票数换算为百分制分数，即票数最高者记100分，以此为基准，其余候选人票数按照比例换算为分数（例：第一名票数为1200票，记100分，第二名票数为1100票，则其分数=1100票/1200票*100分=91.67分）。<br/><br/>
+					&nbsp;&nbsp;　3、<scan style="color:red;">校外人员投票的票数进行阶梯式记分，得票1-10名记10分，11-20名记9分，21-30名记8分……，以此类推。</scan><br/><br/>
+					&nbsp;&nbsp;　4、原则上，选出的15位候选人中，同一院系不得超过2人，若超过2人，自第3人起不再进入15人名单，所空名额按最后得分由之后的候选人递补。<br/><br/>
+					&nbsp;&nbsp;　5、如遇特别优秀、事迹突出、能够代表“东南大学最具影响力毕业生”形象，但票数相对较低的同学，组委会将通过集体表决的方式，适当予以破格，其名额不计入网络投票选出的15人中。<br/><br/>
+
+				</div>
+
+				<p class="title_font" id="vote"><img class="click_pic" id="start" title="点击展开或收起" src="/public/pic/start_.png" onclick="start_click();" onmouseover="start_over();" onmouseout="start_out();">进入投票</p>
+				<p class="mintitle_font">　　　　　　　　Into voting now...</p>
+				<input id="search" type="text" /><img id="search_pic" src="/public/pic/search.png" onclick="search();"/>
+				<div class="tips" id="tips_3" style="position:absolute;z-index:10;left:53%;text-align:center;padding-top:20px;height:100px;" onclick = "$('#tips_3').fadeOut('slow');">▲<div class = "tmp_tips">输入竞选者姓名可以搜索哦~<br><a>&nbsp;OK&nbsp;</a></div>
+      			</div>
+      			<!--浏览菜单-->
+				<div style="position:relative;left:50%;margin-left:-500px;width:1000px;top: 50px;">
+					<script type="text/javascript">
+						var str;
+				        for(var i = 0 ;i<window.total_type;i++)
+				        {	
+				        	if(i==9){
+				        		str = "<div class='square' style='margin-right:0;' onclick='click_"+i+"();'><h1 class='innerfont' id='type_"+i+"'>"+i+"</h1></div>";
+				        	}
+				        	else			          	
+				            	str = "<div class='square' onclick='click_"+i+"();'><h1 class='innerfont' id='type_"+i+"'>"+i+"</h1></div>";
+				            document.write(str);
+				        }
+				        $('#type_0').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_0');t.className="changefont";t.innerHTML=flag_type[0];}).bind("mouseout",function(){t=$id('type_0');t.className="innerfont";t.innerHTML=0;});
+				        $('#type_1').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_1');t.className="changefont";t.innerHTML=flag_type[1];}).bind("mouseout",function(){t=$id('type_1');t.className="innerfont";t.innerHTML=1;});
+				        $('#type_2').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_2');t.className="changefont";t.innerHTML=flag_type[2];}).bind("mouseout",function(){t=$id('type_2');t.className="innerfont";t.innerHTML=2;});
+				        $('#type_3').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_3');t.className="changefont";t.innerHTML=flag_type[3];}).bind("mouseout",function(){t=$id('type_3');t.className="innerfont";t.innerHTML=3;});
+				        $('#type_4').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_4');t.className="changefont";t.innerHTML=flag_type[4];}).bind("mouseout",function(){t=$id('type_4');t.className="innerfont";t.innerHTML=4;});
+				        $('#type_5').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_5');t.className="changefont";t.innerHTML=flag_type[5];}).bind("mouseout",function(){t=$id('type_5');t.className="innerfont";t.innerHTML=5;});
+				        $('#type_6').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_6');t.className="changefont";t.innerHTML=flag_type[6];}).bind("mouseout",function(){t=$id('type_6');t.className="innerfont";t.innerHTML=6;});
+				        $('#type_7').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_7');t.className="changefont";t.innerHTML=flag_type[7];}).bind("mouseout",function(){t=$id('type_7');t.className="innerfont";t.innerHTML=7;});
+				        $('#type_8').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_8');t.className="changefont";t.innerHTML=flag_type[8];}).bind("mouseout",function(){t=$id('type_8');t.className="innerfont";t.innerHTML=8;});
+				        $('#type_9').bind("mouseover",function(){$('#tips_4').fadeOut('slow');t=$id('type_9');t.className="changefont";t.innerHTML=flag_type[9];}).bind("mouseout",function(){t=$id('type_9');t.className="innerfont";t.innerHTML=9;});
+				    
+					</script>
+				</div><!--end 浏览菜单-->
+				<div class="tips" id="tips_4" style="position:absolute;left:18%;text-align:center;bottom:-55px;"><div class = "tmp_tips" style="margin-top:0px;margin-bottom:-5px;">点此可浏览此分类的竞选者哦~<br><a onclick = "$('#tips_4').fadeOut('slow');">&nbsp;OK&nbsp;</a></div>▼
+      			</div>
+			</div><!--end colorSlid-->
+			<!--投票Block-->
+			<div id="voteBlock">
+				<div class="container">	
+				<!-- Codrops top bar -->
+					<div class="main">
+						<ul id="og-grid" class="og-grid">
+							<script type="text/javascript">
+								var liStr;
+								for (var i=0;i<total_people;i++){
+									liStr="<li class='person' id='"+num[i]+"'><div class='perInfo'><scan id='namex'></scan><br/><scan id='desc'></scan><img src='/public/pic/soso.png' class='voted' id='sel_"+(i+1)+"' onclick=\"selected('student_"+i+"','sel_"+(i+1)+"');\"/></div><a style='top:-18px\9;' data-largesrc='/public/pic/p"+i+".jpg' data-realname='' data-college_type='' data-introduce='' data-meterial='' ><p class='a_hidden'><img src='/public/pic/p"+i+".jpg' id='img"+(i+1)+"'/></p></a></li>"
+									document.write(liStr);
+								}
+							</script>
+						</ul>
+					</div>
+				</div><!-- /container -->
+				<div id="submitVali"><scan style="position:absolute;left:370px;cursor:pointer;" onclick="close_blo();">×</scan><input type="text" id="submit_input" placeholder="验证码"/><br/><input type="button" id="ok" value="确　　认" onclick="_submit();"/><img id="ok_vali" src="/captcha" onclick="this.src=this.src" style="position:relative;top:13px;left:137px;"/></div>
+				
+					<script type="text/javascript">
+							for(var j = 0;j<window.total_people;j++)
+			            {
+			              str = "<input type=checkbox name='NO_"+i+"'id='student_" + j +"'value="+j+" style='position:absolute;z-index:-10;visibility:hidden'/>";
+			              document.write(str);
+			            }
+			            function countFun(count_x){
+			            	var temp = Array(2>(''+count_x).length?(2-(''+count_x).length+1):0).join(0)+count_x;
+			            	$id("count").innerHTML=temp+'/';
+			            }
+						function selected(catchid,selfid){
+							if($id("dddddd").value=="登　录"){
+								alert('请登录或注册后再投票');
+								skip_1();
+							}else{
+								if ($id(catchid).checked){
+								$id(catchid).checked = false;
+								$id(selfid).src="/public/pic/soso.png";
+								--count;
+								countFun(count);
+								}else{
+									if(count<15){
+										$id(catchid).checked = true;
+										$id(selfid).src="/public/pic/nice.png";
+										++count;
+										countFun(count);
+									}else{
+										alert("每天最多只能投15票哦~");
+									}
+								}//end else 0
+							}//end else 1
+						}
+			        </script>
+			</div><!--end voteBlock-->
+						
+			<p class="title_font" id="contact"><img class="click_pic" id="contacting" title="点击展开或收起" src="/public/pic/contact_.png" onclick="contact_click();" onmouseover="contact_over();" onmouseout="contact_out();">联系我们</p>
+			<p class="mintitle_font" style="top:110px;">　　　　　　　  Contact Us</p>
+			<div class="content_font" id="contact_font" style="position:relative;left:50%;margin-left:-489px;height:200px;display:block;top:100px;">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如有任何问题请联系：seugraduate2014@163.com<br/><br/>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;若遇到网站使用方面的问题，来信请注明：浏览器及版本、具体问题以及操作流程，谢谢您的配合。
+			</div>
+			<div style="position:relative;width:100%;height:200px;background: #fbfbfb;top:150px;text-align:center;">
+				<p>
+				
+				<a href="http://xsc.seu.edu.cn/" target="_blank">东南大学学生处</a>
+				|
+				<a href="http://seuef.seu.edu.cn/" target="_blank">东南大学教育基金会</a>
+				|
+				<a href="http://power.seu.edu.cn/s/30/main.htm" target="_blank">东南大学能源与环境学院</a>
+				|
+				<a href="http://cse.seu.edu.cn/CSE/UI/" target="_blank">东南大学计算机科学与工程学院</a>
+				、
+				<a href="http://cose.seu.edu.cn/" target="_blank">东南大学软件学院</a>
+				</p><br/>
+				<p>版权所有@软件学院科协I++Club</p>
+
+			</div>
+		</div><!--end colorBlock-->
+	</div>		
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/public/js/grid.js"></script>
+<script type="text/javascript">
+	$(function() {
+		init();
+	});	
+	$id('header_pic').style.paddingBottom = $id('pic_true').offsetHeight + "px";
+	$id('down').style.top = $id('pic_true').offsetHeight - 80 + "px";
+</script>
+</html>
