@@ -18,21 +18,19 @@
 <script src="/public/js/grid.js"></script>
 <script src="/public/js/json.js"></script>
 <body id="b" onload="load();">
-	<script type="text/javascript">
-		var total_people = 77;
-		var total_type = 10;
-		var flag_type = new Array("显示全部","学术影响","创业影响","道德影响","公益影响","自强影响","正义影响","领袖影响","文体影响","其他类型");
-		var count = 0;
-		function load(){
+<script type="text/javascript">
+	var total_people = 77;
+	var total_type = 10;
+	var flag_type = new Array("显示全部","学术影响","创业影响","道德影响","公益影响","自强影响","正义影响","领袖影响","文体影响","其他类型");
+	var count = 0;
+	function load(){
 		var ajax = false;
 		//开始初始化XMLHttpRequest对象
 	    if(window.XMLHttpRequest) 
 		{
-			//Mozilla 浏览器
 	        ajax = new XMLHttpRequest();
 	    	if (ajax.overrideMimeType) 
 			{
-				//设置MiME类别
 	            ajax.overrideMimeType("text/xml");
 	   		}
 	 	}
@@ -58,95 +56,57 @@
 	        window.alert("不能创建XMLHttpRequest对象实例.");
 	        return false;
 		}
-		// //通过Post方式打开连接
-		// ajax.open("post", "check.php", true);
-		// //定义传输的文件HTTP头信息
-		// ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-		// ajax.onreadystatechange = updatePage;
-		// //发送POST数据
-		// ajax.send();
 
-		// //获取执行状态
-		// function updatePage() 
-		// { 
-	 //   		//如果执行状态成功，那么就把返回信息写到指定的层里
-	 //   		if (ajax.readyState == 4 && ajax.status == 200)
-		// 	{
-		// 		var ret = ajax.responseText;
-		// 		if(ret!='x')
-		// 			window.location.href=ret;
-	 //   		} 
-		// }
-
-			var $get_json;
-			var $shortItr;
-			var xmlhttp;
-			if (window.XMLHttpRequest)
-		  	{
-		  	// code for IE7+, Firefox, Chrome, Opera, Safari
-			  xmlhttp=new XMLHttpRequest();
-			}
-			else
-			{
-			// code for IE6, IE5
-			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xmlhttp.onreadystatechange=function()
-			{
-			  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			  {
-			  	$get_json = xmlhttp.responseText;//这里的responseText是Json
-			  	$shortItr = JSON.parse($get_json);
-			  	for(var i=0;i<total_people;i++){
-			  		$id(num[i]).firstChild.childNodes[0].innerHTML = $shortItr[i]['realname'];
-			  		$id(num[i]).firstChild.childNodes[2].innerHTML = "　" + $shortItr[i]['describe'];
-			  	}
-			  }
-			}
-			var postStr = "signal=shortIntroduce";
-			xmlhttp.open("GET","/public/json/introduction.json",true);
-			xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
-			xmlhttp.send(postStr);
-		
-
-// alert("　　自“东南大学2014年最具影响力毕业生评选 ”启动以来，活动受到各界关注，广大同学、亲友、师生、朋友所投出的每一票，既是对参评选手的肯定，也是对我们活动的支持。由衷的感谢各位！\n　　为保证活动的公开、公平、公正，组委会高度重视网络票选工作。近日，经过严格的数据分析与筛查，认定存在个别的刷票现象，凡被认定为“刷票”行为的所有相关票数均视作无效。\n　　特此公告。\n　　　　　　　　　最具影响力毕业生评选活动组委会\n 　　　　　　　　　　　　　二〇一四年四月二十一日");
-	
-
-var userAgent=navigator.userAgent.toLowerCase(), s, o = {};  
-
-    var browser={
-
-        version:(userAgent.match(/(?:firefox|opera|safari|chrome|msie)[\/: ]([\d.]+)/))[1],
-
-        safari:/version.+safari/.test(userAgent),
-
-        chrome:/chrome/.test(userAgent),
-
-        firefox:/firefox/.test(userAgent),
-
-        ie:/msie/.test(userAgent),
-
-        opera: /opera/.test(userAgent )
-
-    } /* 获得浏览器的名称及版本信息 */
-
-    if (browser.ie && browser.version <=9)
-
-    {
-
-      /* 判断是否为IE 9 以下版本，是则执行以下操作 */
-
-      alert("请使用IE10及以上浏览器!（推荐使用Chrome浏览器）");
-
-      window.open("","_self");
-
-      this.window.opener=null;
-
-      window.close();
-
-  }
-
+		var $get_json;
+		var $shortItr;
+		var xmlhttp;
+		if (window.XMLHttpRequest)
+	  	{
+	  	// code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
 		}
+		else
+		{
+		// code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function()
+		{
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		  {
+		  	$get_json = xmlhttp.responseText;//这里的responseText是Json
+		  	$shortItr = JSON.parse($get_json);
+		  	for(var i=0;i<total_people;i++){
+		  		$id(num[i]).firstChild.childNodes[0].innerHTML = $shortItr[i]['realname'];
+		  		$id(num[i]).firstChild.childNodes[2].innerHTML = "　" + $shortItr[i]['describe'];
+		  	}
+		  }
+		}
+		var postStr = "signal=shortIntroduce";
+		xmlhttp.open("GET","/public/json/introduction.json",true);
+		xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+		xmlhttp.send(postStr);
+		
+		// alert("　　自“东南大学2014年最具影响力毕业生评选 ”启动以来，活动受到各界关注，广大同学、亲友、师生、朋友所投出的每一票，既是对参评选手的肯定，也是对我们活动的支持。由衷的感谢各位！\n　　为保证活动的公开、公平、公正，组委会高度重视网络票选工作。近日，经过严格的数据分析与筛查，认定存在个别的刷票现象，凡被认定为“刷票”行为的所有相关票数均视作无效。\n　　特此公告。\n　　　　　　　　　最具影响力毕业生评选活动组委会\n 　　　　　　　　　　　　　二〇一四年四月二十一日");
+		
+		var userAgent=navigator.userAgent.toLowerCase(), s, o = {};  
+	    var browser={
+	        version:(userAgent.match(/(?:firefox|opera|safari|chrome|msie)[\/: ]([\d.]+)/))[1],
+	        safari:/version.+safari/.test(userAgent),
+	        chrome:/chrome/.test(userAgent),
+	        firefox:/firefox/.test(userAgent),
+	        ie:/msie/.test(userAgent),
+	        opera: /opera/.test(userAgent )
+	    } /* 获得浏览器的名称及版本信息 */
+	    if (browser.ie && browser.version <=9)
+	    {
+	      /* 判断是否为IE 9 以下版本，是则执行以下操作 */
+	      alert("请使用IE10及以上浏览器!（推荐使用Chrome浏览器）");
+	      window.open("","_self");
+	      this.window.opener=null;
+	      window.close();
+	 	}
+	}
 	</script>
 	<div id="header_pic"><img id="pic_true" style="width:100%;" src="/public/pic/header.jpg"/></div>
 	

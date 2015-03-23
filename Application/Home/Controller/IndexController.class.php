@@ -34,14 +34,6 @@ class IndexController extends Controller {
     	R('Rank/rank');
     }
 
-    public function test(){
-    	R('Test/test');
-    }
-
-    public function check(){
-    	R('Check/check');
-    }
-
     public function email(){
     	R('Email/email');
     }

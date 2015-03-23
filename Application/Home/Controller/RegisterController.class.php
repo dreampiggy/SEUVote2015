@@ -30,7 +30,7 @@ class RegisterController extends Controller {
 			return;
 		}
 		$password = $_POST['password'];
-		/*后台判断用户名和密码是否均为6-12位的字母和数字组合，防止注入，先判断用户名*/
+		/*后台判断用户名和密码是否均为6-15位的字母和数字组合，防止注入，先判断用户名*/
 		if (!ereg("([0-9a-zA-Z]+)([@])([0-9a-zA-Z]+)([.])([0-9a-zA-Z]{2,4})",$_SESSION['loginName'])) {
 			# code...
 			//用户名不符合规定

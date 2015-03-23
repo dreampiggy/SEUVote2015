@@ -55,13 +55,13 @@ class EmailController extends Controller {
 		$Str[0] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
         $Str[1] = "abcdefghijklmnopqrstuvwxyz"; 
         $Str[2] = "01234567891234567890123456"; 
-		//获取随机文字 
-		$imstr[0]["s"] = $Str[rand(0,2)][rand(0,25)]; 
-        $imstr[1]["s"] = $Str[rand(0,2)][rand(0,25)]; 
-        $imstr[2]["s"] = $Str[rand(0,2)][rand(0,25)]; 
-        $imstr[3]["s"] = $Str[rand(0,2)][rand(0,25)]; 
+        $checkCode = '';
+		//获取6位随机验证码
+		for($i = 0;$i < 6;$i++){
+			$imstr[$i]["s"] = $Str[rand(0,2)][rand(0,25)];
+			$checkCode .= $imstr[$i]["s"];
+		}
 
-        $checkCode = $imstr[0]["s"].$imstr[1]["s"].$imstr[2]["s"].$imstr[3]["s"];
         $_SESSION['emailCheck'] = strtolower($checkCode);
 	}
 }
