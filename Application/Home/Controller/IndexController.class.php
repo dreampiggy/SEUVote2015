@@ -34,6 +34,10 @@ class IndexController extends Controller {
     	R('Rank/rank');
     }
 
+    public function validate(){
+        R('Validate/validate');
+    }
+
     public function email(){
     	R('Email/email');
     }

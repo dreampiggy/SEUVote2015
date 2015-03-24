@@ -42,12 +42,15 @@ class EmailController extends Controller {
 	            is_file($file) && $mail->AddAttachment($file);
 	        }
 	    }
+	    //发送成功，返回json为{"status":1},否则为{"status":0}
 	    if($mail->Send()){
-	    	$this->ajaxReturn('OK','Send OK',1);
+	    	$data['status']  = 1;
+			$this->ajaxReturn($data);
 	    }
 	    else{
-	    	$this->ajaxReturn('Error','Send Wrong',0);
-	    }
+	    	$data['status']  = 0;
+			$this->ajaxReturn($data);
+		}
 	}
 
 	public function generateCode(){

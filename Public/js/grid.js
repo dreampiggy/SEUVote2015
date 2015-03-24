@@ -667,11 +667,17 @@ function sendEmail(){
 		data: {
 			"address" : emailAddress
 		},
-		success: function(){
-			alert("邮件验证码已发送，请查看并在下方输入验证码!");
+		success: function(data){
+			dataJSON = jQuery.parseJSON(data);
+			if(dataJSON.status == 1){
+				alert("邮件验证码已发送，请查看并在下方输入验证码！");
+			}
+			else{
+				alert("邮件未发送，请确认您的邮箱是否正确！");
+			}
 		},
 		error: function(){
-			alert("邮件未发送，请检查您的邮箱格式!");
+			alert("邮件服务器请求超时，请稍候再试！");
 		}
 	});
 }
