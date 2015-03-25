@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>候选人</title>
+        <link href="public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="public/CSS/global.css" rel="stylesheet">
+        <style>
+            .media-body p
+            {
+                font-size: 12px;
+            }
+            
+            .button_p
+            {
+                display: block;
+                margin-top: 8px;
+            }
+            
+            .Avatar
+            {
+                height: 100px;
+                width: 100px;
+                
+                background-image: url(public/RESORCE/John%20von%20Neumann.jpg);
+                background-repeat: no-repeat;
+                background-size: 100% auto;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">0/15已选</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="jumbotron_main" class="jumbotron">
+            <div class="container">
+                <ul class="list-group">
+                     <li class="list-group-item">
+                         <div class="media-left">
+                             <a href="#">
+                                 <div class="media-object Avatar" alt="public.">
+                                 </div>
+                             </a>
+                             <p class="button_p"><a href="#" class="btn btn-default" role="button">为他投票</a></p>
+                         </div>
+                         <div class="media-body">
+                             <h4 class="media-heading">李卓立</h4>
+                             <p>20世纪最重要的数学家之一，在现代计算机、博弈论和核武器等诸多领域内有杰出建树的最伟大的科学全才之一，被称为“计算机之父”和“博弈论之父”。</p>
+                         </div>
+                     </li>
+                </ul>
+                <p><a href="#" class="btn btn-primary" role="button">确认投票</a> <a href="#" class="btn btn-default" role="button">取消</a></p>
+            </div>
+        </div>
+        <script src="public/JS/jquery-1.11.1.js"></script>
+        <script src="public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+    </body>
+</html>
