@@ -29,7 +29,7 @@
             <div class="container-fluid">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="#">登录与注册</a>
+                        <a class="navbar-brand" >登录与注册</a>
                     </div>
                 </div>
             </div>
@@ -38,32 +38,32 @@
             <div class="container" id="form_container">
                 <div class="thumbnail">
                     <ul class="nav nav-pills nav-stacked">
-                      <li role="presentation" id="lb_within_school_login" class="active"><a href="#">校内投票</a></li>
-                      <li role="presentation" id="lb_outside_school_register"><a href="#">校外注册</a></li>
-                      <li role="presentation" id="lb_outside_school_login"><a href="#">校外登录</a></li>
+                      <li role="presentation" id="lb_within_school_login" class="active"><a class="ClickAble">校内投票</a></li>
+                      <li role="presentation" id="lb_outside_school_register"><a class="ClickAble">校外注册</a></li>
+                      <li role="presentation" id="lb_outside_school_login"><a class="ClickAble">校外登录</a></li>
                     </ul>
                 </div>
                 <div class="container" id="within_school_login_form">
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></span>
-                        <input type="text" class="form-control" placeholder="一卡通号" aria-describedby="sizing-addon1">
+                        <input id="within_school_login_card" type="text" class="form-control" placeholder="一卡通号" aria-describedby="sizing-addon1">
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
-                        <input type="password" class="form-control" placeholder="统一身份认证密码" aria-describedby="sizing-addon1">
+                        <input id="within_school_login_password" type="password" class="form-control" placeholder="统一身份认证密码" aria-describedby="sizing-addon1">
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
-                        <input type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2">这是验证码=3=</span>
+                        <input id="within_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="basic-addon2" class="ClickAble">这是验证码=3=</span>
                     </div>
                     <div class="container-fluid" id="alert_container_within_school_login_form">
-                        <div class="alert alert-danger alert-dismissible" role="alert" id="alert_within_school_login_form">
+                        <div id="alert_within_school_login_form" class="alert alert-danger alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong id="alert_txt_within_school_login_form">登录信息错误</strong>
+                        <strong id="alert_txt_within_school_login_form"></strong>
                         </div>
                     </div>
                     <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_within_school_login_form">
-                        <button type="button" class="btn btn-default login_btn">登录</button>
+                        <button id="submit_within_school_login_form" type="button" class="btn btn-default login_btn">登录</button>
                         <button type="button" class="btn btn-default cancle_btn">取消</button>
                     </div>
                 </div>
@@ -71,31 +71,31 @@
                 <div class="container" id="outside_school_register_form">
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
-                        <input type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
+                        <input id="outside_school_register_email" type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
                     </div>
                     <div class="btn-group" role="group" aria-label="..." id="send_email">
-                        <button type="button" class="btn btn-default" id="send_email_btn">发送验证邮件</button>
+                        <button type="button" id="send_email" class="btn btn-default" id="send_email_btn">发送验证邮件</button>
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
-                        <input type="text" class="form-control" placeholder="邮件验证码" aria-describedby="sizing-addon1">
+                        <input id="outside_school_register_email_psw" type="text" class="form-control" placeholder="邮件验证码" aria-describedby="sizing-addon1">
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span></span>
-                        <input type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
+                        <input id="outside_school_register_password" type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span></span>
-                        <input type="password" class="form-control" placeholder="密码确认" aria-describedby="sizing-addon1">
+                        <input id="outside_school_register_repassword" type="password" class="form-control" placeholder="密码确认" aria-describedby="sizing-addon1">
                     </div>
                     <div class="container-fluid" id="alert_container_outside_school_register_form">
-                        <div class="alert alert-danger alert-dismissible" role="alert" id="alert_outside_school_register_form">
+                        <div id="alert_outside_school_register_form" class="alert alert-danger alert-dismissible" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <strong id="alert_txt_outside_school_register_form"></strong>
                         </div>
                     </div>
                     <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_register_form">
-                        <button type="button" class="btn btn-default login_btn">注册</button>
+                        <button type="button" id="submit_outside_school_register" class="btn btn-default login_btn">注册</button>
                         <button type="button" class="btn btn-default cancle_btn">取消</button>
                     </div>
                 </div>
@@ -103,24 +103,24 @@
                 <div class="container" id="outside_school_login_form">
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
-                        <input type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
+                        <input id="outside_school_login_email" type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
                         <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
-                        <input type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
+                        <input id="outside_school_login_password" type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
-                        <input type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2">这是验证码=3=</span>
+                        <input id="outside_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="basic-addon2" class="ClickAble">这是验证码=3=</span>
                     </div>
                     <div class="container-fluid" id="alert_container_outside_school_login_form">
-                        <div class="alert alert-danger alert-dismissible" role="alert" id="alert_outside_school_login_form">
+                        <div id="alert_outside_school_login_form" class="alert alert-danger alert-dismissible" role="alert" id="alert_outside_school_login_form">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <strong id="alert_txt_outside_school_login_form"></strong>
                         </div>
                     </div>
                     <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_login_form">
-                        <button type="button" class="btn btn-default login_btn">登录</button>
+                        <button type="button" id="submit_outside_school_login" class="btn btn-default login_btn">登录</button>
                         <button type="button" class="btn btn-default cancle_btn">取消</button>
                     </div>
                 </div>

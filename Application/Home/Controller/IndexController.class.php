@@ -53,4 +53,20 @@ class IndexController extends Controller {
     public function _empty(){
         $this->display('Index:404');
     }
+    
+    public function mobile_login(){
+        $this->display('Index:mobile-login');
+    }
+    
+    public function mobile_candidates(){
+        $this->display('Index:mobile-candidates');
+    }
+    
+    public function mobile_intro(){
+        $this->display('Index:mobile-intro');
+    }
+    
+    public function mobile_candidate_detail(){
+        $this->display('Index:mobile-candidate-detail');
+    }
 }

@@ -30,101 +30,56 @@ class LoginController extends Controller {
 		if ($getValidateNum == $_SESSION['validateNum']) {
 			$_SESSION['validateNum']=rand(0,255);
 			if( $type == "out"){
-				if (ereg("([0-9a-zA-Z]+)([@])([0-9a-zA-Z]+)([.])([0-9a-zA-Z]{2,4})",$loginName) && preg_match("/^[a-z\d]{6,12}$/i",$password)) {
-					# code...
-					
-					if ($type == "in") {
-						//校内用户
-						$result = $this->Model->query("SELECT password FROM users_in WHERE loginName = '%s'",$loginName);
-
-						if ($result[0]['password']) {
-							if( $password == $result[0]['password'] ){
-								$return = 1;//登陆成功
-								$_SESSION['loginName'] = $loginName;
-								$_SESSION['type'] = $type;
-								echo $return;
-							 }
-							else{
-								$return = 4;//密码错误
-								echo $return;
-							}
-						}
-
-					} else if($type == "out") {
-						//校外用户
-						$result = $this->Model->query("SELECT password FROM users_out WHERE loginName = '%s'",$loginName);
-						if(!$result[0])
-						{
-							$return = 5;
+				if (ereg("([0-9a-zA-Z]+)([@])([0-9a-zA-Z]+)([.])([0-9a-zA-Z]{2,4})",$loginName) && preg_match("/^[a-zA-Z\d]{6,18}$/",$password)) {
+					//校外用户
+					$result = $this->Model->query("SELECT password FROM users_out WHERE loginName = '%s'",$loginName);
+					if(!$result[0])
+					{
+						$return = 5;
+						echo $return;
+					}
+					else {
+						if( $password == $result[0]['password'] ){
+							$return = 1;//登陆成功
+							$_SESSION['loginName']=$loginName;
+							$_SESSION['type']=$type;
 							echo $return;
-						}
-						else {
-							if( $password == $result[0]['password'] ){
-								$return = 1;//登陆成功
-								$_SESSION['loginName']=$loginName;
-								$_SESSION['type']=$type;
-								echo $return;
-							 }
-							else{
-								$return = 4;//密码错误
-								echo $return;
-							}
+						 }
+						else{
+							$return = 4;//密码错误
+							echo $return;
 						}
 					}
 				} else {
+					//校外用户邮箱或者密码格式不正确
 					$return = 6;
 					echo $return;
 				}
-			} else if ($type=="in") {
-				if (preg_match("/^[a-z\d]{6,12}$/i",$loginName) && preg_match("/^[a-z\d]{6,12}$/i",$password)) {
+			} 
+			else if ($type=="in") {
+				if (preg_match("/^[\d]{9}$/",$loginName) && preg_match("/^[a-z\d]{6,18}$/i",$password)) {
 					# code...
 					
-					if ($type == "in") {
 						//校内用户
-						$result = $this->Model->query("SELECT password FROM users_in WHERE loginName = '%s'",$loginName);
-						if(!$result[0])
+						$result = R('Validate/validate');
+						if($result)
 						{
-							$return = 5;
+							$return = 1;
 							echo $return;
 						}
 						else {
-							if( $password == $result[0]['password'] ){
-								$return = 1;//登陆成功
-								$_SESSION['loginName'] = $loginName;
-								$_SESSION['type'] = $type;
-								echo $return;
-							 }
-							else{
-								$return = 4;//密码错误
-								echo $return;
-							}
+							$return = 5;
+							echo $return;
 						}
-
-					} else if($type == "out") {
-						//校外用户
-						$reuslt = $this->Model->query("SELECT password FROM users_out WHERE loginName = '%s'",$loginName);
-
-						if ($result[0]['password']) {
-							if( $password == $result[0]['password'] ){
-								$return = 1;//登陆成功
-								$_SESSION['loginName']=$loginName;
-								$_SESSION['type']=$type;
-								echo $return;
-							 }
-							else{
-								$return = 4;//密码错误
-								echo $return;
-							}
-						}
-
-					}
 					
 				} else {
+					//校内用户一卡通密码格式错误
 					$return = 6;
 					echo $return;
 				}
-			}//in
-		} else {
+			}
+		}
+		else {
 			$return = 2;//验证码错误
 			echo $return;
 		}

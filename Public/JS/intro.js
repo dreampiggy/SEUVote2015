@@ -1,6 +1,7 @@
 var introduction_btn=$("#introduction_btn");
 var voting_rules_btn=$("#voting_rules_btn");
 var ranking_rules_btn=$("#ranking_rules_btn");
+var go_mobile_btn=$("#go_mobile_btn");
 
 var introduction_detail=$("#introduction_detail");
 introduction_detail.isShown=false;
@@ -8,11 +9,14 @@ var voting_rules_detail=$("#voting_rules_detail");
 voting_rules_detail.isShown=false;
 var ranking_rules_detail=$("#ranking_rules_detail");
 ranking_rules_detail.isShown=false;
+var go_mobile_detail=$("#go_mobile_detail");
+go_mobile_detail.isShown=false;
 
 var intro_details={
     introduction_detail:introduction_detail,
     voting_rules_detail:voting_rules_detail,
-    ranking_rules_detail:ranking_rules_detail
+    ranking_rules_detail:ranking_rules_detail,
+    go_mobile_detail:go_mobile_detail
 }
 
 var intro_palying=false;

@@ -22,12 +22,10 @@ class ValidateController extends Controller {
     	$result = $this->sendPost(validatURL,$postData);
     	//验证通过，返回json为{"status":1},否则为{"status":0}
 	    if($result == validateTrue){
-	    	$data['status']  = 1;
-			$this->ajaxReturn($data);
+	    	return true;
 	    }
 	    else{
-	    	$data['status']  = 0;
-			$this->ajaxReturn($data);
+	    	return false;
 	    }
     }
 

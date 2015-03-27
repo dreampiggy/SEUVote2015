@@ -4,22 +4,45 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>2015东南大学最具影响力毕业生投票</title>
+        <title>2015东南大学最具影响力毕业生投票系统</title>
         <link href="/public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/public/CSS/form.css" rel="stylesheet">
         <link href="/public/CSS/global.css" rel="stylesheet">
         <style>
             #jumbotron_main
             {
-                background-image: url("/public/RESORCE/brickroad.jpg");
+                background-image: url("/public/RESORCE/poster.jpg");
                 background-position: center;
 
                 min-height: 512px;
+            }
+            
+            @media screen and (min-width: 1600px)
+            {
+                #jumbotron_main
+                {
+                    background-size: 100% auto;
+                }
+            }
+            
+            @media screen and (max-width: 1599px)
+            {
+                #jumbotron_main
+                {
+                    background-size: auto 100%;
+                }
             }
 
             #jumbotron_main h1,#jumbotron_main h2
             {
                 color: white;
+            }
+            
+            .colorful
+            {
+                height: 4px;
+                
+                background-image: url(/public/RESORCE/colorful.png);
             }
             
             #form_col
@@ -40,47 +63,52 @@
             
             #loginType_tags
             {
-                margin-top: 32px;
+                margin-top: 16px;
             }
             
             .intro_btn_container
             {
-                min-height: 324px;
+                min-height: 224px;
             }
             
             .intro_btn
             {
-                width: 192px;
-                min-height: 192px;
+                width: 96px;
+                min-height: 96px;
                 
                 margin: auto;
-                margin-top: 48px;
+                margin-top: 36px;
                 
                 background-position: center;
                 background-repeat: no-repeat;
+                background-size: 100% auto;
             }
             
             .intro_btn_discription
             {
-                width: 192px;
-                min-height: 48px;
+                width: 128px;
+                min-height: 24px;
                 
                 margin: auto;
                 
                 text-align: center;
             }
             
-            #profile
+            #introduction
             {
-                background-image: url(/public/RESORCE/profile.png);
+                background-image: url(/public/RESORCE/introduction.png);
             }
-            #needknow
+            #voting_rules
             {
-                background-image: url(/public/RESORCE/needknow.png);
+                background-image: url(/public/RESORCE/voting_rules.png);
             }
-            #rules
+            #ranking_rules
             {
-                background-image: url(/public/RESORCE/rules.png);
+                background-image: url(/public/RESORCE/ranking_rules.png);
+            }
+            #go_mobile
+            {
+                background-image: url(/public/RESORCE/go_mobile.png);
             }
             
             .intro_detail
@@ -97,24 +125,75 @@
             
             .tail_img
             {
-                min-height: 192px;
+                min-height: 96px;
             }
             
             #seu_img,#ipp_img
             {
                 background-position: center;
                 background-repeat: no-repeat;
-                background-size: 75% auto;
             }
             
             #seu_img
             {
                 background-image: url("/public/RESORCE/SEU.jpg");
+                background-size: 33% auto;
             }
             
             #ipp_img
             {
                 background-image: url("/public/RESORCE/IPP.jpg");
+                background-size: 50% auto;
+            }
+            
+            #tail h4
+            {
+                text-align: center;
+            }
+            
+            #QR_container
+            {
+                margin-top: 32px;
+            }
+            
+            .QR_txt
+            {
+                text-align: center;
+            }
+            
+            #wechat_QR
+            {
+                width: 256px;
+                height: 256px;
+                
+                background-image: url(/Public/RESORCE/QR_codes/SEU_student_affair_service_Wechat_m.jpg);
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            }
+            
+            .weibo_QR
+            {
+                width: 160px;
+                height: 160px;
+                
+                margin-top: 32px;
+                
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            }
+            
+            #wechat_QR_txt
+            {
+                width: 256px;
+                min-height: 32px;
+            }
+            
+            .weibo_QR_txt
+            {
+                width: 160px;
+                min-height: 32px;
             }
         </style>
         <script src="public/JS/jquery-1.11.1.js"></script>
@@ -134,12 +213,12 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> &nbsp;&nbsp;&nbsp;&nbsp;活动介绍</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-king" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;候选人</a></li>
+                            <li class="active"><a class="ClickAble"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> &nbsp;&nbsp;&nbsp;&nbsp;活动介绍</a></li>
+                            <li><a class="ClickAble"><span class="glyphicon glyphicon-king" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;候选人</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#" id="btn_toLogin_top"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;登录以投票</a></li>
-                            <li class="active"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;0/15&nbsp;已投</a></li>
+                            <li><a class="ClickAble" id="btn_toLogin_top"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;登录以投票</a></li>
+                            <li class="active"><a class="ClickAble"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;0/15&nbsp;已投</a></li>
                         </ul>
                     </div>
                 </div>
@@ -149,42 +228,44 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
+                        <!--
                         <h1>
                             东南大学
                         </h1>
                         <h2>
-                            2015最具影响力毕业生投票
+                            2015最具影响力毕业生投票系统
                         </h2>
+                        -->
                     </div>
                     <div class="col-md-4" id="form_col">
                         <div class="container-fluid" id="form_container">
                             <ul class="nav nav-tabs" id="loginType_tags">
-                                <li role="presentation" id="lb_within_school_login" class="active"><a href="#">校内投票</a></li>
-                                <li role="presentation" id="lb_outside_school_register"><a href="#">校外注册</a></li>
-                                <li role="presentation" id="lb_outside_school_login"><a href="#">校外登录</a></li>
+                                <li role="presentation" id="lb_within_school_login" class="active"><a class="ClickAble">校内投票</a></li>
+                                <li role="presentation" id="lb_outside_school_register"><a class="ClickAble">校外注册</a></li>
+                                <li role="presentation" id="lb_outside_school_login"><a class="ClickAble">校外登录</a></li>
                             </ul>
                             <!-- 校内登录 -->
                             <div class="container" id="within_school_login_form">
                                 <div class="input-group input-group-lg login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></span>
-                                    <input type="text" class="form-control" placeholder="一卡通号" aria-describedby="sizing-addon1">
+                                    <input id="within_school_login_card" type="text" class="form-control" placeholder="一卡通号" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="input-group input-group-lg login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
-                                    <input type="password" class="form-control" placeholder="统一身份认证密码" aria-describedby="sizing-addon1">
+                                    <input id="within_school_login_password" type="password" class="form-control" placeholder="统一身份认证密码" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="input-group input-group-lg login_form_inputs">
-                                    <input type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
-                                    <span class="input-group-addon" id="basic-addon2">这是验证码=3=</span>
+                                    <input id="within_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
+                                    <span class="input-group-addon ClickAble" id="basic-addon2">这是验证码=3=</span>
                                 </div>
                                 <div class="container-fluid" id="alert_container_within_school_login_form">
-                                    <div class="alert alert-danger alert-dismissible" role="alert" id="alert_within_school_login_form">
+                                    <div id="alert_within_school_login_form" class="alert alert-danger alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong id="alert_txt_within_school_login_form">登录信息错误</strong>
+                                    <strong id="alert_txt_within_school_login_form"></strong>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_within_school_login_form">
-                                    <button type="button" class="btn btn-default login_btn">登录</button>
+                                    <button id="submit_within_school_login_form" type="button" class="btn btn-default login_btn">登录</button>
                                     <button type="button" class="btn btn-default cancle_btn">取消</button>
                                 </div>
                             </div>
@@ -192,29 +273,29 @@
                             <div class="container" id="outside_school_register_form">
                                 <div class="input-group login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
-                                    <input type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
-                                    <span class="input-group-addon" id="basic-addon2"><a href="#">发送验证邮件</a></span>
+                                    <input id="outside_school_register_email" type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
+                                    <span id="send_email" class="input-group-addon" id="basic-addon2"><a class="ClickAble">发送验证邮件</a></span>
                                 </div>
                                 <div class="input-group login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
-                                    <input type="text" class="form-control" placeholder="邮件验证码" aria-describedby="sizing-addon1">
+                                    <input id="outside_school_register_email_psw" type="text" class="form-control" placeholder="邮件验证码" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="input-group login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span></span>
-                                    <input type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
+                                    <input id="outside_school_register_password" type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="input-group login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span></span>
-                                    <input type="password" class="form-control" placeholder="密码确认" aria-describedby="sizing-addon1">
+                                    <input id="outside_school_register_repassword" type="password" class="form-control" placeholder="密码确认" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="container-fluid" id="alert_container_outside_school_register_form">
-                                    <div class="alert alert-danger alert-dismissible" role="alert" id="alert_outside_school_register_form">
+                                    <div id="alert_outside_school_register_form" class="alert alert-danger alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <strong id="alert_txt_outside_school_register_form"></strong>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_register_form">
-                                    <button type="button" class="btn btn-default login_btn">注册</button>
+                                    <button type="button" id="submit_outside_school_register" class="btn btn-default login_btn">注册</button>
                                     <button type="button" class="btn btn-default cancle_btn">取消</button>
                                 </div>
                             </div>
@@ -222,24 +303,24 @@
                             <div class="container" id="outside_school_login_form">
                                 <div class="input-group input-group-lg login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
-                                    <input type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
+                                    <input id="outside_school_login_email" type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="input-group input-group-lg login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
-                                    <input type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
+                                    <input id="outside_school_login_password" type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="input-group input-group-lg login_form_inputs">
-                                    <input type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
-                                    <span class="input-group-addon" id="basic-addon2">这是验证码=3=</span>
+                                    <input id="outside_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
+                                    <span class="input-group-addon ClickAble" id="basic-addon2">这是验证码=3=</span>
                                 </div>
                                 <div class="container-fluid" id="alert_container_outside_school_login_form">
-                                    <div class="alert alert-danger alert-dismissible" role="alert" id="alert_outside_school_login_form">
+                                    <div id="alert_outside_school_login_form" class="alert alert-danger alert-dismissible" role="alert" id="alert_outside_school_login_form">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                     <strong id="alert_txt_outside_school_login_form"></strong>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_login_form">
-                                    <button type="button" class="btn btn-default login_btn">登录</button>
+                                    <button type="button" id="submit_outside_school_login" class="btn btn-default login_btn">登录</button>
                                     <button type="button" class="btn btn-default cancle_btn">取消</button>
                                 </div>
                             </div>
@@ -258,35 +339,45 @@
         <div class="container">
             <div class="page-header">
                 <h1>活动介绍<br><small>Introduction/Voting Rules/Ranking Rules</small></h1>
+                <div class="container-fluid colorful"></div>
             </div>
         </div>
         <div id="jumbotron_intro" class="jumbotron">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="container-fluid intro_btn_container ClickAble" id="introduction_btn">
-                            <div class="intro_btn" id="profile">
+                            <div class="intro_btn" id="introduction">
                             </div>
                             <div class="intro_btn_discription">
                                 <h2>简介</h2>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="container-fluid intro_btn_container ClickAble" id="voting_rules_btn">
-                            <div class="intro_btn" id="needknow">
+                            <div class="intro_btn" id="voting_rules">
                             </div>
                             <div class="intro_btn_discription">
                                 <h2>投票规则</h2>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="container-fluid intro_btn_container ClickAble" id="ranking_rules_btn">
-                            <div class="intro_btn" id="rules">
+                            <div class="intro_btn" id="ranking_rules">
                             </div>
                             <div class="intro_btn_discription">
                                 <h2>排名规则</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="container-fluid intro_btn_container ClickAble" id="go_mobile_btn">
+                            <div class="intro_btn" id="go_mobile">
+                            </div>
+                            <div class="intro_btn_discription">
+                                <h2>移动端</h2>
                             </div>
                         </div>
                     </div>
@@ -310,7 +401,7 @@
                     </div>
                     <p>
                         1.校内人员请通过一卡通号及校园统一认证密码登录投票。<br>
-                        2.校内人员请使用邮箱注册账号后登录投票。<br>
+                        2.校外人员请使用邮箱注册账号后登录投票。<br>
                         3.投票期间，每人每天可投票一次，每次投15位候选人，多于或少于15位候选人，均无法完成投票。<br>
                         4.注册或登录后，点击候选人照片可查看详细信息；如若投票，请点击相应候选人的投票按钮，选满15位候选人后，点击页面底部提交选票按钮完成投票。<br>
                         5.抵制刷票行为。刷票者票数作废。
@@ -331,33 +422,242 @@
                     </p>
                 </div>
             </div>
+            <div class="container-fluid intro_detail" id="go_mobile_detail">
+                <div class="container">
+                    <div class="page-header">
+                        <h2>移动端<br><small>Go Mobile</small></h2>
+                    </div>
+                    <p>
+                        本次活动同时于微信平台上线，请扫码关注东南大学学生事务服务中心微信公众平台以进行微信投票。<br>
+                        亦请扫码观注相关微博。
+                    </p>
+                    <div class="container-fluid" id="QR_container">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="container-fluid" id="wechat_QR">
+                                </div>
+                                <div class="container-fluid QR_txt" id="wechat_QR_txt">
+                                    <h4>东南大学学生事务服务中心<br>微信公众平台</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/most_influential_m.jpg);">
+                                        </div>
+                                        <div class="container-fluid QR_txt weibo_QR_txt">
+                                            <h4>东南大学最具影响力毕业生活动<br>官方微博</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_offical_weibo_m.png);">
+                                        </div>
+                                        <div class="container-fluid QR_txt weibo_QR_txt">
+                                            <h4>东南大学官方微博</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_edu_foundation_weibo_m.png);">
+                                        </div>
+                                        <div class="container-fluid QR_txt weibo_QR_txt">
+                                            <h4>东南大学教育基金会<br>官方微博</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <script>
             </script>
         </div>
         <div class="container">
             <div class="page-header">
                 <h1>候选人<br><small>Candidates</small></h1>
+                <div class="container-fluid colorful"></div>
             </div>
         </div>
         <div id="jumbotron_candidates" class="jumbotron">
             <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                    <div class="col-md-2"><div class="container-fluid">
+                    </div></div>
+                </div>
+            </div>
+            <div class="container-fluid">
             </div>
         </div>
         <div class="container">
             <div class="page-header">
                 <h1>联系我们<br><small>Contact Us</small></h1>
+                <div class="container-fluid colorful"></div>
             </div>
         </div>
         <div id="jumbotron_contact" class="jumbotron">
             <div class="container">
-                <p>如遇问题请联系：fuckLiZhuoli@seu.edu.cn</p>
-                <p>如遇网站使用方面的问题，请在来信中注明浏览器及版本、具体问题以及您的操作流程等情况，谢谢配合</p>
+                <p>如遇问题请联系：ippclub@seu.edu.cn</p>
+                <p>如遇网站使用方面的问题，请在来信中注明浏览器及版本、具体问题以及您的操作流程等情况，谢谢配合。</p>
                 <p>
                     <a href="http://xsc.seu.edu.cn/" target="_blank">东南大学学生处</a>
                     |
                     <a href="http://seuef.seu.edu.cn/" target="_blank">东南大学教育基金会</a>
                     |
-                    <a href="http://power.seu.edu.cn/s/30/main.htm" target="_blank">东南大学能源与环境学院</a>
+                    <a href="http://civil.seu.edu.cn/" target="_blank">东南大学土木工程学院</a>
                     |
                     <a href="http://cse.seu.edu.cn/CSE/UI/" target="_blank">东南大学计算机科学与工程学院</a>
                     |
@@ -367,16 +667,18 @@
                 </p>
             </div>
         </div>
-        <div class="container">
+        <div class="container" id="tail">
             <div class="row">
                 <div class="col-md-6 tail_img" id="seu_img">
                 </div>
                 <div class="col-md-6 tail_img" id="ipp_img">
                 </div>
             </div>
+            <h4>建议使用 Google Chrome 或 Mozilla Firefox 浏览器</h4>
         </div>
         <script src="/public/JS/intro.js"></script>
         <script src="/public/JS/login.js"></script>
+        <script src="/public/JS/candidates.js"></script>
         <script>
             introduction_btn.click(function(){
                 if(!intro_palying)
@@ -396,13 +698,20 @@
                     callupIntro("ranking_rules_detail");
                 }
             });
-            
+            go_mobile_btn.click(function(){
+                if(!intro_palying)
+                {
+                    callupIntro("go_mobile_detail");
+                }
+            });
+            /*
             $.get("public/RESORCE/json/introduction.json",function(data,result){
                 if(result=="success")
                 {
-                    //alert(data[0]);
+                    //alert(data[0].studentNumber);
                 }
             });
+            */
         </script>
     </body>
 </html>
