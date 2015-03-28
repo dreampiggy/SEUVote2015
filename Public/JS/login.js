@@ -1,18 +1,27 @@
 var within_school_login_card=document.getElementById("within_school_login_card");
 within_school_login_card.vallidation_func=function(){
-    return true;
+    if(within_school_login_card.value!="")
+    {
+        return true;
+    }
 }
 within_school_login_card.error_info="一卡通号格式错误";
 
 var within_school_login_password=document.getElementById("within_school_login_password");
 within_school_login_password.vallidation_func=function(){
-    return true;
+    if(within_school_login_password.value!="")
+    {
+        return true;
+    }
 }
 within_school_login_password.error_info="密码错误";
 
 var within_school_login_captcha=document.getElementById("within_school_login_captcha");
 within_school_login_captcha.vallidation_func=function(){
-    return true;
+    if(within_school_login_captcha.value!="")
+    {
+        return true;
+    }
 }
 within_school_login_captcha.error_info="验证码错误";
 
@@ -26,6 +35,10 @@ var alert_within_school_login_form=$("#alert_within_school_login_form");
 var alert_txt_within_school_login_form=document.getElementById("alert_txt_within_school_login_form");
 
 var submit_within_school_login_form=$("#submit_within_school_login_form");
+
+alert_within_school_login_form.click(function(){
+    alert_within_school_login_form.slideUp();
+});
 
 submit_within_school_login_form.click(function(){
     onSubmit("within_school_login_form");
@@ -84,6 +97,10 @@ var alert_txt_outside_school_register_form=document.getElementById("alert_txt_ou
 
 var submit_outside_school_register=$("#submit_outside_school_register");
 
+alert_outside_school_register_form.click(function(){
+    alert_outside_school_register_form.slideUp();
+});
+
 submit_outside_school_register.click(function(){
     onSubmit("outside_school_register_form");
 });
@@ -96,7 +113,7 @@ outside_school_login_email.vallidation_func=function(){
         return true;
     }
 }
-outside_school_register_email.error_info="电子邮件格式错误";
+outside_school_login_email.error_info="电子邮件格式错误";
 
 var outside_school_login_password=document.getElementById("outside_school_login_password");
 outside_school_login_password.vallidation_func=function(){
@@ -126,6 +143,10 @@ var alert_outside_school_login_form=$("#alert_outside_school_login_form");
 var alert_txt_outside_school_login_form=document.getElementById("alert_txt_outside_school_login_form");
 
 var submit_outside_school_login=$("#submit_outside_school_login");
+
+alert_outside_school_login_form.click(function(){
+    alert_outside_school_login_form.slideUp();
+});
 
 submit_outside_school_login.click(function(){
     onSubmit("outside_school_login_form");

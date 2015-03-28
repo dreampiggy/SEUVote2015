@@ -14,10 +14,10 @@
 		mysql_select_db("vote", $con);
 
 		$studentNumberQuery = mysql_query("SELECT studentNumber FROM candidates",$con);
-		$ret = '';
+		$ret = "[";
 		while($row = mysql_fetch_array($studentNumberQuery)){
 			$studentNumber = $row[0];
-			$detailInfo_1 = mysql_query("SELECT studentNumber,name,describeSelf FROM candidates WHERE studentNumber='$studentNumber'",$con);
+			$detailInfo_1 = mysql_query("SELECT studentNumber,name,describeSelf,style FROM candidates WHERE studentNumber='$studentNumber'",$con);
 			if(!$detailInfo_1){
 				die("Error in getting details". mysql_error());
 			}
@@ -26,17 +26,20 @@
 				"studentNumber"=>$detailInfo[0],
 				"realname"=>$detailInfo[1],
 				"describe"=>$detailInfo[2],
+				"style"=>$detailInfo[3]
 			);
 			foreach ($json_infoDet as $key => $value) {
 				$json_infoDet[$key] = urlencode($value);
 			}
-			//$json_return = serialize($json_infoDet);
 			$jsonText = json_encode($json_infoDet);
 			$ret .= urldecode($jsonText);
+			$ret .= ",";
 		}
+		$ret = substr($ret, 0, -1);
+		$ret .= "]";
 		$jsonName = "introduction.json";
 		$jsonFile = fopen($jsonName, "w");
 		fwrite($jsonFile, $ret);
 	}
 	load_Det();
-?>	
+?>

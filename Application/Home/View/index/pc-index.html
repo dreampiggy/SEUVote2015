@@ -90,8 +90,6 @@
                 min-height: 24px;
                 
                 margin: auto;
-                
-                text-align: center;
             }
             
             #introduction
@@ -111,16 +109,11 @@
                 background-image: url(/public/RESORCE/go_mobile.png);
             }
             
-            .intro_detail
+            .intro_detail,.candidate_intro_detail
             {
                 background-color: white;
                 
                 display: none;
-            }
-            
-            #jumbotron_contact p
-            {
-                text-align: center;
             }
             
             .tail_img
@@ -144,11 +137,6 @@
             {
                 background-image: url("/public/RESORCE/IPP.jpg");
                 background-size: 50% auto;
-            }
-            
-            #tail h4
-            {
-                text-align: center;
             }
             
             #QR_container
@@ -195,9 +183,161 @@
                 width: 160px;
                 min-height: 32px;
             }
+            
+            #type_selecter_container,#submit_vote_btn_container
+            {
+                text-align: center;
+            }
+
+            #submit_vote_btn_container
+            {
+                display: none;
+            }
+
+            #candidates_type_btns,#submit_vote_btn
+            {
+                margin: auto;
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+            
+            #search_candidate,#submit_affirm_captcha
+            {
+                max-width: 512px;
+                
+                margin: auto;
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+            
+            #submit_affirm
+            {
+                background-color: white;
+                
+                display: none;
+            }
+            
+            @media screen and (min-width:771px)
+            {
+                #jumbotron_mobile_visit
+                {
+                    display: none;
+                }
+            }
+            
+            @media screen and (max-width:770px)
+            {
+                #jumbotron_candidates
+                {
+                    display:none;
+                }
+            }
+            
+            .candidate_row
+            {
+                margin-top: 16px;
+                margin-bottom: 16px;
+                
+                overflow-x: hidden;
+                overflow-y: hidden;
+            }
+            
+            .candiate_container
+            {
+                height: 192px;
+            }
+            
+            .candiate
+            {
+                position: absolute;
+                width: 100%;
+                
+                padding-right: 30px;
+                
+                margin: auto;
+            }
+            
+            .candidate_avatar
+            {
+                min-height: 192px;
+                max-width: 160px;
+                
+                margin: auto;
+                
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: auto 100%;
+            }
+            
+            .candidate_brief
+            {
+                min-height: 160px;
+                max-width: 160px;
+                
+                margin: auto;
+                
+                background-color: white;
+            }
+            
+            .candidate_describe
+            {
+                position: relative;
+                
+                top: -40px;
+            }
+            
+            .candidate_brief p
+            {
+                font-size: 14px;
+            }
+            
+            .vote_btn
+            {
+                position: relative;
+                top: -32px;
+                left: 16px;
+                
+                width: 64px;
+                height: 64px;
+                
+                border-radius: 32px;
+                
+                background-color: white;
+                
+                color: #4183C4;
+                text-align: center;
+                line-height: 75px;
+                font-size: 40px;
+            }
+            
+            .voted_btn
+            {
+                background-color: #4183C4;
+                
+                color: white;
+            }
+            
+            .candidate_intro_detail_container
+            {
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
+            
+            .candidate_intro_detail_img
+            {
+                width: 288px;
+                height: 384px;
+                
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: auto 100%;
+            }
         </style>
         <script src="public/JS/jquery-1.11.1.js"></script>
         <script src="public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+        <script>
+            var isLoggedin=true;
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -213,12 +353,15 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a class="ClickAble"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> &nbsp;&nbsp;&nbsp;&nbsp;活动介绍</a></li>
+                            <!--
+                            <li><a class="ClickAble"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> &nbsp;&nbsp;&nbsp;&nbsp;活动介绍</a></li>
                             <li><a class="ClickAble"><span class="glyphicon glyphicon-king" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;候选人</a></li>
+                            -->
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a class="ClickAble" id="btn_toLogin_top"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;登录以投票</a></li>
-                            <li class="active"><a class="ClickAble"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;0/15&nbsp;已投</a></li>
+                            <script>var MAX_CHOSSEN=15;</script>
+                            <li class="active"><a><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="voted_num">0</span>/15&nbsp;已投</a></li>
                         </ul>
                     </div>
                 </div>
@@ -227,7 +370,7 @@
         <div id="jumbotron_main" class="jumbotron">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <!--
                         <h1>
                             东南大学
@@ -237,7 +380,7 @@
                         </h2>
                         -->
                     </div>
-                    <div class="col-md-4" id="form_col">
+                    <div class="col-md-5" id="form_col">
                         <div class="container-fluid" id="form_container">
                             <ul class="nav nav-tabs" id="loginType_tags">
                                 <li role="presentation" id="lb_within_school_login" class="active"><a class="ClickAble">校内投票</a></li>
@@ -259,9 +402,9 @@
                                     <span class="input-group-addon ClickAble" id="basic-addon2">这是验证码=3=</span>
                                 </div>
                                 <div class="container-fluid" id="alert_container_within_school_login_form">
-                                    <div id="alert_within_school_login_form" class="alert alert-danger alert-dismissible" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong id="alert_txt_within_school_login_form"></strong>
+                                    <div id="alert_within_school_login_form" class="alert alert-danger ClickAble" role="alert">
+                                        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                        <strong id="alert_txt_within_school_login_form"></strong>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_within_school_login_form">
@@ -289,9 +432,9 @@
                                     <input id="outside_school_register_repassword" type="password" class="form-control" placeholder="密码确认" aria-describedby="sizing-addon1">
                                 </div>
                                 <div class="container-fluid" id="alert_container_outside_school_register_form">
-                                    <div id="alert_outside_school_register_form" class="alert alert-danger alert-dismissible" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong id="alert_txt_outside_school_register_form"></strong>
+                                    <div id="alert_outside_school_register_form" class="alert alert-danger ClickAble" role="alert">
+                                        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                        <strong id="alert_txt_outside_school_register_form"></strong>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_register_form">
@@ -314,9 +457,9 @@
                                     <span class="input-group-addon ClickAble" id="basic-addon2">这是验证码=3=</span>
                                 </div>
                                 <div class="container-fluid" id="alert_container_outside_school_login_form">
-                                    <div id="alert_outside_school_login_form" class="alert alert-danger alert-dismissible" role="alert" id="alert_outside_school_login_form">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong id="alert_txt_outside_school_login_form"></strong>
+                                    <div id="alert_outside_school_login_form" class="alert alert-danger ClickAble" role="alert" id="alert_outside_school_login_form">
+                                        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                        <strong id="alert_txt_outside_school_login_form"></strong>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_login_form">
@@ -326,10 +469,6 @@
                             </div>
                             <script>
                                 var btn_toLogin_top=$("#btn_toLogin_top");
-                                
-                                $("#btn_toLogin_top").click(function(){
-                                    showLoginForm();
-                                });
                             </script>
                         </div>
                     </div>
@@ -350,7 +489,7 @@
                             <div class="intro_btn" id="introduction">
                             </div>
                             <div class="intro_btn_discription">
-                                <h2>简介</h2>
+                                <h2 class="text-center">活动简介</h2>
                             </div>
                         </div>
                     </div>
@@ -359,7 +498,7 @@
                             <div class="intro_btn" id="voting_rules">
                             </div>
                             <div class="intro_btn_discription">
-                                <h2>投票规则</h2>
+                                <h2 class="text-center">投票规则</h2>
                             </div>
                         </div>
                     </div>
@@ -368,7 +507,7 @@
                             <div class="intro_btn" id="ranking_rules">
                             </div>
                             <div class="intro_btn_discription">
-                                <h2>排名规则</h2>
+                                <h2 class="text-center">排名规则</h2>
                             </div>
                         </div>
                     </div>
@@ -377,7 +516,7 @@
                             <div class="intro_btn" id="go_mobile">
                             </div>
                             <div class="intro_btn_discription">
-                                <h2>移动端</h2>
+                                <h2 class="text-center">移动端</h2>
                             </div>
                         </div>
                     </div>
@@ -437,7 +576,7 @@
                                 <div class="container-fluid" id="wechat_QR">
                                 </div>
                                 <div class="container-fluid QR_txt" id="wechat_QR_txt">
-                                    <h4>东南大学学生事务服务中心<br>微信公众平台</h4>
+                                    <h4 class="text-center">东南大学学生事务服务中心<br>微信公众平台</h4>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -446,21 +585,21 @@
                                         <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/most_influential_m.jpg);">
                                         </div>
                                         <div class="container-fluid QR_txt weibo_QR_txt">
-                                            <h4>东南大学最具影响力毕业生活动<br>官方微博</h4>
+                                            <h4 class="text-center">东南大学最具影响力毕业生活动<br>官方微博</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_offical_weibo_m.png);">
                                         </div>
                                         <div class="container-fluid QR_txt weibo_QR_txt">
-                                            <h4>东南大学官方微博</h4>
+                                            <h4 class="text-center">东南大学官方微博</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_edu_foundation_weibo_m.png);">
                                         </div>
                                         <div class="container-fluid QR_txt weibo_QR_txt">
-                                            <h4>东南大学教育基金会<br>官方微博</h4>
+                                            <h4 class="text-center">东南大学教育基金会<br>官方微博</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -479,167 +618,318 @@
             </div>
         </div>
         <div id="jumbotron_candidates" class="jumbotron">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
+            <div class="container" id="type_selecter_container">
+                <div class="btn-group" role="group" aria-label="..." id="candidates_type_btns">
+                    <button type="button" class="btn btn-default" id="type_btn_0">显示全部</button>
+                    <button type="button" class="btn btn-default" id="type_btn_1">学术影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_2">创业影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_3">道德影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_4">公益影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_5">自强影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_6">正义影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_7">领袖影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_8">文体影响力</button>
+                    <button type="button" class="btn btn-default" id="type_btn_9">其他</button>
+                </div>
+                <div class="input-group" id="search_candidate">
+                    <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-king" aria-hidden="true"></span></span>
+                    <input id="search_by_name_input" type="text" class="form-control" placeholder="以姓名搜索候选人" aria-describedby="basic-addon2">
+                    <span class="input-group-addon" id="basic-addon2"><a class="ClickAble" id="search_by_name">搜索</a></span>
                 </div>
             </div>
-            <div class="container-fluid">
+            <div id="candidates_container">
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
+            <div class="container" id="submit_vote_btn_container">    
+                <div class="btn-group btn-group-lg" role="group" aria-label="..." id="submit_vote_btn">
+                    <button type="button" class="btn btn-primary" id="type_btn_0">提交选票</button>
                 </div>
             </div>
-            <div class="container-fluid">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
+            <div class="container-fluid" id="submit_affirm">
+                <div class="container">
+                    <h2 class="text-center">确认提交选票吗？<br><small class="text-center">请确认选票信息并输入验证码以提交选票</small></h2>
+                    <p class="text-center" id="voted_list">
+                    </p>
+                    <div class="input-group" id="submit_affirm_captcha">
+                        <input type="text" class="form-control" placeholder="请输入验证码" aria-describedby="basic-addon2">
+                        <span class="input-group-addon ClickAble" id="basic-addon2">这是验证码</span>
+                        <span class="input-group-addon" id="basic-addon2"><a class="ClickAble" id="submit_vote_confirmed">确认提交选票</a></span>
+                        <span class="input-group-addon" id="basic-addon2"><a class="ClickAble" id="submit_vote_cancel">取消</a></span>
+                    </div>
                 </div>
             </div>
-            <div class="container-fluid">
-            </div>
+            <script>
+                var candidates_arr=new Array();
+                var voteArr=new Array();
+                
+                var details_shown=new Array();
+                
+                var candidates_container=$("#candidates_container");
+                
+                var submit_vote_btn_container=$("#submit_vote_btn_container");
+                var submit_vote_btn=$("#submit_vote_btn");
+                
+                var submit_affirm=$("#submit_affirm");
+                var submit_vote_confirmed=$("#submit_vote_confirmed");
+                var submit_vote_cancel=$("#submit_vote_cancel");
+                
+                var voted_list=document.getElementById("voted_list");
+                var voted_list_txt="";
+                
+                var voted_num=document.getElementById("voted_num");
+                var voted_counter=0;
+                
+                var type_btn_0=$("#type_btn_0");
+                type_btn_0.click(function(){
+                    cleanStyleButtonChosen();
+                    search_by_name_input.value="";
+                    outputCandidates(candidates_arr);
+                    type_btn_0.addClass("btn-primary");
+                    checkAllChosen();
+                });
+                
+                var type_btn_1=$("#type_btn_1");
+                type_btn_1.click(function(){selectCandidatesByStyle(type_btn_1,"学术影响力")});
+                var type_btn_2=$("#type_btn_2");
+                type_btn_2.click(function(){selectCandidatesByStyle(type_btn_2,"创业影响力")});
+                var type_btn_3=$("#type_btn_3");
+                type_btn_3.click(function(){selectCandidatesByStyle(type_btn_3,"道德影响力")});
+                var type_btn_4=$("#type_btn_4");
+                type_btn_4.click(function(){selectCandidatesByStyle(type_btn_4,"公益影响力")});
+                var type_btn_5=$("#type_btn_5");
+                type_btn_5.click(function(){selectCandidatesByStyle(type_btn_5,"自强影响力")});
+                var type_btn_6=$("#type_btn_6");
+                type_btn_6.click(function(){selectCandidatesByStyle(type_btn_6,"正义影响力")});
+                var type_btn_7=$("#type_btn_7");
+                type_btn_7.click(function(){selectCandidatesByStyle(type_btn_7,"领袖影响力")});
+                var type_btn_8=$("#type_btn_8");
+                type_btn_8.click(function(){selectCandidatesByStyle(type_btn_8,"文体影响力")});
+                var type_btn_9=$("#type_btn_9");
+                type_btn_9.click(function(){selectCandidatesByStyle(type_btn_9,"其他")});
+                
+                var search_by_name=$("#search_by_name");
+                var search_by_name_input=document.getElementById("search_by_name_input");
+                
+                search_by_name.click(function(){
+                    cleanStyleButtonChosen();
+                    var selected_candidates_arr=new Array();
+                    for(var i=0;i<candidates_arr.length;i++)
+                    {
+                        if(candidates_arr[i].realname==search_by_name_input.value)
+                        selected_candidates_arr.push(candidates_arr[i]);
+                    }
+                    outputCandidates(selected_candidates_arr);
+                    checkAllChosen();
+                });
+                
+                function selectCandidatesByStyle(btn,stl)
+                {
+                    cleanStyleButtonChosen();
+                    search_by_name_input.value="";
+                    var selected_candidates_arr=new Array();
+                    for(var i=0;i<candidates_arr.length;i++)
+                    {
+                        if(candidates_arr[i].style==stl)
+                        selected_candidates_arr.push(candidates_arr[i]);
+                    }
+                    outputCandidates(selected_candidates_arr);
+                    btn.addClass("btn-primary");
+                    checkAllChosen();
+                }
+                
+                function cleanStyleButtonChosen()
+                {
+                    candidates_container.empty();
+                    submit_vote_btn_container.slideUp();
+                    submit_affirm.slideUp();
+                    for(var i=0;i<10;i++)
+                    {
+                        $("#type_btn_"+i).removeClass("btn-primary");
+                    }
+                }
+                
+                function checkAllChosen()
+                {
+                    if(voted_counter==MAX_CHOSSEN)
+                    {
+                        submit_vote_btn_container.slideDown();
+                    }
+                }
+                
+                submit_vote_btn.click(function(){
+                    submit_affirm.slideDown(function(){
+                        submit_vote_btn_container.slideUp();
+                        voted_list_txt="";
+                        for(var i=0;i<MAX_CHOSSEN;i++)
+                        {
+                            voted_list_txt+=(i+1+"."+voteArr[i].realname+"&nbsp;"+voteArr[i].studentNumber+"<br>");
+                        }
+                        voted_list.innerHTML=voted_list_txt;
+                    });
+                });
+                
+                submit_vote_cancel.click(function(){
+                    submit_affirm.slideUp(function(){
+                        submit_vote_btn_container.slideDown();
+                    });
+                });
+                
+                var animateComplete=new Array();
+                var mouseIsOn=new Array();
+                
+                function initilize_candidates(candidates)
+                {
+                    candidates_arr=candidates;
+                    outputCandidates(candidates_arr);
+                    type_btn_0.addClass("btn-primary");
+                }
+                
+                function outputCandidates(candidates)
+                { 
+                    for(var i=0;i<Math.ceil(candidates.length/6);i++)
+                    {
+                        candidates_container.append("<div class='container'><div class='row candidate_row' id='row_"+i+"'></div></div>");
+                        for(var j=0;j<6;j++)
+                        {
+                            $("#row_"+i).append("<div class='col-sm-2 candiate_container' id='r_"+i+"c_"+j+"'></div>");
+                        }
+                        candidates_container.append("<div class='container_fliud candidate_intro_detail' id='candidate_intro_detail_row"+i+"'><div class='container candidate_intro_detail_container'><div class='media-left' id='candidate_intro_detail_row_img"+i+"'></div><div class='media-body' id='candidate_intro_detail_row_txt"+i+"'></div></div></div>");
+                    }
+                    for(var i=0;i<candidates.length;i++)
+                    {
+                        //alert("#r_"+i/6+"c_"+i%6)
+                        $("#r_"+Math.floor(i/6)+"c_"+i%6).append("<div class='candiate' id='candidate"+candidates[i].studentNumber+"'><div class='candidate_avatar' id='candidate_avatar"+candidates[i].studentNumber+"' style='background-image:url(public/RESORCE/candidates-img/p"+i+".jpg);'></div><div class='candidate_brief' id='candiate_brief"+candidates[i].studentNumber+"'><div class='vote_btn ClickAble' id='vote_btn"+candidates[i].studentNumber+"'><span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span></div><div class='container candidate_describe' id='candidate_describe"+candidates[i].studentNumber+"'><h4>"+candidates[i].realname+"</h4><p>"+candidates[i].describe+"</p></div></div></div>");
+                        //$("#candidate"+candidates[i].studentNumber).click(function(){alert(candidates[i].studentNumber)});
+                        for(var k=0;k<voted_counter;k++)
+                        {
+                            if(voteArr[k].studentNumber==candidates[i].studentNumber)
+                            {
+                                $("#vote_btn"+candidates[i].studentNumber).addClass("voted_btn");
+                            }
+                        }
+                        (function(i){
+                            animateComplete[i]=true;
+                            mouseIsOn[i]=false;
+                            $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseover(function(){
+                                //alert(candidates[i].studentNumber);
+                                if(!mouseIsOn[i])
+                                {
+                                    mouseIsOn[i]=true;
+                                    if(animateComplete[i])
+                                    {
+                                        animateComplete[i]=false;
+                                        $("#candidate"+candidates[i].studentNumber).animate({top:'-160px'},function(){
+                                            animateComplete[i]=true;
+                                        });
+                                    }
+                                }
+                            });
+                            $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseleave(function(){
+                                //alert(candidates[i].studentNumber);
+                                if(mouseIsOn[i])
+                                {
+                                    mouseIsOn[i]=false;
+                                    if(!animateComplete[i])
+                                    {
+                                        $("#candidate"+candidates[i].studentNumber).stop();
+                                    }
+                                    $("#candidate"+candidates[i].studentNumber).animate({top:'0px'},function(){
+                                        animateComplete[i]=true;
+                                    });
+                                }
+                            });
+                            $("#vote_btn"+candidates[i].studentNumber).click(function(){
+                                //alert(candidates[i].studentNumber);
+                                //if(voted_counter<MAX_CHOSSEN)
+                                //{
+                                var this_is_voted=false;
+                                for (k in voteArr)
+                                {
+                                    if(voteArr[k].studentNumber==candidates[i].studentNumber)
+                                    {
+                                        this_is_voted=true;
+                                        break;
+                                    }
+                                }
+                                if(!this_is_voted)
+                                {
+                                    if(voted_counter<MAX_CHOSSEN)
+                                    {
+                                        voteArr.push(candidates[i]);
+                                        voted_counter++;
+                                        voted_num.innerHTML=voted_counter;
+                                        $("#vote_btn"+candidates[i].studentNumber).addClass("voted_btn");
+                                        if(voted_counter==MAX_CHOSSEN)
+                                        {
+                                            submit_vote_btn_container.slideDown();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        alert("最多允许选中"+MAX_CHOSSEN+"位候选人！");
+                                    }
+                                }
+                                else
+                                {
+                                    for (k in voteArr)
+                                    {
+                                        if(voteArr[k].studentNumber==candidates[i].studentNumber)
+                                        {
+                                            this_is_voted=true;
+                                            voteArr.splice(k,1);
+                                            voted_counter--;
+                                            voted_num.innerHTML=voted_counter;
+                                            $("#vote_btn"+candidates[i].studentNumber).removeClass("voted_btn");
+                                            submit_vote_btn_container.slideUp();
+                                            submit_affirm.slideUp();
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
+                            details_shown[i]=false;
+                            $("#candidate_describe"+candidates[i].studentNumber).click(function(){
+                                //alert(candidates[i].studentNumber);
+                                if(!details_shown[i])
+                                {
+                                    for(var j=0;j<Math.ceil(candidates.length/6);j++)
+                                    {
+                                        if(j!=Math.floor(i/6))
+                                        {
+                                            $("#candidate_intro_detail_row"+j).slideUp();
+                                        }
+                                    }
+                                    $.get("public/RESORCE/json/introduce_"+candidates[i].studentNumber+".json",function(cadidateDetail,result){
+                                        if(result=="success")
+                                        {
+                                            $("#candidate_intro_detail_row_img"+Math.floor(i/6)).empty();
+                                            $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).empty();
+                                            $("#candidate_intro_detail_row_img"+Math.floor(i/6)).append("<div class='candidate_intro_detail_img' style='background-image:url(public/RESORCE/candidates-img/p"+0+".jpg);'></div>");
+                                            $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).append("<div class='page-header'><h2>"+cadidateDetail.realname+"<small>"+cadidateDetail.number+"</small></h2></div><h3>PROOF</h3><p>"+cadidateDetail.proof+"</p><h3>INTRODUCE</h3><p>"+cadidateDetail.introduce+"</p>");
+                                            $("#candidate_intro_detail_row"+Math.floor(i/6)).slideDown();
+                                        }
+                                    })
+                                    details_shown[i]=true;
+                                }
+                                else
+                                {
+                                    $("#candidate_intro_detail_row"+Math.floor(i/6)).slideUp();
+                                    details_shown[i]=false;
+                                }
+                            })
+                        })(i);
+                    }
+                }
+            </script>
+        </div>
+        <div id="jumbotron_mobile_visit" class="jumbotron">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
+                <h2 class="text-center">当前设备分辨率过低</h2>
+                <h3 class="text-center">请至微信投票</h3>
+                <div class="container-fluid" id="wechat_QR">
                 </div>
-            </div>
-            <div class="container-fluid">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
+                <div class="container-fluid QR_txt" id="wechat_QR_txt">
+                    <h4 class="text-center">东南大学学生事务服务中心<br>微信公众平台</h4>
                 </div>
-            </div>
-            <div class="container-fluid">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                </div>
-            </div>
-            <div class="container-fluid">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                </div>
-            </div>
-            <div class="container-fluid">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                </div>
-            </div>
-            <div class="container-fluid">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                    <div class="col-md-2"><div class="container-fluid">
-                    </div></div>
-                </div>
-            </div>
-            <div class="container-fluid">
             </div>
         </div>
         <div class="container">
@@ -650,9 +940,8 @@
         </div>
         <div id="jumbotron_contact" class="jumbotron">
             <div class="container">
-                <p>如遇问题请联系：ippclub@seu.edu.cn</p>
-                <p>如遇网站使用方面的问题，请在来信中注明浏览器及版本、具体问题以及您的操作流程等情况，谢谢配合。</p>
-                <p>
+                <p class="text-center">如遇问题请联系：ippclub@seu.edu.cn<br>
+                    如遇网站使用方面的问题，请在来信中注明浏览器及版本、具体问题以及您的操作流程等情况，谢谢配合。<br>
                     <a href="http://xsc.seu.edu.cn/" target="_blank">东南大学学生处</a>
                     |
                     <a href="http://seuef.seu.edu.cn/" target="_blank">东南大学教育基金会</a>
@@ -674,12 +963,23 @@
                 <div class="col-md-6 tail_img" id="ipp_img">
                 </div>
             </div>
-            <h4>建议使用 Google Chrome 或 Mozilla Firefox 浏览器</h4>
+            <h4 class="text-center">建议使用 Google Chrome 或 Mozilla Firefox 浏览器</h4>
         </div>
         <script src="/public/JS/intro.js"></script>
         <script src="/public/JS/login.js"></script>
         <script src="/public/JS/candidates.js"></script>
         <script>
+            $("#btn_toLogin_top").click(function(){
+                if(!isFormUp)
+                {
+                    showLoginForm();
+                }
+                else
+                {
+                    hideLoginForm();
+                }
+            });
+            
             introduction_btn.click(function(){
                 if(!intro_palying)
                 {
