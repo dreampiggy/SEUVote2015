@@ -15,11 +15,11 @@ return array(
 
     //邮件配置
     'THINK_EMAIL' => array(
-        'SMTP_HOST'   => 'smtp.xx.com', //SMTP服务器
+        'SMTP_HOST'   => 'smtp.ym.163.com', //SMTP服务器
         'SMTP_PORT'   => '25', //SMTP服务器端口
-        'SMTP_USER'   => 'xxxxxx@xx.com', //SMTP服务器用户名
-        'SMTP_PASS'   => 'xxxxxx', //SMTP服务器密码
-        'FROM_EMAIL'  => 'xxxxxx@xx.com', //发件人EMAIL
+        'SMTP_USER'   => 'dreampiggy@dreampiggy.com', //SMTP服务器用户名
+        'SMTP_PASS'   => 'seuvote2015', //SMTP服务器密码
+        'FROM_EMAIL'  => 'dreampiggy@dreampiggy.com', //发件人EMAIL
         'FROM_NAME'   => '东南大学最有影响力毕业生', //发件人名称
         'REPLY_EMAIL' => '', //回复EMAIL（留空则为发件人EMAIL）
         'REPLY_NAME'  => '', //回复名称（留空则为发件人名称）
