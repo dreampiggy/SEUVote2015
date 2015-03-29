@@ -1,3 +1,8 @@
+/**
+*登陆注册表单相关javascript
+by Jason
+*/
+//校内登录表单----------------------------------------------------------------------------------------------------------
 var within_school_login_card=document.getElementById("within_school_login_card");
 within_school_login_card.vallidation_func=function(){
     if(within_school_login_card.value!="")
@@ -44,7 +49,7 @@ submit_within_school_login_form.click(function(){
     onSubmit("within_school_login_form");
 });
 
-//
+//校外注册表单----------------------------------------------------------------------------------------------------------
 var outside_school_register_email=document.getElementById("outside_school_register_email");
 outside_school_register_email.vallidation_func=function(){
     if(outside_school_register_email.value!="")
@@ -105,7 +110,7 @@ submit_outside_school_register.click(function(){
     onSubmit("outside_school_register_form");
 });
 
-//
+//校外登陆表单----------------------------------------------------------------------------------------------------------
 var outside_school_login_email=document.getElementById("outside_school_login_email");
 outside_school_login_email.vallidation_func=function(){
     if(outside_school_login_email.value!="")
@@ -152,7 +157,7 @@ submit_outside_school_login.click(function(){
     onSubmit("outside_school_login_form");
 });
 
-//
+//各表单的container与标签-----------------------------------------------------------------------------------------------
 var form_container=$("#form_container");
 
 var lb_within_school_login=$("#lb_within_school_login");
@@ -180,18 +185,23 @@ outside_school_login_form.alt=alert_outside_school_login_form;
 outside_school_login_form.alt.txt=alert_txt_outside_school_login_form;
 outside_school_login_form.inputs=outside_school_login;
 
+//表单对象
 var forms_shown={
     within_school_login_form: within_school_login_form,
     outside_school_register_form: outside_school_register_form,
     outside_school_login_form: outside_school_login_form
 }
 
-var isFormUp=false;
+var isFormUp=false;//表单是否出现
 
-var form_playing=false;
+var form_playing=false;//表单动画是否在播放
 
-var cancle_btn=$(".cancle_btn");
+var cancle_btn=$(".cancle_btn");//取消登录按钮
+cancle_btn.click(function(){
+    hideLoginForm();
+});
 
+//表单标签点击事件，叫出相应表单-------------------------------------------------------------------------------------------
 $("#lb_within_school_login").click(function(){
     if(!form_playing)
     {
@@ -211,10 +221,7 @@ $("#lb_outside_school_login").click(function(){
     }
 });
 
-cancle_btn.click(function(){
-    hideLoginForm();
-});
-
+//叫出总表单-----------------------------------------------------------------------------------------------------------
 function showLoginForm()
 {
     if(!isFormUp)
@@ -234,6 +241,7 @@ function showLoginForm()
     }
 }
 
+//隐藏总表单-----------------------------------------------------------------------------------------------------------
 function hideLoginForm()
 {
     for (form in forms_shown)
@@ -257,6 +265,7 @@ function hideLoginForm()
     }
 }
 
+//叫出某表单-----------------------------------------------------------------------------------------------------------
 function callupForm(name)
 {
     for (form in forms_shown)
@@ -284,6 +293,7 @@ function callupForm(name)
     }
 }
 
+//触发相应表单的提醒-----------------------------------------------------------------------------------------------------
 function triggerAlert(fm,txt)
 {
     forms_shown[fm].alt.slideDown(function(){
@@ -291,6 +301,7 @@ function triggerAlert(fm,txt)
     });
 }
 
+//相应表单的登录事件-----------------------------------------------------------------------------------------------------
 function onSubmit(fm)
 {
     error_detected=false;

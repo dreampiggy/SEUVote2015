@@ -335,9 +335,6 @@
         </style>
         <script src="public/JS/jquery-1.11.1.js"></script>
         <script src="public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
-        <script>
-            var isLoggedin=true;
-        </script>
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -360,7 +357,6 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a class="ClickAble" id="btn_toLogin_top"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;登录以投票</a></li>
-                            <script>var MAX_CHOSSEN=15;</script>
                             <li class="active"><a><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span id="voted_num">0</span>/15&nbsp;已投</a></li>
                         </ul>
                     </div>
@@ -387,7 +383,7 @@
                                 <li role="presentation" id="lb_outside_school_register"><a class="ClickAble">校外注册</a></li>
                                 <li role="presentation" id="lb_outside_school_login"><a class="ClickAble">校外登录</a></li>
                             </ul>
-                            <!-- 校内登录 -->
+                            <!-- 校内登录 ---------------------------------------------------------------------------->
                             <div class="container" id="within_school_login_form">
                                 <div class="input-group input-group-lg login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></span>
@@ -412,7 +408,7 @@
                                     <button type="button" class="btn btn-default cancle_btn">取消</button>
                                 </div>
                             </div>
-                            <!-- 校外注册 -->
+                            <!-- 校外注册 ---------------------------------------------------------------------------->
                             <div class="container" id="outside_school_register_form">
                                 <div class="input-group login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
@@ -442,7 +438,7 @@
                                     <button type="button" class="btn btn-default cancle_btn">取消</button>
                                 </div>
                             </div>
-                            <!-- 校外登录 -->
+                            <!-- 校外登录 ---------------------------------------------------------------------------->
                             <div class="container" id="outside_school_login_form">
                                 <div class="input-group input-group-lg login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
@@ -467,13 +463,24 @@
                                     <button type="button" class="btn btn-default cancle_btn">取消</button>
                                 </div>
                             </div>
-                            <script>
-                                var btn_toLogin_top=$("#btn_toLogin_top");
-                            </script>
                         </div>
                     </div>
                 </div>
             </div>
+            <script src="/public/JS/login.js"></script>
+            <script>
+                var btn_toLogin_top=$("#btn_toLogin_top");//顶栏登录按钮
+                $("#btn_toLogin_top").click(function(){
+                    if(!isFormUp)
+                    {
+                        showLoginForm();
+                    }
+                    else
+                    {
+                        hideLoginForm();
+                    }
+                });
+            </script>
         </div>
         <div class="container">
             <div class="page-header">
@@ -608,7 +615,33 @@
                     </div>
                 </div>
             </div>
+            <script src="/public/JS/intro.js"></script>
             <script>
+                //展开活动信息详情的事件---------------------------------------------------------------------------------
+                introduction_btn.click(function(){
+                    if(!intro_palying)
+                    {
+                        callupIntro("introduction_detail");
+                    }
+                });
+                voting_rules_btn.click(function(){
+                    if(!intro_palying)
+                    {
+                        callupIntro("voting_rules_detail");
+                    }
+                });
+                ranking_rules_btn.click(function(){
+                    if(!intro_palying)
+                    {
+                        callupIntro("ranking_rules_detail");
+                    }
+                });
+                go_mobile_btn.click(function(){
+                    if(!intro_palying)
+                    {
+                        callupIntro("go_mobile_detail");
+                    }
+                });
             </script>
         </div>
         <div class="container">
@@ -641,7 +674,7 @@
             </div>
             <div class="container" id="submit_vote_btn_container">    
                 <div class="btn-group btn-group-lg" role="group" aria-label="..." id="submit_vote_btn">
-                    <button type="button" class="btn btn-primary" id="type_btn_0">提交选票</button>
+                    <button type="button" class="btn btn-primary">提交选票</button>
                 </div>
             </div>
             <div class="container-fluid" id="submit_affirm">
@@ -657,125 +690,12 @@
                     </div>
                 </div>
             </div>
+            <script src="/public/JS/candidates.js"></script>
             <script>
-                var candidates_arr=new Array();
-                var voteArr=new Array();
+                var animateComplete=new Array();//某候选人简介动画是否在播放中
+                var mouseIsOn=new Array();//鼠标是否在某候选人表格上
                 
-                var details_shown=new Array();
-                
-                var candidates_container=$("#candidates_container");
-                
-                var submit_vote_btn_container=$("#submit_vote_btn_container");
-                var submit_vote_btn=$("#submit_vote_btn");
-                
-                var submit_affirm=$("#submit_affirm");
-                var submit_vote_confirmed=$("#submit_vote_confirmed");
-                var submit_vote_cancel=$("#submit_vote_cancel");
-                
-                var voted_list=document.getElementById("voted_list");
-                var voted_list_txt="";
-                
-                var voted_num=document.getElementById("voted_num");
-                var voted_counter=0;
-                
-                var type_btn_0=$("#type_btn_0");
-                type_btn_0.click(function(){
-                    cleanStyleButtonChosen();
-                    search_by_name_input.value="";
-                    outputCandidates(candidates_arr);
-                    type_btn_0.addClass("btn-primary");
-                    checkAllChosen();
-                });
-                
-                var type_btn_1=$("#type_btn_1");
-                type_btn_1.click(function(){selectCandidatesByStyle(type_btn_1,"学术影响力")});
-                var type_btn_2=$("#type_btn_2");
-                type_btn_2.click(function(){selectCandidatesByStyle(type_btn_2,"创业影响力")});
-                var type_btn_3=$("#type_btn_3");
-                type_btn_3.click(function(){selectCandidatesByStyle(type_btn_3,"道德影响力")});
-                var type_btn_4=$("#type_btn_4");
-                type_btn_4.click(function(){selectCandidatesByStyle(type_btn_4,"公益影响力")});
-                var type_btn_5=$("#type_btn_5");
-                type_btn_5.click(function(){selectCandidatesByStyle(type_btn_5,"自强影响力")});
-                var type_btn_6=$("#type_btn_6");
-                type_btn_6.click(function(){selectCandidatesByStyle(type_btn_6,"正义影响力")});
-                var type_btn_7=$("#type_btn_7");
-                type_btn_7.click(function(){selectCandidatesByStyle(type_btn_7,"领袖影响力")});
-                var type_btn_8=$("#type_btn_8");
-                type_btn_8.click(function(){selectCandidatesByStyle(type_btn_8,"文体影响力")});
-                var type_btn_9=$("#type_btn_9");
-                type_btn_9.click(function(){selectCandidatesByStyle(type_btn_9,"其他")});
-                
-                var search_by_name=$("#search_by_name");
-                var search_by_name_input=document.getElementById("search_by_name_input");
-                
-                search_by_name.click(function(){
-                    cleanStyleButtonChosen();
-                    var selected_candidates_arr=new Array();
-                    for(var i=0;i<candidates_arr.length;i++)
-                    {
-                        if(candidates_arr[i].realname==search_by_name_input.value)
-                        selected_candidates_arr.push(candidates_arr[i]);
-                    }
-                    outputCandidates(selected_candidates_arr);
-                    checkAllChosen();
-                });
-                
-                function selectCandidatesByStyle(btn,stl)
-                {
-                    cleanStyleButtonChosen();
-                    search_by_name_input.value="";
-                    var selected_candidates_arr=new Array();
-                    for(var i=0;i<candidates_arr.length;i++)
-                    {
-                        if(candidates_arr[i].style==stl)
-                        selected_candidates_arr.push(candidates_arr[i]);
-                    }
-                    outputCandidates(selected_candidates_arr);
-                    btn.addClass("btn-primary");
-                    checkAllChosen();
-                }
-                
-                function cleanStyleButtonChosen()
-                {
-                    candidates_container.empty();
-                    submit_vote_btn_container.slideUp();
-                    submit_affirm.slideUp();
-                    for(var i=0;i<10;i++)
-                    {
-                        $("#type_btn_"+i).removeClass("btn-primary");
-                    }
-                }
-                
-                function checkAllChosen()
-                {
-                    if(voted_counter==MAX_CHOSSEN)
-                    {
-                        submit_vote_btn_container.slideDown();
-                    }
-                }
-                
-                submit_vote_btn.click(function(){
-                    submit_affirm.slideDown(function(){
-                        submit_vote_btn_container.slideUp();
-                        voted_list_txt="";
-                        for(var i=0;i<MAX_CHOSSEN;i++)
-                        {
-                            voted_list_txt+=(i+1+"."+voteArr[i].realname+"&nbsp;"+voteArr[i].studentNumber+"<br>");
-                        }
-                        voted_list.innerHTML=voted_list_txt;
-                    });
-                });
-                
-                submit_vote_cancel.click(function(){
-                    submit_affirm.slideUp(function(){
-                        submit_vote_btn_container.slideDown();
-                    });
-                });
-                
-                var animateComplete=new Array();
-                var mouseIsOn=new Array();
-                
+                //初始化联系人列表，默认显示全部联系人
                 function initilize_candidates(candidates)
                 {
                     candidates_arr=candidates;
@@ -783,8 +703,10 @@
                     type_btn_0.addClass("btn-primary");
                 }
                 
+                //输出候选人列表，参数为经过筛选的候选人数组
                 function outputCandidates(candidates)
-                { 
+                {
+                    //输出表格行与列------------------------------------------------------------------------------------
                     for(var i=0;i<Math.ceil(candidates.length/6);i++)
                     {
                         candidates_container.append("<div class='container'><div class='row candidate_row' id='row_"+i+"'></div></div>");
@@ -794,6 +716,8 @@
                         }
                         candidates_container.append("<div class='container_fliud candidate_intro_detail' id='candidate_intro_detail_row"+i+"'><div class='container candidate_intro_detail_container'><div class='media-left' id='candidate_intro_detail_row_img"+i+"'></div><div class='media-body' id='candidate_intro_detail_row_txt"+i+"'></div></div></div>");
                     }
+                    
+                    //输出候选人---------------------------------------------------------------------------------------
                     for(var i=0;i<candidates.length;i++)
                     {
                         //alert("#r_"+i/6+"c_"+i%6)
@@ -806,9 +730,13 @@
                                 $("#vote_btn"+candidates[i].studentNumber).addClass("voted_btn");
                             }
                         }
+                        
+                        //注册候选人事件--------------------------------------------------------------------------------
                         (function(i){
                             animateComplete[i]=true;
                             mouseIsOn[i]=false;
+                            
+                            //鼠标悬浮于候选人时展示简介
                             $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseover(function(){
                                 //alert(candidates[i].studentNumber);
                                 if(!mouseIsOn[i])
@@ -823,6 +751,8 @@
                                     }
                                 }
                             });
+                            
+                            //鼠标移开候选人时收起简介
                             $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseleave(function(){
                                 //alert(candidates[i].studentNumber);
                                 if(mouseIsOn[i])
@@ -837,10 +767,10 @@
                                     });
                                 }
                             });
+                            
+                            //点选投票按钮时的事件
                             $("#vote_btn"+candidates[i].studentNumber).click(function(){
                                 //alert(candidates[i].studentNumber);
-                                //if(voted_counter<MAX_CHOSSEN)
-                                //{
                                 var this_is_voted=false;
                                 for (k in voteArr)
                                 {
@@ -852,20 +782,20 @@
                                 }
                                 if(!this_is_voted)
                                 {
-                                    if(voted_counter<MAX_CHOSSEN)
+                                    if(voted_counter<MAX_CHOSEN)
                                     {
                                         voteArr.push(candidates[i]);
                                         voted_counter++;
                                         voted_num.innerHTML=voted_counter;
                                         $("#vote_btn"+candidates[i].studentNumber).addClass("voted_btn");
-                                        if(voted_counter==MAX_CHOSSEN)
+                                        if(voted_counter==MAX_CHOSEN)
                                         {
                                             submit_vote_btn_container.slideDown();
                                         }
                                     }
                                     else
                                     {
-                                        alert("最多允许选中"+MAX_CHOSSEN+"位候选人！");
+                                        alert("最多允许选中"+MAX_CHOSEN+"位候选人！");
                                     }
                                 }
                                 else
@@ -886,6 +816,8 @@
                                     }
                                 }
                             });
+                            
+                            //点选候选人简介展开详情
                             details_shown[i]=false;
                             $("#candidate_describe"+candidates[i].studentNumber).click(function(){
                                 //alert(candidates[i].studentNumber);
@@ -923,7 +855,7 @@
         </div>
         <div id="jumbotron_mobile_visit" class="jumbotron">
             <div class="container">
-                <h2 class="text-center">当前设备分辨率过低</h2>
+                <h2 class="text-center">当前设备分辨率过低无法显示候选人列表</h2>
                 <h3 class="text-center">请至微信投票</h3>
                 <div class="container-fluid" id="wechat_QR">
                 </div>
@@ -965,53 +897,5 @@
             </div>
             <h4 class="text-center">建议使用 Google Chrome 或 Mozilla Firefox 浏览器</h4>
         </div>
-        <script src="/public/JS/intro.js"></script>
-        <script src="/public/JS/login.js"></script>
-        <script src="/public/JS/candidates.js"></script>
-        <script>
-            $("#btn_toLogin_top").click(function(){
-                if(!isFormUp)
-                {
-                    showLoginForm();
-                }
-                else
-                {
-                    hideLoginForm();
-                }
-            });
-            
-            introduction_btn.click(function(){
-                if(!intro_palying)
-                {
-                    callupIntro("introduction_detail");
-                }
-            });
-            voting_rules_btn.click(function(){
-                if(!intro_palying)
-                {
-                    callupIntro("voting_rules_detail");
-                }
-            });
-            ranking_rules_btn.click(function(){
-                if(!intro_palying)
-                {
-                    callupIntro("ranking_rules_detail");
-                }
-            });
-            go_mobile_btn.click(function(){
-                if(!intro_palying)
-                {
-                    callupIntro("go_mobile_detail");
-                }
-            });
-            /*
-            $.get("public/RESORCE/json/introduction.json",function(data,result){
-                if(result=="success")
-                {
-                    //alert(data[0].studentNumber);
-                }
-            });
-            */
-        </script>
     </body>
 </html>
