@@ -40,16 +40,26 @@ class VoteController extends Controller {
 
 	public function checkIP(){
 		$checkIP = $this->Model->query("SELECT IPvote,timevote FROM IP_db WHERE IPvote='%s'",$this->currnetIP);
-		if(!$checkIP[0]){
+		if($checkIP){
 			$timeInDB = $checkIP[0]['timevote'];
 			$timeGap = $this->currentUnixTime - $timeInDB;
 			if ($timeGap <= 1800)
 			{
 				return false;
 			}
-			return true;
+			else{
+				return true;
+			}
 		}
-		return true;
+		else{
+			$result = $this->Model->execute("INSERT INTO IP_db (IPvote,timevote) VALUES ('%s','%s')",$this->currnetIP,$this->currentUnixTime);
+			if($result){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
 	}
 
 	//检查没有投票为true，投票了为false
@@ -58,7 +68,7 @@ class VoteController extends Controller {
 		$this->type = $_SESSION['type'];
 		$this->db_table = "users_".$this->type;
 		$checked = $this->Model->query("SELECT voted FROM %s WHERE loginName='%s'",$this->db_table,$this->loginName);
-		if($checked && !$checked[0]['voted']){
+		if($checked[0]['voted'] != 1){
 			return true;
 		}
 		else if ($checked[0]['voted'] == 1) {
@@ -103,26 +113,23 @@ class VoteController extends Controller {
 
 	public function logger(){
 		$currentTime = $this->my_t['year']."-".$this->my_t['mon']."-".$this->my_t['mday']." ".$this->my_t['hours'].":".$this->my_t['minutes'].":".$this->my_t['seconds']." ";
-		$rinfo = $_SESSION['loginName']." ".$currentTime.'VOTE FOR: ';
+		$rinfo = "username: ".$_SESSION['loginName']." ip: ".$this->currnetIP." time: ".$currentTime.' vote for: ';
 		for($i = 0;$i < $this->voteTotal;$i++){
-			$rinfo .= $this->voteFor[$i];
+			$rinfo .= ($this->voteFor[$i] . " ");
 		}
-		$keydb ="/voteLog.txt";//php写文本保存的文件名
+		$keydb ="./voteLog.txt";//php写文本保存的文件名
 		$fp=fopen($keydb,"a");//写入方法
 		$result = fwrite($fp,$rinfo."\r\n\r\n"); //写入数据
 		fclose($fp);
+		$this->updateIP();
 		if(!$result){
 			return false;
 		}
 		return true;
 	}
 
-	public function addIP(){
-		$writeIP = $this->Model->execute("INSERT INTO IP_db(IPvote,timevote) VALUES ('%s','%s')",$this->currnetIP,$this->currentUnixTime);
-		if(!$writeIP){
-			return false;
-		}
-		return true;
+	public function updateIP(){
+		$result = $this->Model->execute("UPDATE IP_db SET timevote = '%s' WHERE IPvote = '%s'",$this->currentUnixTime,$this->currnetIP);
 	}
 
 
@@ -159,43 +166,37 @@ class VoteController extends Controller {
 		}
 		//投票学号是否在毕业生数组中以及投够15个人
 		if(!$this->checkVoteTotal()){
-			$return = 9;
+			$return = 3;
 			echo $return;
 			return;
 		}
 		//是否含有验证码
 		if(!$this->checkCaptcha()){
-			$return = 6;
+			$return = 4;
 			echo $return;
 			return;
 		}
 		//是否已经在IP列表中
 		if(!$this->checkIP()){
-			$return = 8;
+			$return = 5;
 			echo $return;
 			return;
 		}
 		//是否已经投过票
 		if(!$this->checkNotVoted()){
-			$return = 4;
+			$return = 6;
 			echo $return;
 			return;
 		}
 		//开始投票，将投票信息写入数据库
 		if(!$this->addVote()){
-			$return = 3333;
+			$return = 7;
 			echo $return;
 			return;
 		}
 		//进行日志记录
 		if(!$this->logger()){
-			$return = 2222;
-			echo $return;
-			return;
-		}
-		//写入IP和时间戳到数据库
-		if(!$this->addIP()){
-			$return = 1111;
+			$return = 8;
 			echo $return;
 			return;
 		}

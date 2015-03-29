@@ -64,6 +64,8 @@ class LoginController extends Controller {
 						$result = R('Validate/validate');
 						if($result)
 						{
+							$_SESSION['loginName']=$loginName;
+							$_SESSION['type']=$type;
 							$return = 1;
 							echo $return;
 						}
