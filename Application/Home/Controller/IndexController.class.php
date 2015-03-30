@@ -2,22 +2,24 @@
 namespace Home\Controller;
 use Think\Controller;
 class IndexController extends Controller {
-    public function index(){
+    public function index()
+    {
 		date_default_timezone_set('prc');
 		$my_t=getdate(date("U"));
+        
 		$check_h = $my_t['hours'];
         /*
-		if ($check_h>=7 && $check_h<=22){
-            $this->display('Index:vote');
+		if ($check_h>=7 && $check_h<=22)
+        {
+            $this->display('Index:pc-index');
 		}
         else
         {
-            $this->display('Index:cannot');
+            $this->display('Index:404');
 		}
         */
 		$this->display('Index/pc-index');
     }
-
 
     public function register(){
     	R('Register/register');

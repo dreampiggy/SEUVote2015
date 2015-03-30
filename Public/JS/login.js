@@ -332,7 +332,7 @@ function triggerAlert(fm,txt)
 //发送验证邮件事件
 function sendEmail()
 {
-    alert(outside_school_register_email.value);
+    //alert(outside_school_register_email.value);
     var emailAddress=outside_school_register_email.value;
     var emailCheck = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(emailAddress);
     if(!emailCheck)
@@ -448,9 +448,9 @@ function onSubmit(fm)
                 //校外注册---------------------------------------------------------------------------------------------
                 case "outside_school_register_form":
                     var post_str=
-                        "loginName="+outside_school_register_form.outside_school_register_email.value+
-                        "&password="+outside_school_register_form.outside_school_register_password.value+
-                        "&emailCheck="+outside_school_register_form.outside_school_register_email_psw.value+
+                        "loginName="+outside_school_register.outside_school_register_email.value+
+                        "&password="+outside_school_register.outside_school_register_password.value+
+                        "&emailCheck="+outside_school_register.outside_school_register_email_psw.value+
                         "&refere=reference1";
                     $.post("/register",post_str,function(data,status){
                         if(status=="success")
@@ -507,8 +507,8 @@ function onSubmit(fm)
                     var post_str=
                         "loginName="+outside_school_login.outside_school_login_email.value+
                         "&password="+outside_school_login.outside_school_login_password.value+
-                        "&emailCheck="+outside_school_login.outside_school_login_captcha.value+
-                        "&refere=reference1";
+                        "&postValidateNum="+outside_school_login.outside_school_login_captcha.value+
+                        "&type=out&refere=reference2";
                     $.post("/login",post_str,function(data,status){
                         if(status=="success")
                         {

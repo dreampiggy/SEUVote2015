@@ -487,6 +487,7 @@
                     {
                         if(!isFormUp)
                         {
+                            $("html,body").animate({scrollTop: 0});
                             showLoginForm();
                         }
                         else
@@ -620,8 +621,8 @@
                         <h2>移动端<br><small>Go Mobile</small></h2>
                     </div>
                     <p>
-                        本次活动同时于微信平台上线，请扫码关注东南大学学生事务服务中心微信公众平台以进行微信投票。<br>
-                        亦请扫码观注相关微博。
+                        东南大学最具影响力毕业生微信平台投票同步进行中，请扫二维码关注东南大学学生事务服务中心微信公众平台以进行微信投票。<br>
+                        欢迎关注相关微博了解活动。
                     </p>
                     <div class="container-fluid" id="QR_container">
                         <div class="row">
@@ -897,7 +898,9 @@
                                             $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).empty();
                                             $("#candidate_intro_detail_row_img"+Math.floor(i/6)).append("<div class='candidate_intro_detail_img' style='background-image:url(public/RESORCE/candidates-img/p"+0+".jpg);'></div>");
                                             $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).append("<div class='page-header'><h2>"+cadidateDetail.realname+"<small>"+cadidateDetail.number+"</small></h2></div><h3>PROOF</h3><p>"+cadidateDetail.proof+"</p><h3>INTRODUCE</h3><p>"+cadidateDetail.introduce+"</p>");
-                                            $("#candidate_intro_detail_row"+Math.floor(i/6)).slideDown();
+                                            $("#candidate_intro_detail_row"+Math.floor(i/6)).slideDown(function(){
+                                                gotoTop($("#candidate_intro_detail_row"+Math.floor(i/6)));
+                                            });
                                         }
                                     })
                                     details_shown[i]=true;

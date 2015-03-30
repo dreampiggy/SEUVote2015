@@ -146,7 +146,7 @@ class VoteController extends Controller {
 		$getVoteArray = $_REQUEST['voteArray'];
 		$getVoteArray = json_decode($getVoteArray,true);
 
-		$voteFor = $getVoteArray;//这是该用户选择的人组成的数组
+		$voteFor = $getVoteArray;//该用户选票的数组
 		$this->voteFor = array_unique($voteFor);
 		$this->voteTotal = count($this->voteFor);
 

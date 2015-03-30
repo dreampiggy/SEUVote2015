@@ -175,6 +175,7 @@ alert_submit_affirm_captcha.click(function(){
 })
 var alert_txt_submit_affirm_captcha=document.getElementById("alert_txt_submit_affirm_captcha");
 
+//触发alert
 function triggerSubmitAffirmCaptchaAlert(txt)
 {
     alert_submit_affirm_captcha.slideDown(function(){
@@ -182,10 +183,17 @@ function triggerSubmitAffirmCaptchaAlert(txt)
     });
 }
 
+//触发提交完成
 function triggerSubmitComplete()
 {
     alert_txt_submit_affirm_captcha.innerHTML="";
     alert_submit_affirm_captcha.slideUp();
+}
+
+//页面滚动至元素顶端
+function gotoTop(element)
+{
+    $("html,body").animate({scrollTop: element.offset().top-50});
 }
 
 //提交选票事件----------------------------------------------------------------------------------------------------------
@@ -240,7 +248,7 @@ function voteSumbit()
                             submit_affirm_captcha_display.src='/captcha';
                             break;
                         case "5":
-                            triggerSubmitAffirmCaptchaAlert("请诚信投票");
+                            triggerSubmitAffirmCaptchaAlert("同一IP两次投票的间隔不能小于30分钟");
                             submit_affirm_captcha_input.value="";
                             submit_affirm_captcha_display.src='/captcha';
                             break;
