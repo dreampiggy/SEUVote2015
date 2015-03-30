@@ -37,6 +37,8 @@ function reArrangeArray(arr) {
 	return arr;
 }
 
+var vote_completed=false;//是否完成投票
+
 var candidates_arr=new Array();//打乱后的候选者总表
 var voteArr=new Array();//被选中者列表
 
@@ -45,6 +47,13 @@ var details_shown=new Array();//某行的候选者详情是否展开
 var candidates_container=$("#candidates_container");//候选者列表container
 
 var submit_vote_btn_container=$("#submit_vote_btn_container");//确认投票按钮container
+
+var submit_affirm_captcha_display=document.getElementById("submit_affirm_captcha_display");//确认投票验证码
+submit_affirm_captcha_display.onclick=function(){
+    submit_affirm_captcha_display.src='/captcha';
+}
+var submit_affirm_captcha_input=document.getElementById("submit_affirm_captcha_input");////确认投票验证码输入框
+
 var submit_vote_btn=$("#submit_vote_btn");//投票按钮
 submit_vote_btn.click(function(){
     submit_affirm.slideDown(function(){
@@ -55,11 +64,15 @@ submit_vote_btn.click(function(){
                 voted_list_txt+=(i+1+"."+voteArr[i].realname+"&nbsp;"+voteArr[i].studentNumber+"<br>");
             }
         voted_list.innerHTML=voted_list_txt;
+        submit_affirm_captcha_display.src='/captcha';
     });
 });
 
 var submit_affirm=$("#submit_affirm");//确认投票对话框
 var submit_vote_confirmed=$("#submit_vote_confirmed");//确认提交选票按钮
+submit_vote_confirmed.click(function(){
+    voteSumbit();
+});
 var submit_vote_cancel=$("#submit_vote_cancel");//取消提交按钮
 submit_vote_cancel.click(function(){
     submit_affirm.slideUp(function(){
@@ -151,5 +164,104 @@ function checkAllChosen()
     if(voted_counter==MAX_CHOSEN)
     {
         submit_vote_btn_container.slideDown();
+    }
+}
+
+var vote_running=false;
+
+var alert_submit_affirm_captcha=$("#alert_submit_affirm_captcha");//确认提交验证码的alert，兼做正在提交的提示
+alert_submit_affirm_captcha.click(function(){
+    alert_submit_affirm_captcha.slideUp();
+})
+var alert_txt_submit_affirm_captcha=document.getElementById("alert_txt_submit_affirm_captcha");
+
+function triggerSubmitAffirmCaptchaAlert(txt)
+{
+    alert_submit_affirm_captcha.slideDown(function(){
+        alert_txt_submit_affirm_captcha.innerHTML=txt;
+    });
+}
+
+function triggerSubmitComplete()
+{
+    alert_txt_submit_affirm_captcha.innerHTML="";
+    alert_submit_affirm_captcha.slideUp();
+}
+
+//提交选票事件----------------------------------------------------------------------------------------------------------
+function voteSumbit()
+{
+    if(voteArr.length!=MAX_CHOSEN)
+    {
+        alert("请选满15位候选人");
+    }
+    else
+    {
+        if(vote_running)
+        {
+            alert("请等待上一操作完成");
+        }
+        else
+        {
+            vote_running=true;
+            triggerSubmitAffirmCaptchaAlert("正在进行操作");
+            var post_arr=new Array();
+            for(var i=0;i<MAX_CHOSEN;i++)
+            {
+                post_arr.push(voteArr[i].studentNumber);
+            }
+            var post_json=JSON.stringify(post_arr);
+            var post_str=
+                "voteArray="+post_json+
+                "&postValidateNum="+submit_affirm_captcha_input.value;
+            $.post("/vote",post_str,function(data,status){
+                if(status=="success")
+                {
+                    vote_running=false;
+                    triggerSubmitComplete();
+                    switch(data)
+                    {
+                        case "1":
+                            triggerVoteSubmitSuccess();
+                            break;
+                        case "2":
+                            triggerSubmitAffirmCaptchaAlert("请先登录再进行投票");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                        case "3":
+                            triggerSubmitAffirmCaptchaAlert("请诚信投票");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                        case "4":
+                            triggerSubmitAffirmCaptchaAlert("验证码错误");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                        case "5":
+                            triggerSubmitAffirmCaptchaAlert("请诚信投票");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                        case "6":
+                            triggerSubmitAffirmCaptchaAlert("您今天已投过票");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                        case "7":
+                            triggerSubmitAffirmCaptchaAlert("系统故障");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                        case "8":
+                            triggerSubmitAffirmCaptchaAlert("系统故障");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                    }
+                }
+            });
+        }
     }
 }

@@ -35,7 +35,7 @@ class LoginController extends Controller {
 					$result = $this->Model->query("SELECT password FROM users_out WHERE loginName = '%s'",$loginName);
 					if(!$result[0])
 					{
-						$return = 5;
+						$return = 5;//邮箱不存在
 						echo $return;
 					}
 					else {

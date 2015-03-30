@@ -54,7 +54,7 @@
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
                         <input id="within_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2" class="ClickAble">这是验证码=3=</span>
+                        <span class="input-group-addon ClickAble" id="basic-addon2" style="padding: 0px;padding-left: 8px; padding-right: 8px;"><img class="captcha" id="within_school_login_captcha_display"></img></span>
                     </div>
                     <div class="container-fluid" id="alert_container_within_school_login_form">
                         <div id="alert_within_school_login_form" class="alert alert-danger ClickAble" role="alert">
@@ -111,10 +111,10 @@
                     </div>
                     <div class="input-group input-group-lg login_form_inputs">
                         <input id="outside_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2" class="ClickAble">这是验证码=3=</span>
+                        <span class="input-group-addon ClickAble" id="basic-addon2" style="padding: 0px;padding-left: 8px; padding-right: 8px;"><img class="captcha" id="outside_school_login_captcha_display"></img></span>
                     </div>
                     <div class="container-fluid" id="alert_container_outside_school_login_form">
-                        <div id="alert_outside_school_login_form" class="alert alert-danger ClickAble" role="alert" id="alert_outside_school_login_form">
+                        <div id="alert_outside_school_login_form" class="alert alert-danger ClickAble" role="alert">
                             <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                             <strong id="alert_txt_outside_school_login_form"></strong>
                         </div>
@@ -129,6 +129,11 @@
         <script src="public/JS/login.js"></script>
         <script>
             showLoginForm();
+            
+            //登录成功触发的事件
+            function triggerLoginSuccess()
+            {
+            }
         </script>
     </body>
 </html>
