@@ -3,7 +3,7 @@
 by Jason
 */
 
-var loggedin=false;
+var loggedin=true;
 
 //校内登录表单----------------------------------------------------------------------------------------------------------
 var within_school_login_card=document.getElementById("within_school_login_card");
@@ -329,33 +329,81 @@ function triggerAlert(fm,txt)
     });
 }
 
-//发送验证邮件事件
+//发送验证邮件事件------------------------------------------------------------------------------------------------------
+var send_email_btn_txt=document.getElementById("send_email_btn_txt");//发送邮件按钮的文字
+var canSend=true;//是否可发送邮件，即防止用户请求邮件过于频繁
+var TIME_COUNT=30;
+var timeCount;//计时
+
 function sendEmail()
 {
-    //alert(outside_school_register_email.value);
-    var emailAddress=outside_school_register_email.value;
-    var emailCheck = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(emailAddress);
-    if(!emailCheck)
+    //alert(canSend);
+    if(!canSend)
     {
-        triggerAlert("outside_school_login_form","邮箱格式错误");
-        return;
+        alert("请耐心等待邮件送达，若未收到邮件，请稍后重试")
     }
-	$.ajax({
-		type: 'POST',
-		url: '/email',
-		data: {
-			"address" : emailAddress
-		},
-		success: function(data){
-		},
-		error: function(){
-		}
-	});
+    else
+    {
+        //alert(outside_school_register_email.value);
+        canSend=false;
+        var emailAddress=outside_school_register_email.value;
+        var emailCheck = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(emailAddress);
+        if(!emailCheck)
+        {
+            canSend=true;
+            triggerAlert("outside_school_register_form","邮箱格式错误");
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/email',
+            data: {
+                "address" : emailAddress
+            },
+            success: function(data){
+                if(data.status=="1")
+                {
+                    send_email_btn.removeClass("ClickAble");
+                    timeCount=TIME_COUNT;
+                    timerCounter();
+                }
+                else
+                {
+                    canSend=true;
+                    triggerAlert("outside_school_register_form","发送邮件失败");
+                }
+            },
+            error: function(){
+                canSend=true;
+                triggerAlert("outside_school_register_form","系统故障");
+            }
+        });
+    }
 }
+
+//控制邮件发送频率的计时器
+function timerCounter()
+{
+    var timer=setTimeout("timerCounter()",1000);
+    if(timeCount>0)
+    {
+        send_email_btn_txt.innerHTML=timeCount+"秒后可再次发送";
+        timeCount--;
+    }
+    else
+    {
+        canSend=true;
+        timeCount=TIME_COUNT;
+        send_email_btn_txt.innerHTML="发送验证邮件";
+        send_email_btn.addClass("ClickAble");
+        clearTimeout(timer);
+    }
+}
+
+//相应表单的登录事件-----------------------------------------------------------------------------------------------------
 
 var login_running=false;//是否在请求登录
 
-//相应表单的登录事件-----------------------------------------------------------------------------------------------------
 function onSubmit(fm)
 {
     error_detected=false;

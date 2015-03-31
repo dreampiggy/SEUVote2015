@@ -190,12 +190,6 @@ function triggerSubmitComplete()
     alert_submit_affirm_captcha.slideUp();
 }
 
-//页面滚动至元素顶端
-function gotoTop(element)
-{
-    $("html,body").animate({scrollTop: element.offset().top-50});
-}
-
 //提交选票事件----------------------------------------------------------------------------------------------------------
 function voteSumbit()
 {

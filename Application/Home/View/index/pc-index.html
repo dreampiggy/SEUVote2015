@@ -410,7 +410,6 @@
                                 </div>
                                 <div class="container-fluid" id="alert_container_within_school_login_form">
                                     <div id="alert_within_school_login_form" class="alert alert-danger ClickAble" role="alert">
-                                        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                                         <strong id="alert_txt_within_school_login_form"></strong>
                                     </div>
                                 </div>
@@ -424,7 +423,7 @@
                                 <div class="input-group login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
                                     <input id="outside_school_register_email" type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
-                                    <span class="input-group-addon" id="basic-addon2"><a id="send_email_btn" class="ClickAble">发送验证邮件</a></span>
+                                    <span class="input-group-addon" id="basic-addon2"><span id="send_email_btn" class="ClickAble"><span id="send_email_btn_txt">发送验证邮件</span></span></span>
                                 </div>
                                 <div class="input-group login_form_inputs">
                                     <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
@@ -440,7 +439,6 @@
                                 </div>
                                 <div class="container-fluid" id="alert_container_outside_school_register_form">
                                     <div id="alert_outside_school_register_form" class="alert alert-danger ClickAble" role="alert">
-                                        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                                         <strong id="alert_txt_outside_school_register_form"></strong>
                                     </div>
                                 </div>
@@ -465,7 +463,6 @@
                                 </div>
                                 <div class="container-fluid" id="alert_container_outside_school_login_form">
                                     <div id="alert_outside_school_login_form" class="alert alert-danger ClickAble" role="alert">
-                                        <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                                         <strong id="alert_txt_outside_school_login_form"></strong>
                                     </div>
                                 </div>
@@ -668,25 +665,37 @@
                 introduction_btn.click(function(){
                     if(!intro_palying)
                     {
-                        callupIntro("introduction_detail");
+                        callupIntro("introduction_detail",function(){
+                            //$("html,body").animate({scrollTop: $("#jumbotron_intro").offset().top-50});
+                            $("html,body").animate({scrollTop: introduction_detail.offset().top-50});
+                        });
                     }
                 });
                 voting_rules_btn.click(function(){
                     if(!intro_palying)
                     {
-                        callupIntro("voting_rules_detail");
+                        callupIntro("voting_rules_detail",function(){
+                            //$("html,body").animate({scrollTop: $("#jumbotron_intro").offset().top-50});
+                            $("html,body").animate({scrollTop: voting_rules_detail.offset().top-50});
+                        });
                     }
                 });
                 ranking_rules_btn.click(function(){
                     if(!intro_palying)
                     {
-                        callupIntro("ranking_rules_detail");
+                        callupIntro("ranking_rules_detail",function(){
+                            //$("html,body").animate({scrollTop: $("#jumbotron_intro").offset().top-50});
+                            $("html,body").animate({scrollTop: ranking_rules_detail.offset().top-50});
+                        });
                     }
                 });
                 go_mobile_btn.click(function(){
                     if(!intro_palying)
                     {
-                        callupIntro("go_mobile_detail");
+                        callupIntro("go_mobile_detail",function(){
+                            //$("html,body").animate({scrollTop: $("#jumbotron_intro").offset().top-50});
+                            $("html,body").animate({scrollTop: go_mobile_detail.offset().top-50});
+                        });
                     }
                 });
             </script>
@@ -742,8 +751,8 @@
             </div>
             <script src="/public/JS/candidates.js"></script>
             <script>
-                var animateComplete=new Array();//某候选人简介动画是否在播放中
-                var mouseIsOn=new Array();//鼠标是否在某候选人表格上
+                var animateComplete=new Array();//某候选人动画是否在播放中
+                //var mouseIsOn=new Array();//鼠标是否在某候选人表格上
                 
                 //初始化联系人列表，默认显示全部联系人
                 function initilize_candidates(candidates)
@@ -784,38 +793,39 @@
                         //注册候选人事件--------------------------------------------------------------------------------
                         (function(i){
                             animateComplete[i]=true;
-                            mouseIsOn[i]=false;
+                            //mouseIsOn[i]=false;
                             
                             //鼠标悬浮于候选人时展示简介------------------------------------------------------------------
                             $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseover(function(){
                                 //alert(candidates[i].studentNumber);
-                                if(!mouseIsOn[i])
-                                {
-                                    mouseIsOn[i]=true;
+                                //if(!mouseIsOn[i])
+                                //{
+                                    //mouseIsOn[i]=true;
                                     if(animateComplete[i])
                                     {
                                         animateComplete[i]=false;
+                                        $("#candidate"+candidates[i].studentNumber).stop();
                                         $("#candidate"+candidates[i].studentNumber).animate({top:'-160px'},function(){
                                             animateComplete[i]=true;
                                         });
                                     }
-                                }
+                                //}
                             });
                             
                             //鼠标移开候选人时收起简介--------------------------------------------------------------------
                             $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseleave(function(){
                                 //alert(candidates[i].studentNumber);
-                                if(mouseIsOn[i])
-                                {
-                                    mouseIsOn[i]=false;
-                                    if(!animateComplete[i])
-                                    {
+                                //if(mouseIsOn[i])
+                                //{
+                                    //mouseIsOn[i]=false;
+                                    //if(!animateComplete[i])
+                                    //{
                                         $("#candidate"+candidates[i].studentNumber).stop();
-                                    }
-                                    $("#candidate"+candidates[i].studentNumber).animate({top:'0px'},function(){
                                         animateComplete[i]=true;
+                                    //}
+                                    $("#candidate"+candidates[i].studentNumber).animate({top:'0px'},function(){
                                     });
-                                }
+                                //}
                             });
                             
                             //点选投票按钮时的事件-----------------------------------------------------------------------
@@ -899,7 +909,7 @@
                                             $("#candidate_intro_detail_row_img"+Math.floor(i/6)).append("<div class='candidate_intro_detail_img' style='background-image:url(public/RESORCE/candidates-img/p"+0+".jpg);'></div>");
                                             $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).append("<div class='page-header'><h2>"+cadidateDetail.realname+"<small>"+cadidateDetail.number+"</small></h2></div><h3>PROOF</h3><p>"+cadidateDetail.proof+"</p><h3>INTRODUCE</h3><p>"+cadidateDetail.introduce+"</p>");
                                             $("#candidate_intro_detail_row"+Math.floor(i/6)).slideDown(function(){
-                                                gotoTop($("#candidate_intro_detail_row"+Math.floor(i/6)));
+                                                $("html,body").animate({scrollTop: $("#candidate_intro_detail_row"+Math.floor(i/6)).offset().top-50});
                                             });
                                         }
                                     })
@@ -928,7 +938,10 @@
         </div>
         <div id="jumbotron_mobile_visit" class="jumbotron">
             <div class="container">
-                <h2 class="text-center">当前设备分辨率过低无法显示候选人列表</h2>
+                <h2 class="text-center">
+                    当前设备分辨率过低无法显示候选人列表<br>
+                    或您正采用手机浏览
+                </h2>
                 <h3 class="text-center">请至微信投票</h3>
                 <div class="container-fluid" id="wechat_QR">
                 </div>

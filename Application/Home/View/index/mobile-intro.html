@@ -97,24 +97,38 @@
             introduction_btn.click(function(){
                 if(intro_details["introduction_detail"].isShown!=true)
                 {
+                    setDisplayDefault();
                     callupIntro("introduction_detail");
+                    document.getElementById("introduction_detail").style.display="block";
                 }
             });
             voting_rules_btn.click(function(){
                 if(intro_details["voting_rules_detail"].isShown!=true)
                 {
+                    setDisplayDefault();
                     callupIntro("voting_rules_detail");
+                    document.getElementById("voting_rules_detail").style.display="block";
                 }
             });
             ranking_rules_btn.click(function(){
                 if(intro_details["ranking_rules_detail"].isShown!=true)
                 {
+                    setDisplayDefault();
                     callupIntro("ranking_rules_detail");
+                    document.getElementById("ranking_rules_detail").style.display="block";
                 }
             });
             
+            function setDisplayDefault()
+            {
+                document.getElementById("introduction_detail").style.display="";
+                document.getElementById("voting_rules_detail").style.display="";
+                document.getElementById("ranking_rules_detail").style.display="";
+            }
+            
             //默认叫出活动简介选项
             callupIntro("introduction_detail");
+            document.getElementById("introduction_detail").style.display="block";
         </script>
     </body>
 </html>

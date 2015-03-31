@@ -28,7 +28,7 @@ var intro_details={
 var intro_palying=false;//活动介绍动画是否播放中
 
 //叫出相应活动介绍详情---------------------------------------------------------------------------------------------------
-function callupIntro(name)
+function callupIntro(name,callback)
 {
     var foundShown=false;
     for (dtl in intro_details)
@@ -45,6 +45,10 @@ function callupIntro(name)
                         intro_details[name].slideDown(function(){
                             intro_details[name].isShown=true;
                             intro_palying=false;
+                            if(typeof callback==="function")
+                            {
+                                callback();//回调函数
+                            }
                         });
                     });
                     foundShown=true;
@@ -73,6 +77,10 @@ function callupIntro(name)
             intro_details[name].slideDown(function(){
                 intro_details[name].isShown=true;
                 intro_palying=false;
+                if(typeof callback==="function")
+                {
+                    callback();//回调函数
+                }
             });
         }
     }
