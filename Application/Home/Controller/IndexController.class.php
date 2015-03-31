@@ -36,8 +36,8 @@ class IndexController extends Controller {
     public function ranking(){
         $this->display('Index:ranking');
     }
-    public function rank(){
-    	R('Rank/rank');
+    public function getRank(){
+    	R('Rank/getRank');
     }
 
     public function validate(){

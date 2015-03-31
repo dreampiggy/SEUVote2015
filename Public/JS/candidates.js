@@ -61,7 +61,7 @@ submit_vote_btn.click(function(){
             voted_list_txt="";
             for(var i=0;i<MAX_CHOSEN;i++)
             {
-                voted_list_txt+=(i+1+"."+voteArr[i].realname+"&nbsp;"+voteArr[i].studentNumber+"<br>");
+                voted_list_txt+=("<li class='list-group-item voted_list_li'><p><div class='container-fluid'><div class='row'><div class='col-md-2'>"+i+"</div><div class='col-md-6'>"+voteArr[i].realname+"</div><div class='col-md-4'>"+voteArr[i].college+"</div></div></div></p></li>");
             }
         voted_list.innerHTML=voted_list_txt;
         submit_affirm_captcha_display.src='/captcha';

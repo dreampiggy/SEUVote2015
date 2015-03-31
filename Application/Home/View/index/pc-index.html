@@ -189,7 +189,7 @@
                 text-align: center;
             }
 
-            #submit_vote_btn_container
+            #submit_vote_btn_container,#goto_ranking_btn_container
             {
                 display: none;
             }
@@ -244,7 +244,7 @@
             
             .candiate_container
             {
-                height: 192px;
+                height: 264px;
             }
             
             .candiate
@@ -264,14 +264,30 @@
                 
                 margin: auto;
                 
-                background-position: center;
+                background-position: top;
                 background-repeat: no-repeat;
-                background-size: auto 100%;
+                
+            }
+            
+            @media screen and (min-width: 1200px)
+            {
+                .candidate_avatar
+                {
+                    background-size: 100% auto;
+                }
+            }
+            
+            @media screen and (max-width: 1199px)
+            {
+                .candidate_avatar
+                {
+                    background-size: auto 100%;
+                }
             }
             
             .candidate_brief
             {
-                min-height: 160px;
+                min-height: 232px;
                 max-width: 160px;
                 
                 margin: auto;
@@ -343,11 +359,89 @@
                 
                 display: none;
             }
+            
+            #QR_code_container
+            {
+                position: fixed;
+                top: 128px;
+                
+                width: 100%;
+            }
+            
+            @media screen and (max-width:770px)
+            {
+                #QR_code_container
+                {
+                    display: none;
+                }
+            }
+            
+            #QR_code_block
+            {
+                width: 128px;
+                
+                border-radius: 8px;
+                
+                margin-left: 8px;
+                
+                background-color: white;
+                opacity: 0.5;
+            }
+            
+            #close_btn_row,#QR_code_row
+            {
+                width: 100%;
+                
+                padding: 8px;
+            }
+            
+            #close_btn_row
+            {
+                height: 32px;
+                
+                text-align: right;
+                font-size: 12px;
+            }
+            
+            #QR_code_row
+            {
+                height: 116px;
+                
+                background-image: url(/Public/RESORCE/QR_codes/SEU_student_affair_service_Wechat_m.jpg);
+                background-size: auto 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+            
+            #voted_list
+            {
+                max-width: 512px;
+                margin: auto;
+            }
+            
+            .voted_list_li
+            {
+                padding: 0px;
+            }
         </style>
         <script src="public/JS/jquery-1.11.1.js"></script>
         <script src="public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <!-- 微信平台二维码 ------------------------------------------------------------------------------------------->
+        <div id="QR_code_container">
+            <div id="QR_code_block">
+                <div id="close_btn_row">
+                    <span class="glyphicon glyphicon-remove ClickAble" aria-hidden="true"></span>
+                </div>
+                <div id="QR_code_row" >
+                </div>
+                <div id="text_row">
+                    <p class="text-center">东南大学学生事务服务中心<br>微信公众平台</p>
+                </div>
+            </div>
+        </div>
+        <!-- 导航栏 -------------------------------------------------------------------------------------------------->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid">
                 <div class="container">
@@ -374,6 +468,7 @@
                 </div>
             </div>
         </nav>
+        <!-- 注册登录 ------------------------------------------------------------------------------------------------>
         <div id="jumbotron_main" class="jumbotron">
             <div class="container">
                 <div class="row">
@@ -480,21 +575,29 @@
                 var btn_toLogin_top=$("#btn_toLogin_top");//顶栏登录按钮
                 var btn_toLogin_top_txt=document.getElementById("btn_toLogin_top_txt");//顶栏登陆按钮的文字
                 btn_toLogin_top.click(function(){
-                    if(!loggedin)
+                    if($(window).width()>=770)
                     {
-                        if(!isFormUp)
+                        if(!loggedin)
                         {
-                            $("html,body").animate({scrollTop: 0});
-                            showLoginForm();
+                            if(!isFormUp)
+                            {
+                                $("html,body").animate({scrollTop: 0});
+                                showLoginForm();
+                            }
+                            else
+                            {
+                                hideLoginForm();
+                            }
                         }
                         else
                         {
-                            hideLoginForm();
+                            alert("您已登录");
                         }
                     }
                     else
                     {
-                        alert("您已登录");
+                        alert("当前设备分辨率过低无法显示候选人列表，或您正采用手机浏览。请至微信公众平台投票。");
+                        $("html,body").animate({scrollTop: $("#jumbotron_mobile_visit").offset().top-50});
                     }
                 });
                 
@@ -524,8 +627,14 @@
                     }
                     hideLoginForm();
                 }
+                
+                if($(window).width()>=770)
+                {
+                    showLoginForm();
+                }
             </script>
         </div>
+        <!-- 活动介绍 ------------------------------------------------------------------------------------------------>
         <div class="container">
             <div class="page-header">
                 <h1>活动介绍<br><small>Introduction/Voting Rules/Ranking Rules</small></h1>
@@ -700,6 +809,7 @@
                 });
             </script>
         </div>
+        <!-- 候选人列表 ---------------------------------------------------------------------------------------------->
         <div class="container">
             <div class="page-header">
                 <h1>候选人<br><small>Candidates</small></h1>
@@ -733,11 +843,16 @@
                     <button type="button" class="btn btn-primary">提交选票</button>
                 </div>
             </div>
+            <div class="container" id="goto_ranking_btn_container">    
+                <div class="btn-group btn-group-lg" role="group" aria-label="..." id="goto_ranking_btn">
+                    <button type="button" class="btn btn-primary">查看得票情况</button>
+                </div>
+            </div>
             <div class="container-fluid" id="submit_affirm">
                 <div class="container">
                     <h2 class="text-center">确认提交选票吗？<br><small class="text-center">请确认选票信息并输入验证码以提交选票</small></h2>
-                    <p class="text-center" id="voted_list">
-                    </p>
+                    <ul class="list-group" id="voted_list">
+                    </ul>
                     <div class="input-group input-group-lg" id="submit_affirm_captcha">
                         <input type="text" class="form-control" placeholder="请输入验证码" aria-describedby="basic-addon2" id="submit_affirm_captcha_input">
                         <span class="input-group-addon ClickAble" id="basic-addon2" style="padding: 0px;padding-left: 8px; padding-right: 8px;"><img class="captcha" id="submit_affirm_captcha_display"></span>
@@ -780,7 +895,7 @@
                     for(var i=0;i<candidates.length;i++)
                     {
                         //alert("#r_"+i/6+"c_"+i%6)
-                        $("#r_"+Math.floor(i/6)+"c_"+i%6).append("<div class='candiate' id='candidate"+candidates[i].studentNumber+"'><div class='candidate_avatar' id='candidate_avatar"+candidates[i].studentNumber+"' style='background-image:url(public/RESORCE/candidates-img/p"+i+".jpg);'></div><div class='candidate_brief' id='candiate_brief"+candidates[i].studentNumber+"'><div class='vote_btn ClickAble' id='vote_btn"+candidates[i].studentNumber+"'><span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span></div><div class='container candidate_describe ClickAble' id='candidate_describe"+candidates[i].studentNumber+"'><h4>"+candidates[i].realname+"</h4><p>"+candidates[i].describe+"</p></div></div></div>");
+                        $("#r_"+Math.floor(i/6)+"c_"+i%6).append("<div class='candiate' id='candidate"+candidates[i].studentNumber+"'><div class='candidate_avatar' id='candidate_avatar"+candidates[i].studentNumber+"' style='background-image:url(public/RESORCE/candidates-img/p"+i+".jpg);'></div><div class='candidate_brief' id='candiate_brief"+candidates[i].studentNumber+"'><div class='vote_btn ClickAble' id='vote_btn"+candidates[i].studentNumber+"'><span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span></div><div class='container candidate_describe ClickAble' id='candidate_describe"+candidates[i].studentNumber+"'><h4>"+candidates[i].realname+"&nbsp;<small>"+candidates[i].college+"</small></h4><br><p>"+candidates[i].describe+"</p></div></div></div>");
                         //$("#candidate"+candidates[i].studentNumber).click(function(){alert(candidates[i].studentNumber)});
                         for(var k=0;k<voted_counter;k++)
                         {
@@ -925,17 +1040,24 @@
                     }
                 }
                 
-                //提交选票成功的事件
+                //提交选票成功的事件-------------------------------------------------------------------------------------
                 function triggerVoteSubmitSuccess()
                 {
                     vote_completed=true;
                     submit_affirm.slideUp(function(){
                         submit_vote_btn_container.slideUp();
                         alert("提交选票成功");
+                        $("#goto_ranking_btn_container").slideDown(function(){
+                            $("#goto_ranking_btn").click(function(){
+                                //链接至排名页面
+                                window.location.href="/ranking";
+                            });
+                        });
                     });
                 }
             </script>
         </div>
+        <!-- 分辨率过低 ---------------------------------------------------------------------------------------------->
         <div id="jumbotron_mobile_visit" class="jumbotron">
             <div class="container">
                 <h2 class="text-center">
@@ -950,6 +1072,7 @@
                 </div>
             </div>
         </div>
+        <!-- 联系我们 ------------------------------------------------------------------------------------------------>
         <div class="container">
             <div class="page-header">
                 <h1>联系我们<br><small>Contact Us</small></h1>

@@ -26,6 +26,18 @@
             {
                 margin-top: 16px;
             }
+            
+            .list-group-item
+            {
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+            }
+            
+            .ranking_progress
+            {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
         </style>
     </head>
     <body>
@@ -40,37 +52,157 @@
         </nav>
         <div class="container">
             <div class="page-header">
-                <h1>各选手得票情况<small>按学号排列</small></h1>
+                <h1>各选手得票情况<br><small>按学号排列</small></h1>
             </div>
             <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-default">校内投票情况</button>
-                <button type="button" class="btn btn-default">校外投票情况</button>
+                <button type="button" class="btn btn-default" id="rank_within_school">校内投票情况</button>
+                <button type="button" class="btn btn-default" id="rank_outside_school">校外投票情况</button>
                 <!--<button type="button" class="btn btn-default">总排名情况</button>-->
             </div>
         </div>
         <div id="jumbotron_main" class="jumbotron">
             <div class="container">
-                <ul class="list-group">
-                    <!--
-                    <li class="list-group-item">
-                    <span class="badge">SCORE</span>
-                        <div class="media-left">
-                            <a>
-                                <div class="media-object Avatar" alt="..." style="background-image: url(public/RESORCE/***.jpg);">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">NAME</h4>
-                            <p>DESCRIPTION</p>
-                        </div>
-                    </li>
-                    -->
+                <ul class="list-group" id="rank_list">
                 </ul>
-                <p><a class="btn btn-default" role="button">返回</a></p>
+                <p><a class="btn btn-default" role="button" id="back_btn">返回</a></p>
             </div>
         </div>
         <script src="public/JS/jquery-1.11.1.js"></script>
         <script src="public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+        <script>
+            var rank_list=$("#rank_list");
+            
+            //点击校内校外投票情况按钮的事件-------------------------------------------------------------------------------
+            var rank_displayed={
+                rank_within_school: false,
+                rank_outside_school: false
+            }
+            
+            var rank_within_school=$("#rank_within_school");
+            var rank_outside_school=$("#rank_outside_school");
+            
+            rank_within_school.click(function(){
+                rank_outside_school.removeClass("btn-primary");
+                if(!rank_displayed["rank_within_school"])
+                {
+                    getRank("in",function(){
+                        rank_displayed["rank_within_school"]=true;
+                        rank_displayed["rank_outside_school"]=false;
+                        rank_within_school.addClass("btn-primary");
+                    });
+                }
+            })
+            rank_outside_school.click(function(){
+                rank_within_school.removeClass("btn-primary");
+                if(!rank_displayed["rank_outside_school"])
+                {
+                    getRank("out",function(){
+                        rank_displayed["rank_outside_school"]=true;
+                        rank_displayed["rank_within_school"]=false;
+                        rank_outside_school.addClass("btn-primary");
+                    });
+                }
+            })
+            
+            var back_btn=$("#back_btn");//返回按钮
+            
+            //是否是第一次请求
+            var is_first_request={
+                in: true,
+                out: true
+            }
+            
+            //存储请求结果直到页面刷新
+            var arr_in=new Array();
+            var arr_out=new Array();
+            var rank={
+                in: arr_in,
+                out: arr_out
+            }
+            
+            //获取得票结果----------------------------------------------------------------------------------------------
+            function getRank(type,callback)
+            {
+                if(is_first_request[type])
+                {
+                    var post_str="typeX="+type+"&refere=reference4";
+                    $.post("/getRank",post_str,function(data,status){
+                        if(status=="success")
+                        {
+                            if(data=="2")
+                            {
+                                alert("请先投票再查看排名");
+                                return;
+                            }
+                            else if(data=="3")
+                            {
+                                alert("系统故障");
+                                return;
+                            }
+                            else
+                            {
+                                is_first_request[type]=false;
+                                emptyRanklist();
+                                rank[type]=JSON.parse(data);
+                                displayRanklist(rank[type]);
+                                if(typeof callback==="function")
+                                {
+                                    callback();//回调函数
+                                }
+                            }
+                        }
+                        else
+                        {
+                            alert("系统故障");
+                            return;
+                        }
+                    })
+                }
+                else
+                {
+                    displayRanklist(rank[type]);
+                    if(typeof callback==="function")
+                    {
+                        callback();//回调函数
+                    }
+                }
+            }
+            
+            //输出得票结果----------------------------------------------------------------------------------------------
+            function displayRanklist(ranked_arr)
+            {
+                for (var i=0;i<ranked_arr['people'].length;i++)
+                {
+                    rank_list.append(
+                        "<li class='list-group-item'>"+
+                            "<div class='media-left'>"+
+                                "<a><div class='media-object Avatar' alt='...' style='background-image: url(public/RESORCE/candidates-img/p"+i+".jpg);'>"+
+                                "</div></a>"+
+                            "</div>"+
+                            "<div class='media-body'>"+
+                                "<h4 class='media-heading'>"+ranked_arr['people'][i]['nameA']+"</h4>"+
+                                "<p>"+ranked_arr['people'][i]['numberA']+"</p>"+
+                            "</div>"+
+                            "<div class='progress ranking_progress'>"+
+                                "<div class='progress-bar progress-bar-striped' role='progressbar' aria-valuenow='"+
+                        Math.ceil(ranked_arr['people'][i]['pollA']/ranked_arr['maxPoll'])+"' aria-valuemin='0' aria-valuemax='100' style='width: "+
+                        Math.ceil((ranked_arr['people'][i]['pollA']/ranked_arr['maxPoll'])*100)+"%;'>"+ranked_arr['people'][i]['pollA']+"</div>"+
+                            "</div>"+
+                        "</li>");
+                }
+            }
+            
+            //清空列表
+            function emptyRanklist()
+            {
+                rank_list.empty();
+            }
+            
+            //页面初始化-----------------------------------------------------------------------------------------------
+            getRank("in",function(){
+                rank_displayed["rank_within_school"]=true;
+                rank_within_school.addClass("btn-primary");
+            });
+        </script>
     </body>
 </html>

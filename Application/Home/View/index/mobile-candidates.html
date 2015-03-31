@@ -57,6 +57,17 @@
                 
                 display: none;
             }
+            
+            #voted_list
+            {
+                max-width: 512px;
+                margin: auto;
+            }
+            
+            .voted_list_li
+            {
+                padding: 0px;
+            }
         </style>
     </head>
     <body>
@@ -99,8 +110,8 @@
                 <div class="container-fluid" id="submit_affirm">
                     <div class="container">
                         <h2 class="text-center">确认提交选票吗？<br><small class="text-center">请确认选票信息并输入验证码以提交选票</small></h2>
-                        <p class="text-center" id="voted_list">
-                        </p>
+                        <ul class="list-group" id="voted_list">
+                        </ul>
                         <div class="input-group" id="submit_affirm_captcha">
                             <input type="text" class="form-control" placeholder="请输入验证码" aria-describedby="basic-addon2" id="submit_affirm_captcha_input">
                             <span class="input-group-addon ClickAble" id="basic-addon2" style="padding: 0px;padding-left: 8px; padding-right: 8px;"><img class="captcha" id="submit_affirm_captcha_display"></span>
@@ -132,7 +143,7 @@
                 //输出候选人并注册事件
                 for(var i=0;i<candidates.length;i++)
                 {
-                    $("#candidates_container").append("<li class='list-group-item'><div class='media-left'><a><div class='media-object Avatar' id='candidate_avatar"+candidates[i].studentNumber+"' alt='public.' style='background-image: url(public/RESORCE/candidates-img/p"+i+".jpg);'></div></a><p class='button_p'><a class='btn btn-default' role='button' id='vote_btn"+candidates[i].studentNumber+"'><span class='glyphicon glyphicon-thumbs-up'></span></a></p></div><div class='media-body'><h4 class='media-heading'>"+candidates[i].realname+"</h4><p>"+candidates[i].describe+"</p></div></li>");
+                    $("#candidates_container").append("<li class='list-group-item'><div class='media-left'><a><div class='media-object Avatar' id='candidate_avatar"+candidates[i].studentNumber+"' alt='public.' style='background-image: url(public/RESORCE/candidates-img/p"+i+".jpg);'></div></a><p class='button_p'><a class='btn btn-default' role='button' id='vote_btn"+candidates[i].studentNumber+"'><span class='glyphicon glyphicon-thumbs-up'></span></a></p></div><div class='media-body'><h4 class='media-heading'>"+candidates[i].realname+"&nbsp;<small>"+candidates[i].college+"</small></h4><p>"+candidates[i].describe+"</p></div></li>");
                     (function(i){
                         $("#vote_btn"+candidates[i].studentNumber).click(function(){
                             var this_is_voted=false;

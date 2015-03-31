@@ -4,7 +4,7 @@ use Think\Controller;
 class RankController extends Controller
 {
 	private $Model;
-	public function rank()
+	public function getRank()
     {
 		session_start();
 		header('Content-Type:text/html;charset=UTF-8');

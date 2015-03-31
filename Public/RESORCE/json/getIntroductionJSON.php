@@ -17,7 +17,7 @@
 		$ret = "[";
 		while($row = mysql_fetch_array($studentNumberQuery)){
 			$studentNumber = $row[0];
-			$detailInfo_1 = mysql_query("SELECT studentNumber,name,describeSelf,style FROM candidates WHERE studentNumber='$studentNumber'",$con);
+			$detailInfo_1 = mysql_query("SELECT studentNumber,name,describeSelf,style,college FROM candidates WHERE studentNumber='$studentNumber'",$con);
 			if(!$detailInfo_1){
 				die("Error in getting details". mysql_error());
 			}
@@ -26,7 +26,8 @@
 				"studentNumber"=>$detailInfo[0],
 				"realname"=>$detailInfo[1],
 				"describe"=>$detailInfo[2],
-				"style"=>$detailInfo[3]
+				"style"=>$detailInfo[3],
+				"college"=>$detailInfo[4]
 			);
 			foreach ($json_infoDet as $key => $value) {
 				$json_infoDet[$key] = urlencode($value);

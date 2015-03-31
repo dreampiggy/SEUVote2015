@@ -3,7 +3,7 @@
 by Jason
 */
 
-var loggedin=true;
+var loggedin=false;
 
 //校内登录表单----------------------------------------------------------------------------------------------------------
 var within_school_login_card=document.getElementById("within_school_login_card");
