@@ -217,22 +217,6 @@
                 display: none;
             }
             
-            @media screen and (min-width:771px)
-            {
-                #jumbotron_mobile_visit
-                {
-                    display: none;
-                }
-            }
-            
-            @media screen and (max-width:770px)
-            {
-                #jumbotron_candidates
-                {
-                    display:none;
-                }
-            }
-            
             .candidate_row
             {
                 margin-top: 16px;
@@ -368,14 +352,6 @@
                 width: 100%;
             }
             
-            @media screen and (max-width:770px)
-            {
-                #QR_code_container
-                {
-                    display: none;
-                }
-            }
-            
             #QR_code_block
             {
                 width: 128px;
@@ -426,13 +402,14 @@
         </style>
         <script src="public/JS/jquery-1.11.1.js"></script>
         <script src="public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+        <script src="public/JS/browser_detect.js"></script>
     </head>
     <body>
-        <!-- 微信平台二维码 ------------------------------------------------------------------------------------------->
-        <div id="QR_code_container">
+        <!-- 微信平台二维码悬浮框 -------------------------------------------------------------------------------------->
+        <div id="QR_code_container" class="hidden-xs">
             <div id="QR_code_block">
                 <div id="close_btn_row">
-                    <span class="glyphicon glyphicon-remove ClickAble" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-remove ClickAble" aria-hidden="true" id="close_btn"></span>
                 </div>
                 <div id="QR_code_row" >
                 </div>
@@ -440,6 +417,15 @@
                     <p class="text-center">东南大学学生事务服务中心<br>微信公众平台</p>
                 </div>
             </div>
+            <script>
+                var QR_code_container=$("#QR_code_container");
+                
+                //关闭二维码悬浮框
+                var close_btn=$("#close_btn");
+                close_btn.click(function(){
+                    QR_code_container.slideUp();
+                })
+            </script>
         </div>
         <!-- 导航栏 -------------------------------------------------------------------------------------------------->
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -469,7 +455,7 @@
             </div>
         </nav>
         <!-- 注册登录 ------------------------------------------------------------------------------------------------>
-        <div id="jumbotron_main" class="jumbotron">
+        <div id="jumbotron_main" class="jumbotron img-responsive">
             <div class="container">
                 <div class="row">
                     <div class="col-md-7">
@@ -816,7 +802,7 @@
                 <div class="container-fluid colorful"></div>
             </div>
         </div>
-        <div id="jumbotron_candidates" class="jumbotron">
+        <div id="jumbotron_candidates" class="jumbotron hidden-xs">
             <div class="container" id="type_selecter_container">
                 <div class="btn-group" role="group" aria-label="..." id="candidates_type_btns">
                     <button type="button" class="btn btn-default" id="type_btn_0">显示全部</button>
@@ -1058,7 +1044,7 @@
             </script>
         </div>
         <!-- 分辨率过低 ---------------------------------------------------------------------------------------------->
-        <div id="jumbotron_mobile_visit" class="jumbotron">
+        <div id="jumbotron_mobile_visit" class="jumbotron visible-xs">
             <div class="container">
                 <h2 class="text-center">
                     当前设备分辨率过低无法显示候选人列表<br>
