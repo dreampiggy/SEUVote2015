@@ -1,21 +1,24 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
+
 class CaptchaController extends Controller {
-    public function captcha(){
+    
+    public function captcha()
+    {
         session_start();
         header("Content-type: image/jpeg"); 
         //创建真彩色白纸 
-        $im = @imagecreatetruecolor(60, 25) or die("建立图像失败"); 
+        $im = @imagecreatetruecolor(60, 25); 
         //获取背景颜色 
         $background_color = imagecolorallocate($im, 232, 232, 232); 
-        //填充背景颜色(这个东西类似油桶) 
+        //填充背景颜色
         imagefill($im,0,0,$background_color); 
 
         //设置字体大小 
         $font_size=15; 
 
-        //设置印上去的文字 
+        //设置文字 
         $Str[0] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
         $Str[1] = "abcdefghijklmnopqrstuvwxyz"; 
         $Str[2] = "01234567891234567890123456"; 
@@ -40,15 +43,19 @@ class CaptchaController extends Controller {
         $imstr[3]["x"] = $imstr[2]["x"]+$font_size-1+rand(0,2); 
         $imstr[3]["y"] = rand(1,5); 
 
-        $_SESSION['validateNum'] = $imstr[0]["s"].$imstr[1]["s"].$imstr[2]["s"].$imstr[3]["s"];
-        $_SESSION['validateNum'] = strtolower($_SESSION['validateNum']);
+        //设置session
+        $_SESSION['captcha'] = $imstr[0]["s"].$imstr[1]["s"].$imstr[2]["s"].$imstr[3]["s"];
+        $_SESSION['captcha'] = strtolower($_SESSION['captcha']);
+        
         //写入随机字串
-        for ($i=0; $i < 150; $i++) { 
+        for ($i=0; $i < 150; $i++)
+        { 
             $p_color = imagecolorallocate($im, rand(0,255), rand(0,255), rand(0,255));
             imagesetpixel($im, rand(1,75), rand(1,25), $p_color);
         }
 
-        for($i=0;$i<4;$i++){ 
+        for($i=0;$i<4;$i++)
+        { 
             //获取随机较深颜色 
             $text_color = imagecolorallocate($im,rand(0,255),rand(0,255),rand(0,255)); 
             //画文字 

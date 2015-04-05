@@ -440,19 +440,26 @@ function onSubmit(fm)
             {
                 //校内登录---------------------------------------------------------------------------------------------
                 case "within_school_login_form":
-                    var post_str=
-                        "loginName="+within_school_login.within_school_login_card.value+
-                        "&password="+within_school_login.within_school_login_password.value+
-                        "&postValidateNum="+within_school_login.within_school_login_captcha.value+
-                        "&type=in&refere=reference2";
-                    $.post("/login",post_str,function(data,status){
+                    var post_json={
+                        "card": within_school_login.within_school_login_card.value,
+                        "password": within_school_login.within_school_login_password.value,
+                        "captcha": within_school_login.within_school_login_captcha.value
+                    }
+                    $.post("/withinLogin",post_json,function(data,status){
                         if(status=="success")
                         {
                             //alert(data);
                             login_running=false;
                             triggerLoginNotRunning();
-                            switch(data)
+                            switch(data.status)
                             {
+                                case "0":
+                                    within_school_login.within_school_login_card.value='';
+                                    within_school_login.within_school_login_password.value='';
+                                    within_school_login.within_school_login_captcha.value='';
+                                    captcha["within_school_login_form"].src='/captcha';
+                                    triggerAlert("within_school_login_form","系统故障");
+                                    break;
                                 case "1":
                                     triggerLoginSuccess();
                                     break;
@@ -466,28 +473,14 @@ function onSubmit(fm)
                                     within_school_login.within_school_login_password.value='';
                                     within_school_login.within_school_login_captcha.value='';
                                     captcha["within_school_login_form"].src='/captcha';
-                                    triggerAlert("within_school_login_form","系统故障");
+                                    triggerAlert("within_school_login_form","一卡通号、密码格式错误");
                                     break;
                                 case "4":
                                     within_school_login.within_school_login_card.value='';
                                     within_school_login.within_school_login_password.value='';
                                     within_school_login.within_school_login_captcha.value='';
                                     captcha["within_school_login_form"].src='/captcha';
-                                    triggerAlert("within_school_login_form","系统故障");
-                                    break;
-                                case "5":
-                                    within_school_login.within_school_login_card.value='';
-                                    within_school_login.within_school_login_password.value='';
-                                    within_school_login.within_school_login_captcha.value='';
-                                    captcha["within_school_login_form"].src='/captcha';
                                     triggerAlert("within_school_login_form","错误的一卡通号或密码");
-                                    break;
-                                case "6":
-                                    within_school_login.within_school_login_card.value='';
-                                    within_school_login.within_school_login_password.value='';
-                                    within_school_login.within_school_login_captcha.value='';
-                                    captcha["within_school_login_form"].src='/captcha';
-                                    triggerAlert("within_school_login_form","一卡通号、密码格式错误");
                                     break;
                             }
                         }
@@ -495,76 +488,76 @@ function onSubmit(fm)
                     break;
                 //校外注册---------------------------------------------------------------------------------------------
                 case "outside_school_register_form":
-                    var post_str=
-                        "loginName="+outside_school_register.outside_school_register_email.value+
-                        "&password="+outside_school_register.outside_school_register_password.value+
-                        "&emailCheck="+outside_school_register.outside_school_register_email_psw.value+
-                        "&refere=reference1";
-                    $.post("/register",post_str,function(data,status){
+                    var post_json={
+                        "email": outside_school_register.outside_school_register_email.value,
+                        "password": outside_school_register.outside_school_register_password.value,
+                        "emailPassword": outside_school_register.outside_school_register_email_psw.value,
+                    }
+                    $.post("/outsideRegister",post_json,function(data,status){
                         if(status=="success")
                         {
                             //alert(data);
                             login_running=false;
                             triggerLoginNotRunning();
-                            switch(data)
+                            switch(data.status)
                             {
+                                case "0":
+                                    outside_school_register.outside_school_register_email.value='';
+                                    outside_school_register.outside_school_register_email_psw.value='';
+                                    outside_school_register.outside_school_register_password.value='';
+                                    outside_school_register.outside_school_register_repassword.value='';
+                                    triggerAlert("outside_school_register_form","系统故障");
+                                    break;
                                 case "1":
                                     //triggerLoginSuccess();
                                     alert("注册成功，请登录");
                                     callupForm("outside_school_login_form");
                                     break;
                                 case "2":
-                                    outside_school_register.outside_school_register_email.value='';
                                     outside_school_register.outside_school_register_email_psw.value='';
-                                    outside_school_register.outside_school_register_password.value='';
-                                    outside_school_register.outside_school_register_repassword.value='';
-                                    triggerAlert("outside_school_register_form","系统故障");
+                                    triggerAlert("outside_school_register_form","邮件验证码不匹配");
                                     break;
                                 case "3":
                                     outside_school_register.outside_school_register_email.value='';
                                     outside_school_register.outside_school_register_email_psw.value='';
                                     outside_school_register.outside_school_register_password.value='';
                                     outside_school_register.outside_school_register_repassword.value='';
-                                    triggerAlert("outside_school_register_form","系统故障");
+                                    triggerAlert("outside_school_register_form","邮箱、密码格式错误");
                                     break;
                                 case "4":
                                     outside_school_register.outside_school_register_email.value='';
                                     outside_school_register.outside_school_register_email_psw.value='';
                                     outside_school_register.outside_school_register_password.value='';
                                     outside_school_register.outside_school_register_repassword.value='';
-                                    triggerAlert("outside_school_register_form","邮箱格式错误");
-                                    break;
-                                case "5":
-                                    outside_school_register.outside_school_register_password.value='';
-                                    outside_school_register.outside_school_register_repassword.value='';
-                                    triggerAlert("outside_school_register_form","密码格式错误");
-                                    break;
-                                case "6":
-                                    outside_school_register.outside_school_register_email.value='';
-                                    outside_school_register.outside_school_register_email_psw.value='';
-                                    outside_school_register.outside_school_register_password.value='';
-                                    outside_school_register.outside_school_register_repassword.value='';
                                     triggerAlert("outside_school_register_form","此用户已存在");
                                     break;
+
                             }
                         }
                     });
                     break;
                 //校外登录---------------------------------------------------------------------------------------------
                 case "outside_school_login_form":
-                    var post_str=
-                        "loginName="+outside_school_login.outside_school_login_email.value+
-                        "&password="+outside_school_login.outside_school_login_password.value+
-                        "&postValidateNum="+outside_school_login.outside_school_login_captcha.value+
-                        "&type=out&refere=reference2";
-                    $.post("/login",post_str,function(data,status){
+                    var post_json={
+                        "email": outside_school_login.outside_school_login_email.value,
+                        "password": outside_school_login.outside_school_login_password.value,
+                        "captcha": outside_school_login.outside_school_login_captcha.value
+                    }
+                    $.post("/outsideLogin",post_json,function(data,status){
                         if(status=="success")
                         {
                             //alert(data);
                             login_running=false;
                             triggerLoginNotRunning();
-                            switch(data)
+                            switch(data.status)
                             {
+                                case "0":
+                                    outside_school_login.outside_school_login_email.value='';
+                                    outside_school_login.outside_school_login_password.value='';
+                                    outside_school_login.outside_school_login_captcha.value='';
+                                    captcha["outside_school_login_form"].src='/captcha';
+                                    triggerAlert("outside_school_login_form","系统故障");
+                                    break;
                                 case "1":
                                     triggerLoginSuccess();
                                     break;
@@ -578,27 +571,20 @@ function onSubmit(fm)
                                     outside_school_login.outside_school_login_password.value='';
                                     outside_school_login.outside_school_login_captcha.value='';
                                     captcha["outside_school_login_form"].src='/captcha';
-                                    triggerAlert("outside_school_login_form","系统故障");
+                                    triggerAlert("outside_school_login_form","邮箱、密码格式错误");
                                     break;
                                 case "4":
+                                    outside_school_login.outside_school_login_email.value='';
+                                    outside_school_login.outside_school_login_password.value='';
+                                    outside_school_login.outside_school_login_captcha.value='';
+                                    captcha["outside_school_login_form"].src='/captcha';
+                                    triggerAlert("outside_school_login_form","邮箱未注册");
+                                    break;
+                                case "5":
                                     outside_school_login.outside_school_login_password.value='';
                                     outside_school_login.outside_school_login_captcha.value='';
                                     captcha["outside_school_login_form"].src='/captcha';
                                     triggerAlert("outside_school_login_form","密码错误");
-                                    break;
-                                case "5":
-                                    outside_school_login.outside_school_login_email.value='';
-                                    outside_school_login.outside_school_login_password.value='';
-                                    outside_school_login.outside_school_login_captcha.value='';
-                                    captcha["outside_school_login_form"].src='/captcha';
-                                    triggerAlert("within_school_login_form","邮箱未注册");
-                                    break;
-                                case "6":
-                                    outside_school_login.outside_school_login_email.value='';
-                                    outside_school_login.outside_school_login_password.value='';
-                                    outside_school_login.outside_school_login_captcha.value='';
-                                    captcha["outside_school_login_form"].src='/captcha';
-                                    triggerAlert("outside_school_login_form","邮箱、密码格式错误");
                                     break;
                             }
                         }

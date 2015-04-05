@@ -11,11 +11,11 @@ class EmailController extends Controller {
 	 * @param string $attachment 附件列表
 	 * @return boolean 
 	 */
-	function email($to, $name = '东南大学最有影响力毕业生校外验证', $subject = '', $body = '', $attachment = null){
+	function email($to, $name = '东南大学最有影响力毕业生校外注册验证', $subject = '', $body = '', $attachment = null){
 		session_start();
 		$to = $_POST['address'];
 		$this->generateCode();
-		$body = '欢迎加入最有影响力毕业生投票！<p>这里是验证码：<p>'.$_SESSION['emailCheck'];
+		$body = '欢迎加入最有影响力毕业生投票<p>请在验证码输入框内输入如下验证码：<p>'.$_SESSION['emailPassword'];
 	    $config = C('THINK_EMAIL');
 	    $mail             = new \Org\PHPMailer\PHPMailer(); //PHPMailer对象
 	    $mail->CharSet    = 'UTF-8'; //设定邮件编码，默认ISO-8859-1，如果发中文此项必须设置，否则乱码
@@ -41,7 +41,8 @@ class EmailController extends Controller {
 	            is_file($file) && $mail->AddAttachment($file);
 	        }
 	    }
-	    //发送成功，返回json为{"status":1},否则为{"status":0}
+        
+	    //发送成功，返回json为{"status":1}，否则为{"status":0}
 	    if($mail->Send()){
 	    	$data['status']  = 1;
 			$this->ajaxReturn($data);
@@ -64,7 +65,7 @@ class EmailController extends Controller {
 			$checkCode .= $imstr[$i]["s"];
 		}
 
-        $_SESSION['emailCheck'] = strtolower($checkCode);
+        $_SESSION['emailPassword'] = strtolower($checkCode);
 	}
 }
 ?> 
