@@ -4,17 +4,17 @@
 	function load_Det(){
 		include('../config.php');
 
-		$studentNumberQuery = mysql_query("SELECT studentNumber FROM candidates",$con);
+		$numberQuery = mysql_query("SELECT number FROM candidates",$con);
 		$counter = 0;
-		while($row = mysql_fetch_array($studentNumberQuery)){
-			$studentNumber = $row[0];
-			$detailInfo_1 = mysql_query("SELECT name,studentNumber,college,style,proof,introduce FROM candidates WHERE studentNumber='$studentNumber'",$con);
+		while($row = mysql_fetch_array($numberQuery)){
+			$number = $row[0];
+			$detailInfo_1 = mysql_query("SELECT name,number,college,style,proof,introduce FROM candidates WHERE number='$number'",$con);
 			if(!$detailInfo_1){
 				die("Error in getting details". mysql_error());
 			}
 			$detailInfo = mysql_fetch_row($detailInfo_1);
 			$json_infoDet = array(
-				"realname"=>$detailInfo[0],
+				"name"=>$detailInfo[0],
 				"number"=>$detailInfo[1],
 				"college"=>$detailInfo[2],
 				"style"=>$detailInfo[3],
@@ -28,7 +28,7 @@
 			$ret = json_encode($json_infoDet);
 			$ret = urldecode($ret);
 			echo $ret;
-			$jsonName = "introduce_".$studentNumber.".json";
+			$jsonName = "introduce_".$number.".json";
 			$jsonFile = fopen($jsonName, "w");
 			fwrite($jsonFile, $ret);
 		}

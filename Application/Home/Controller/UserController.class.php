@@ -6,6 +6,32 @@ class UserController extends Controller {
     
     private $Model;//Model对象，用于操作数据库
     
+    /**POST传入参数
+    
+    /*校内登录
+    card: 一卡通号
+    password: 密码
+    captcha: 验证码
+    
+    /*校外登录
+    email: 邮箱地址
+    password: 密码
+    captcha: 验证码
+    
+    /*校外注册
+    email:         邮箱地址
+    emailPassword: 邮件验证码
+    password:      密码
+    
+    */
+    
+    /**SESSION
+    loginType: 校内用户=>"in"
+               校外用户=>"out"
+    id:        校内用户=>一卡通号
+               校外用户=>邮箱
+    */
+    
     //检查验证码-------------------------------------------------------------------------------------------------------
     /**参数
     */
@@ -40,8 +66,8 @@ class UserController extends Controller {
     captcha: 验证码
     */
     
-    /**JSON返回值
-    report:
+    /**JSON返回值 $response
+    status:
     {
         0: ERROR
         1: 登录成功
@@ -73,8 +99,9 @@ class UserController extends Controller {
         
         else
         {
+            session_start();
             $_SESSION['id']=$_POST['card'];
-            $_SESSION['loginType']="within";
+            $_SESSION['loginType']="in";
             $this->response['status']='1';//登录成功
             $this->ajaxReturn($this->response);
         }
@@ -88,8 +115,8 @@ class UserController extends Controller {
     captcha: 验证码
     */
     
-    /**JSON返回值
-    report:
+    /**JSON返回值 $response
+    status:
     {
         0: ERROR
         1: 登录成功
@@ -130,8 +157,9 @@ class UserController extends Controller {
         
         else
         {
+            session_start();
             $_SESSION['id']=$_POST['email'];
-            $_SESSION['loginType']="outside";
+            $_SESSION['loginType']="out";
             $this->response['status']='1';//登录成功
             $this->ajaxReturn($this->response);
         }
@@ -145,8 +173,8 @@ class UserController extends Controller {
     password:      密码
     */
     
-    /**JSON返回值
-    report:
+    /**JSON返回值 $response
+    status:
     {
         0: ERROR
         1: 登录成功

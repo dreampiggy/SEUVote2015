@@ -5,7 +5,7 @@ by Jason
 var MAX_CHOSEN=15;//最大可投票数
 
 //GET候选者总表
-$.get("public/RESORCE/json/introduction.json",function(candidates,result){
+$.get("public/RESORCE/json/introduce_all.json",function(candidates,result){
     if(result=="success")
     {
         reArrangeArray(candidates);
@@ -61,7 +61,7 @@ submit_vote_btn.click(function(){
             voted_list_txt="";
             for(var i=0;i<MAX_CHOSEN;i++)
             {
-                voted_list_txt+=("<li class='list-group-item voted_list_li'><p><div class='container-fluid'><div class='row'><div class='col-sm-2'>"+i+"</div><div class='col-md-6'>"+voteArr[i].realname+"</div><div class='col-md-4'>"+voteArr[i].college+"</div></div></div></p></li>");
+                voted_list_txt+=("<li class='list-group-item voted_list_li'><p><div class='container-fluid'><div class='row'><div class='col-sm-2'>"+i+"</div><div class='col-md-6'>"+voteArr[i].name+"</div><div class='col-md-4'>"+voteArr[i].college+"</div></div></div></p></li>");
             }
         voted_list.innerHTML=voted_list_txt;
         submit_affirm_captcha_display.src='/captcha';
@@ -95,7 +95,7 @@ search_by_name.click(function(){
     var selected_candidates_arr=new Array();
     for(var i=0;i<candidates_arr.length;i++)
     {
-        if(candidates_arr[i].realname==search_by_name_input.value)
+        if(candidates_arr[i].name==search_by_name_input.value)
             selected_candidates_arr.push(candidates_arr[i]);
     }
     outputCandidates(selected_candidates_arr);
@@ -207,61 +207,64 @@ function voteSumbit()
         {
             vote_running=true;
             triggerSubmitAffirmCaptchaAlert("正在进行操作");
-            var post_arr=new Array();
+            var post_vote_arr=new Array();
             for(var i=0;i<MAX_CHOSEN;i++)
             {
-                post_arr.push(voteArr[i].studentNumber);
+                post_vote_arr.push(voteArr[i].number);
             }
-            var post_json=JSON.stringify(post_arr);
-            var post_str=
-                "voteArray="+post_json+
-                "&postValidateNum="+submit_affirm_captcha_input.value;
-            $.post("/vote",post_str,function(data,status){
+            var post_vote=JSON.stringify(post_vote_arr);
+            var post_json={
+                "voteArray": post_vote,
+                "captcha": submit_affirm_captcha_input.value
+            }
+            $.post("/vote",post_json,function(data,status){
                 if(status=="success")
                 {
                     vote_running=false;
                     triggerSubmitComplete();
-                    switch(data)
+                    switch(data.status)
                     {
+                        case "0":
+                            triggerSubmitAffirmCaptchaAlert("系统故障");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
                         case "1":
                             triggerVoteSubmitSuccess();
                             break;
                         case "2":
-                            triggerSubmitAffirmCaptchaAlert("请先登录再进行投票");
-                            submit_affirm_captcha_input.value="";
-                            submit_affirm_captcha_display.src='/captcha';
-                            break;
-                        case "3":
-                            triggerSubmitAffirmCaptchaAlert("请诚信投票");
-                            submit_affirm_captcha_input.value="";
-                            submit_affirm_captcha_display.src='/captcha';
-                            break;
-                        case "4":
                             triggerSubmitAffirmCaptchaAlert("验证码错误");
                             submit_affirm_captcha_input.value="";
                             submit_affirm_captcha_display.src='/captcha';
                             break;
-                        case "5":
+                        case "3":
                             triggerSubmitAffirmCaptchaAlert("同一IP两次投票的间隔不能小于30分钟");
                             submit_affirm_captcha_input.value="";
                             submit_affirm_captcha_display.src='/captcha';
                             break;
+                        case "4":
+                            triggerSubmitAffirmCaptchaAlert("您尚未登录");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
+                        case "5":
+                            triggerSubmitAffirmCaptchaAlert("请诚信投票");
+                            submit_affirm_captcha_input.value="";
+                            submit_affirm_captcha_display.src='/captcha';
+                            break;
                         case "6":
-                            triggerSubmitAffirmCaptchaAlert("您今天已投过票");
-                            submit_affirm_captcha_input.value="";
-                            submit_affirm_captcha_display.src='/captcha';
-                            break;
-                        case "7":
-                            triggerSubmitAffirmCaptchaAlert("系统故障");
-                            submit_affirm_captcha_input.value="";
-                            submit_affirm_captcha_display.src='/captcha';
-                            break;
-                        case "8":
-                            triggerSubmitAffirmCaptchaAlert("系统故障");
+                            triggerSubmitAffirmCaptchaAlert("请诚信投票");
                             submit_affirm_captcha_input.value="";
                             submit_affirm_captcha_display.src='/captcha';
                             break;
                     }
+                }
+                else
+                {
+                    vote_running=false;
+                    triggerSubmitAffirmCaptchaAlert("系统故障");
+                    submit_affirm_captcha_input.value="";
+                    submit_affirm_captcha_display.src='/captcha';
                 }
             });
         }

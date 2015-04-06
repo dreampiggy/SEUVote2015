@@ -126,30 +126,33 @@
             {
                 if(is_first_request[type])
                 {
-                    var post_str="typeX="+type+"&refere=reference4";
-                    $.post("/getRank",post_str,function(data,status){
+                    var post_json={
+                        "type": type,
+                    };
+                    $.post("/getRank",post_json,function(data,status){
                         if(status=="success")
                         {
-                            if(data=="2")
+                            switch(data.status)
                             {
-                                alert("请先投票再查看排名");
-                                return;
-                            }
-                            else if(data=="3")
-                            {
-                                alert("系统故障");
-                                return;
-                            }
-                            else
-                            {
-                                is_first_request[type]=false;
-                                emptyRanklist();
-                                rank[type]=JSON.parse(data);
-                                displayRanklist(rank[type]);
-                                if(typeof callback==="function")
-                                {
-                                    callback();//回调函数
-                                }
+                                case "0":
+                                    alert("系统故障");
+                                    return;
+                                    break;
+                                case "1":
+                                    is_first_request[type]=false;
+                                    emptyRanklist();
+                                    rank[type]=data.ranking;
+                                    displayRanklist(rank[type]);
+                                    if(typeof callback==="function")
+                                    {
+                                        callback();//回调函数
+                                    }
+                                    break;
+                                case "2":
+                                    alert("请先投票再查看排名");
+                                    return;
+                                    break;
+                                    
                             }
                         }
                         else
@@ -172,7 +175,7 @@
             //输出得票结果----------------------------------------------------------------------------------------------
             function displayRanklist(ranked_arr)
             {
-                for (var i=0;i<ranked_arr['people'].length;i++)
+                for (var i=0;i<ranked_arr['rank'].length;i++)
                 {
                     rank_list.append(
                         "<li class='list-group-item'>"+
@@ -181,13 +184,13 @@
                                 "</div></a>"+
                             "</div>"+
                             "<div class='media-body'>"+
-                                "<h4 class='media-heading'>"+ranked_arr['people'][i]['nameA']+"</h4>"+
-                                "<p>"+ranked_arr['people'][i]['numberA']+"</p>"+
+                                "<h4 class='media-heading'>"+ranked_arr['rank'][i]['name']+"</h4>"+
+                                "<p>"+ranked_arr['rank'][i]['number']+"</p>"+
                             "</div>"+
                             "<div class='progress ranking_progress'>"+
                                 "<div class='progress-bar progress-bar-striped' role='progressbar' aria-valuenow='"+
-                        Math.ceil(ranked_arr['people'][i]['pollA']/ranked_arr['maxPoll'])+"' aria-valuemin='0' aria-valuemax='100' style='width: "+
-                        Math.ceil((ranked_arr['people'][i]['pollA']/ranked_arr['maxPoll'])*100)+"%;'>"+ranked_arr['people'][i]['pollA']+"</div>"+
+                        Math.ceil(ranked_arr['rank'][i]['poll']/ranked_arr['maxPoll'])+"' aria-valuemin='0' aria-valuemax='100' style='width: "+
+                        Math.ceil((ranked_arr['rank'][i]['poll']/ranked_arr['maxPoll'])*100)+"%;'>"+ranked_arr['rank'][i]['poll']+"</div>"+
                             "</div>"+
                         "</li>");
                 }

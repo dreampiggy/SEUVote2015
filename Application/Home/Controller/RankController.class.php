@@ -3,91 +3,128 @@ namespace Home\Controller;
 use Think\Controller;
 class RankController extends Controller
 {
-	private $Model;
+	private $Model;//Model对象，用于操作数据库
+    
+    /**POST传入参数
+    type: 校内投票情况=>"in"
+          校外投票情况=>"in"
+    */
+    
+    /**SESSION
+    loginType: 校内用户=>"in"
+               校外用户=>"out"
+    id:        校内用户=>一卡通号
+               校外用户=>邮箱
+    */
+    
+    //检查当前会话中的用户是否投票过---------------------------------------------------------------------------------------
+    /**参数
+    */
+    
+    /**返回值
+    boolean 是否投票过
+    */
+    
+    private function checkVoted()
+    {
+        //
+        session_start();
+        if(!isset($_SESSION['id']))
+        {
+            return false;
+        }
+        
+        $this->Model=M();
+		switch($_SESSION['loginType'])
+        {
+        case "in":
+            if($this->Model->query("SELECT voted FROM vote_2015_within_user WHERE card='%s'",$_SESSION['id'])[0]['voted']!=1)
+            {
+                return false;
+            }
+            break;
+        case "out":
+            if($this->Model->query("SELECT voted FROM vote_2015_outside_user WHERE email='%s'",$_SESSION['id'])[0]['voted']!=1)
+            {
+                return false;
+            }
+            break;
+        default:
+            return false;
+            break;
+        }
+        
+        return true;
+    }
+    
+    //返回值-----------------------------------------------------------------------------------------------------------
+    
+    private $response=array(
+        'status'=>'0',
+        'ranking'  =>array(
+            'maxPoll' => null,
+            'rank'=> null
+        ),
+    );
+    
+    //获取排名--------------------------------------------------------------------------------------------------------
+    /**POST传入参数
+    *
+    type: 校内投票情况=>"in"
+          校外投票情况=>"in"
+    */
+    
+    /**JSON返回值 $response
+    status:
+    {
+        0: ERROR
+        1: 获取成功
+        2: 验证码错误
+    }
+    */
 	public function getRank()
     {
-		session_start();
-		header('Content-Type:text/html;charset=UTF-8');
-		date_default_timezone_set('prc');
-		$my_t=getdate(date("U"));
         
-        /*验证是否是前台发来的请求*/
-		$judge = $_POST['refere'];
-		if ($judge=="reference4")
+		if(!$this->checkVoted())
         {
-			$this->Model = M();
-			$this->returnRanking();
-		}
+            $this->response['status']='2';//用户未登录
+            $this->ajaxReturn($this->response);
+        }
+        
         else
         {
-			$return = 3;//是越过前台发来的请求
-			echo $return;
-		}
-	}
-
-    /*返回排名结果*/
-	public function returnRanking()
-    {
-        //SESSION中的用户登录信息
-		$loginName = $_SESSION['loginName'];
-		$type = $_SESSION['type'];
-		$type_look = $_REQUEST['typeX'];
-
-		//判断该用户是否投票过
-		$db_table = 'users_'.$type;
-		$polls = "polls_".$type_look;
-		$checked = $this->Model->query("SELECT voted FROM %s WHERE loginName='%s'",$db_table,$loginName);
-		if(!$checked[0])
-        {
-			die("Error in 02". mysql_error());//该用户未投票
-		}
-        
-        /*该用户已投过票*/
-		if ($checked[0]['voted'] == 1)
-        {
-            //选出候选人
-			$row_max = $this->Model->query("SELECT %s FROM candidates WHERE %s=(SELECT max(%s) FROM candidates)",$polls,$polls,$polls);
-            
-			if (!$row_max[0])
+            $this->Model=M();
+            $maxRow=$this->Model->query("SELECT %s FROM vote_2015_candidates WHERE %s=(SELECT max(%s) FROM vote_2015_candidates)","polls_".$_POST['type'],"polls_".$_POST['type'],"polls_".$_POST['type']);
+            if(!$maxRow)
             {
-                die("ERROR in max".mysql_errno());
+                $this->response['status']='0';//系统故障
+                $this->ajaxReturn($this->response);
+                die();
+            }
+            $maxPoll=$maxRow[0]["polls_".$_POST['type']];
+            
+            $rankList=$this->Model->query("SELECT * FROM vote_2015_candidates");
+            if(!$rankList)
+            {
+                $this->response['status']='0';//系统故障
+                $this->ajaxReturn($this->response);
+                die();
             }
             
-			$maxPoll = $row_max[0][$polls];//找到票数最大值
-            
-			$pollDetList = $this->Model->query("SELECT name,studentNumber,%s FROM candidates ORDER BY studentNumber ASC",$polls);
-			if(!$pollDetList)
+            $rank=array();
+            foreach($rankList as $counter=>$rk)
             {
-				die("Error in 01". mysql_error());
-			}
-			
-			//声明数组存储得票情况
-			$people = array();
-			foreach ($pollDetList as $counter => $pollDet)
-            {
-				$who = array('nameA' => urlencode($pollDet['name']), 'numberA' => urlencode($pollDet['studentnumber']), 'pollA' => urlencode($pollDet[$polls]));
-				array_push($people, $who);
-			}
-
-			$jsonReturn = array('people'=>$people,'maxPoll'=>$maxPoll);
-			$ret = json_encode($jsonReturn);
-			$return = urldecode($ret);
-            
-			echo $return;
-		}
-        
-        /*此用户尚未投票过*/
-        else
-        {
-			$return = 2;//用户尚未投票
-			echo $return;
-		}
+				$person = array('name' => $rk['name'],
+                                'number' => $rk['number'],
+                                'poll' => $rk["polls_".$_POST['type']]
+                               );
+				array_push($rank,$person);
+            }
+            $this->response['status']='1';//获取排名成功
+            $this->response['ranking']['maxPoll']=$maxPoll;
+            $this->response['ranking']['rank']=$rank;
+            $this->ajaxReturn($this->response);
+        }
 	}
 }
-/**
-*查询排名情况
-1 
-2 用户尚未投票
-3 是越过前台发来的请求
-*/
 ?>

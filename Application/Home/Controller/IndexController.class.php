@@ -84,6 +84,12 @@ class IndexController extends Controller {
         $this->display('Index:mobile-candidate-detail');
     }
     
+    //获取排名
+    public function ranking()
+    {
+        $this->display('Index:ranking');
+    }
+    
     //操作------------------------------------------------------------------------------------------------------------
     
     //用户登录
@@ -119,26 +125,16 @@ class IndexController extends Controller {
     {
         R('ValidateMYSEU/validateMYSEU');
     }
-
-    /*
-    public function register(){
-    	R('Register/register');
-    }
-
-    public function login(){
-    	R('Login/login');
-    }
-
-    public function ranking(){
-        $this->display('Index:ranking');
-    }
     
-    public function getRank(){
+    //获取排名操作
+    public function getRank()
+    {
     	R('Rank/getRank');
     }
-
-    public function vote(){
+    
+    //进行投票
+    public function vote()
+    {
     	R('Vote/vote');
     }
-*/
 }

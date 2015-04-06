@@ -13,18 +13,18 @@
 		mysql_query("SET NAMES UTF8");
 		mysql_select_db("vote", $con);
 
-		$studentNumberQuery = mysql_query("SELECT studentNumber FROM candidates",$con);
+		$numberQuery = mysql_query("SELECT number FROM candidates",$con);
 		$ret = "[";
-		while($row = mysql_fetch_array($studentNumberQuery)){
-			$studentNumber = $row[0];
-			$detailInfo_1 = mysql_query("SELECT studentNumber,name,describeSelf,style,college FROM candidates WHERE studentNumber='$studentNumber'",$con);
+		while($row = mysql_fetch_array($numberQuery)){
+			$number = $row[0];
+			$detailInfo_1 = mysql_query("SELECT number,name,describe,style,college FROM candidates WHERE number='$number'",$con);
 			if(!$detailInfo_1){
 				die("Error in getting details". mysql_error());
 			}
 			$detailInfo = mysql_fetch_row($detailInfo_1);
 			$json_infoDet = array(
-				"studentNumber"=>$detailInfo[0],
-				"realname"=>$detailInfo[1],
+				"number"=>$detailInfo[0],
+				"name"=>$detailInfo[1],
 				"describe"=>$detailInfo[2],
 				"style"=>$detailInfo[3],
 				"college"=>$detailInfo[4]
@@ -38,7 +38,7 @@
 		}
 		$ret = substr($ret, 0, -1);
 		$ret .= "]";
-		$jsonName = "introduction.json";
+		$jsonName = "introduce_all.json";
 		$jsonFile = fopen($jsonName, "w");
 		fwrite($jsonFile, $ret);
 	}

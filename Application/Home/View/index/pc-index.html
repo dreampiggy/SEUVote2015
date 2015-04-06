@@ -881,13 +881,13 @@
                     for(var i=0;i<candidates.length;i++)
                     {
                         //alert("#r_"+i/6+"c_"+i%6)
-                        $("#r_"+Math.floor(i/6)+"c_"+i%6).append("<div class='candiate' id='candidate"+candidates[i].studentNumber+"'><div class='candidate_avatar' id='candidate_avatar"+candidates[i].studentNumber+"' style='background-image:url(public/RESORCE/candidates-img/p"+i+".jpg);'></div><div class='candidate_brief' id='candiate_brief"+candidates[i].studentNumber+"'><div class='vote_btn ClickAble' id='vote_btn"+candidates[i].studentNumber+"'><span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span></div><div class='container candidate_describe ClickAble' id='candidate_describe"+candidates[i].studentNumber+"'><h4>"+candidates[i].realname+"&nbsp;<small>"+candidates[i].college+"</small></h4><br><p>"+candidates[i].describe+"</p></div></div></div>");
-                        //$("#candidate"+candidates[i].studentNumber).click(function(){alert(candidates[i].studentNumber)});
+                        $("#r_"+Math.floor(i/6)+"c_"+i%6).append("<div class='candiate' id='candidate"+candidates[i].number+"'><div class='candidate_avatar' id='candidate_avatar"+candidates[i].number+"' style='background-image:url(public/RESORCE/candidates-img/p"+i+".jpg);'></div><div class='candidate_brief' id='candiate_brief"+candidates[i].number+"'><div class='vote_btn ClickAble' id='vote_btn"+candidates[i].number+"'><span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'></span></div><div class='container candidate_describe ClickAble' id='candidate_describe"+candidates[i].number+"'><h4>"+candidates[i].name+"&nbsp;<small>"+candidates[i].college+"</small></h4><br><p>"+candidates[i].describe+"</p></div></div></div>");
+                        //$("#candidate"+candidates[i].number).click(function(){alert(candidates[i].number)});
                         for(var k=0;k<voted_counter;k++)
                         {
-                            if(voteArr[k].studentNumber==candidates[i].studentNumber)
+                            if(voteArr[k].number==candidates[i].number)
                             {
-                                $("#vote_btn"+candidates[i].studentNumber).addClass("voted_btn");
+                                $("#vote_btn"+candidates[i].number).addClass("voted_btn");
                             }
                         }
                         
@@ -898,15 +898,15 @@
                             
                             //鼠标悬浮于候选人时展示简介------------------------------------------------------------------
                             $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseover(function(){
-                                //alert(candidates[i].studentNumber);
+                                //alert(candidates[i].number);
                                 //if(!mouseIsOn[i])
                                 //{
                                     //mouseIsOn[i]=true;
                                     if(animateComplete[i])
                                     {
                                         animateComplete[i]=false;
-                                        $("#candidate"+candidates[i].studentNumber).stop();
-                                        $("#candidate"+candidates[i].studentNumber).animate({top:'-160px'},function(){
+                                        $("#candidate"+candidates[i].number).stop();
+                                        $("#candidate"+candidates[i].number).animate({top:'-160px'},function(){
                                             animateComplete[i]=true;
                                         });
                                     }
@@ -915,23 +915,23 @@
                             
                             //鼠标移开候选人时收起简介--------------------------------------------------------------------
                             $("#r_"+Math.floor(i/6)+"c_"+i%6).mouseleave(function(){
-                                //alert(candidates[i].studentNumber);
+                                //alert(candidates[i].number);
                                 //if(mouseIsOn[i])
                                 //{
                                     //mouseIsOn[i]=false;
                                     //if(!animateComplete[i])
                                     //{
-                                        $("#candidate"+candidates[i].studentNumber).stop();
+                                        $("#candidate"+candidates[i].number).stop();
                                         animateComplete[i]=true;
                                     //}
-                                    $("#candidate"+candidates[i].studentNumber).animate({top:'0px'},function(){
+                                    $("#candidate"+candidates[i].number).animate({top:'0px'},function(){
                                     });
                                 //}
                             });
                             
                             //点选投票按钮时的事件-----------------------------------------------------------------------
-                            $("#vote_btn"+candidates[i].studentNumber).click(function(){
-                                //alert(candidates[i].studentNumber);
+                            $("#vote_btn"+candidates[i].number).click(function(){
+                                //alert(candidates[i].number);
                                 if(!loggedin)
                                 {
                                     alert("请先登录再进行投票");
@@ -945,7 +945,7 @@
                                     var this_is_voted=false;
                                     for (k in voteArr)
                                     {
-                                        if(voteArr[k].studentNumber==candidates[i].studentNumber)
+                                        if(voteArr[k].number==candidates[i].number)
                                         {
                                             this_is_voted=true;
                                             break;
@@ -958,7 +958,7 @@
                                             voteArr.push(candidates[i]);
                                             voted_counter++;
                                             voted_num.innerHTML=voted_counter;
-                                            $("#vote_btn"+candidates[i].studentNumber).addClass("voted_btn");
+                                            $("#vote_btn"+candidates[i].number).addClass("voted_btn");
                                             if(voted_counter==MAX_CHOSEN)
                                             {
                                                 submit_vote_btn_container.slideDown();
@@ -973,13 +973,13 @@
                                     {
                                         for (k in voteArr)
                                         {
-                                            if(voteArr[k].studentNumber==candidates[i].studentNumber)
+                                            if(voteArr[k].number==candidates[i].number)
                                             {
                                                 this_is_voted=true;
                                                 voteArr.splice(k,1);
                                                 voted_counter--;
                                                 voted_num.innerHTML=voted_counter;
-                                                $("#vote_btn"+candidates[i].studentNumber).removeClass("voted_btn");
+                                                $("#vote_btn"+candidates[i].number).removeClass("voted_btn");
                                                 submit_vote_btn_container.slideUp();
                                                 submit_affirm.slideUp();
                                                 break;
@@ -991,8 +991,8 @@
                             
                             //点选候选人简介展开详情---------------------------------------------------------------------
                             details_shown[i]=false;
-                            $("#candidate_describe"+candidates[i].studentNumber).click(function(){
-                                //alert(candidates[i].studentNumber);
+                            $("#candidate_describe"+candidates[i].number).click(function(){
+                                //alert(candidates[i].number);
                                 if(!details_shown[i])
                                 {
                                     for(var j=0;j<Math.ceil(candidates.length/6);j++)
@@ -1002,13 +1002,13 @@
                                             $("#candidate_intro_detail_row"+j).slideUp();
                                         }
                                     }
-                                    $.get("public/RESORCE/json/introduce_"+candidates[i].studentNumber+".json",function(cadidateDetail,result){
+                                    $.get("public/RESORCE/json/introduce_"+candidates[i].number+".json",function(cadidateDetail,result){
                                         if(result=="success")
                                         {
                                             $("#candidate_intro_detail_row_img"+Math.floor(i/6)).empty();
                                             $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).empty();
                                             $("#candidate_intro_detail_row_img"+Math.floor(i/6)).append("<div class='candidate_intro_detail_img' style='background-image:url(public/RESORCE/candidates-img/p"+0+".jpg);'></div>");
-                                            $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).append("<div class='page-header'><h2>"+cadidateDetail.realname+"<small>"+cadidateDetail.number+"</small></h2></div><h3>PROOF</h3><p>"+cadidateDetail.proof+"</p><h3>INTRODUCE</h3><p>"+cadidateDetail.introduce+"</p>");
+                                            $("#candidate_intro_detail_row_txt"+Math.floor(i/6)).append("<div class='page-header'><h2>"+cadidateDetail.name+"<small>"+cadidateDetail.number+"</small></h2></div><h3>PROOF</h3><p>"+cadidateDetail.proof+"</p><h3>INTRODUCE</h3><p>"+cadidateDetail.introduce+"</p>");
                                             $("#candidate_intro_detail_row"+Math.floor(i/6)).slideDown(function(){
                                                 $("html,body").animate({scrollTop: $("#candidate_intro_detail_row"+Math.floor(i/6)).offset().top-50});
                                             });
