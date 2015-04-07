@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2015-04-06 12:14:13
+-- Generation Time: 2015-04-07 13:57:28
 -- 服务器版本： 5.6.20
 -- PHP Version: 5.5.15
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `vote_2015_within_user` (
   `card` text COLLATE utf8_unicode_ci NOT NULL,
   `voted` tinyint(1) NOT NULL DEFAULT '0',
-  `vote_for` text COLLATE utf8_unicode_ci NOT NULL
+  `vote_for` text COLLATE utf8_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

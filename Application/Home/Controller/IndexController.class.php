@@ -73,7 +73,7 @@ class IndexController extends Controller {
         $this->display('Index:mobile-candidates');
     }
     
-    //手机端候选人介绍
+    //手机端活动介绍
     public function mobile_intro()
     {
         $this->display('Index:mobile-intro');

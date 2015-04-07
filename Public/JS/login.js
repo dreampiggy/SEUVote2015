@@ -5,24 +5,37 @@ by Jason
 
 var loggedin=false;
 
+//正则表达式-----------------------------------------------------------------------------------------------------------
+var reg_card=/^[\d]{9}$/;
+var reg_password=/^[a-z\d]{6,18}$/i;
+var reg_email=/^[\w-]+[\.]*[\w-]+[@][\w\-]{1,}([.]([\w\-]{1,})){1,3}$/;
+
 //校内登录表单----------------------------------------------------------------------------------------------------------
 var within_school_login_card=document.getElementById("within_school_login_card");
 within_school_login_card.vallidation_func=function(){
-    if(within_school_login_card.value!="")
+    if(reg_card.test(within_school_login_card.value))
     {
         return true;
     }
+    else
+    {
+        return false;
+    }
 }
-within_school_login_card.error_info="一卡通号格式错误";
+within_school_login_card.error_info="一卡通号为9位数字";
 
 var within_school_login_password=document.getElementById("within_school_login_password");
 within_school_login_password.vallidation_func=function(){
-    if(within_school_login_password.value!="")
+    if(reg_password.test(within_school_login_password.value))
     {
         return true;
     }
+    else
+    {
+        return false;
+    }
 }
-within_school_login_password.error_info="密码错误";
+within_school_login_password.error_info="密码格式为6-18位数字或小写字母";
 
 var within_school_login_captcha=document.getElementById("within_school_login_captcha");
 within_school_login_captcha.vallidation_func=function(){
@@ -31,7 +44,7 @@ within_school_login_captcha.vallidation_func=function(){
         return true;
     }
 }
-within_school_login_captcha.error_info="验证码错误";
+within_school_login_captcha.error_info="请填写验证码";
 
 var within_school_login={
     within_school_login_card: within_school_login_card,
@@ -55,9 +68,13 @@ submit_within_school_login_form.click(function(){
 //校外注册表单----------------------------------------------------------------------------------------------------------
 var outside_school_register_email=document.getElementById("outside_school_register_email");
 outside_school_register_email.vallidation_func=function(){
-    if(outside_school_register_email.value!="")
+    if(reg_email.test(outside_school_register_email.value))
     {
         return true;
+    }
+    else
+    {
+        return false;
     }
 }
 outside_school_register_email.error_info="电子邮件格式错误";
@@ -74,16 +91,20 @@ outside_school_register_email_psw.vallidation_func=function(){
         return true;
     }
 }
-outside_school_register_email_psw.error_info="邮件验证码错误";
+outside_school_register_email_psw.error_info="请填写邮件验证码";
 
 var outside_school_register_password=document.getElementById("outside_school_register_password");
 outside_school_register_password.vallidation_func=function(){
-    if(outside_school_register_password.value!="")
+    if(reg_password.test(outside_school_register_password.value))
     {
         return true;
     }
+    else
+    {
+        return false;
+    }
 }
-outside_school_register_password.error_info="密码格式错误";
+outside_school_register_password.error_info="密码格式为6-18位数字或小写字母";
 
 var outside_school_register_repassword=document.getElementById("outside_school_register_repassword");
 outside_school_register_repassword.vallidation_func=function(){
@@ -121,21 +142,29 @@ submit_outside_school_register.click(function(){
 //校外登录表单----------------------------------------------------------------------------------------------------------
 var outside_school_login_email=document.getElementById("outside_school_login_email");
 outside_school_login_email.vallidation_func=function(){
-    if(outside_school_login_email.value!="")
+    if(reg_email.test(outside_school_login_email.value))
     {
         return true;
+    }
+    else
+    {
+        return false;
     }
 }
 outside_school_login_email.error_info="电子邮件格式错误";
 
 var outside_school_login_password=document.getElementById("outside_school_login_password");
 outside_school_login_password.vallidation_func=function(){
-    if(outside_school_login_password.value!="")
+    if(reg_password.test(outside_school_login_password.value))
     {
         return true;
     }
+    else
+    {
+        return false;
+    }
 }
-outside_school_login_password.error_info="密码错误";
+outside_school_login_password.error_info="密码格式为6-18位数字或小写字母";
 
 var outside_school_login_captcha=document.getElementById("outside_school_login_captcha");
 outside_school_login_captcha.vallidation_func=function(){
@@ -144,7 +173,7 @@ outside_school_login_captcha.vallidation_func=function(){
         return true;
     }
 }
-outside_school_login_captcha.error_info="验证码错误";
+outside_school_login_captcha.error_info="请输入验证码";
 
 var outside_school_login={
     outside_school_login_email: outside_school_login_email,

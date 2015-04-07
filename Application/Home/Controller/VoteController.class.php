@@ -9,6 +9,8 @@ class VoteController extends Controller {
     private $polls_line;
     private $id_line;
     
+    private $isNewIP;//是否是新的IP
+    
     private $voteArr;//用户选票的数组
     
     private $VOTE_TOTAL=15;
@@ -121,10 +123,11 @@ class VoteController extends Controller {
     private function checkIPAddress()
     {
         $this->Model=M();
-		$checkIP=$this->Model->query("SELECT IP,time FROM vote_2015_ip_record WHERE IP='%s'",$this->currnetIP);
+		$checkIP=$this->Model->query("SELECT IP,time FROM vote_2015_ip_record WHERE ip='%s'",$this->currnetIP);
         
 		if($checkIP)
         {
+            $this->isNewIP=true;
 			$timeInDB=$checkIP[0]['time'];
 			$timeGap=$this->currentUnixTime-$timeInDB;
 			if($timeGap<=1800)
@@ -139,8 +142,9 @@ class VoteController extends Controller {
         
 		else
         {
-			if($this->Model->execute("INSERT INTO vote_2015_ip_record (IP,time) VALUES ('%s','%s')",$this->currnetIP,$this->currentUnixTime))
+			if($this->Model->execute("INSERT INTO vote_2015_ip_record (ip,time) VALUES ('%s','%s')",$this->currnetIP,$this->currentUnixTime))
             {
+                $this->isNewIP=false;
 				return true;
 			}
 			else
@@ -286,11 +290,14 @@ class VoteController extends Controller {
 	private function updateIPDB()
     {
         $this->Model=M();
-        if(!$this->Model->execute("UPDATE vote_2015_ip_record SET time='%s' WHERE IP = '%s'",$this->currentUnixTime,$this->currnetIP))
+        if($this->isNewIP==true)
         {
-            $this->response['status']='0';//系统故障
-            $this->ajaxReturn($this->response);
-			return false;
+            if(!$this->Model->execute("UPDATE vote_2015_ip_record SET time='%s' WHERE ip = '%s'",$this->currentUnixTime,$this->currnetIP))
+            {
+                $this->response['status']='0';//系统故障
+                $this->ajaxReturn($this->response);
+                return false;
+            }
         }
         return true;
 	}
