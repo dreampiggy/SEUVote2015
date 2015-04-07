@@ -47,7 +47,7 @@
             //GET候选人详情并输出
             function loadCandidateDetail(number)
             {
-                $.get("public/RESORCE/json/introduce_"+number+".json",function(cadidateDetail,result){
+                $.getJSON("public/RESORCE/json/introduce_"+number+".json",function(cadidateDetail,result){
                     if(result=="success")
                     {
                         candidate_name_ontop.innerHTML=cadidateDetail.name;

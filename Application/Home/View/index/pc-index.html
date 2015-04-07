@@ -1008,7 +1008,7 @@
                                             $("#candidate_intro_detail_row"+j).slideUp();
                                         }
                                     }
-                                    $.get("public/RESORCE/json/introduce_"+candidates[i].number+".json",function(cadidateDetail,result){
+                                    $.getJSON("public/RESORCE/json/introduce_"+candidates[i].number+".json",function(cadidateDetail,result){
                                         if(result=="success")
                                         {
                                             $("#candidate_intro_detail_row_img"+Math.floor(i/6)).empty();
