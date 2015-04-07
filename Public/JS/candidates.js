@@ -6,7 +6,7 @@ var MAX_CHOSEN=15;//最大可投票数
 
 //GET候选者总表
 
-$.getJSON("public/RESORCE/json/introduce_all.json",function(candidates,result){
+$.getJSON("Public/RESORCE/json/introduce_all.json",function(candidates,result){
     if(result=="success")
     {
         reArrangeArray(candidates);

@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>候选人</title>
-        <link href="public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="public/CSS/global.css" rel="stylesheet">
+        <link href="Public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="Public/CSS/global.css" rel="stylesheet">
         <style>
             .media-body p
             {
@@ -125,9 +125,9 @@
                 </div>
             </div>
         </div>
-        <script src="public/JS/jquery-1.11.1.js"></script>
-        <script src="public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
-        <script src="public/JS/candidates.js"></script>
+        <script src="Public/JS/jquery-1.11.1.js"></script>
+        <script src="Public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+        <script src="Public/JS/candidates.js"></script>
         <script>
             //初始化联系人列表，默认显示全部联系人
             function initilize_candidates(candidates)
@@ -143,7 +143,7 @@
                 //输出候选人并注册事件
                 for(var i=0;i<candidates.length;i++)
                 {
-                    $("#candidates_container").append("<li class='list-group-item'><div class='media-left'><a><div class='media-object Avatar' id='candidate_avatar"+candidates[i].number+"' alt='public.' style='background-image: url(public/RESORCE/candidates-img/p"+i+".jpg);'></div></a><p class='button_p'><a class='btn btn-default' role='button' id='vote_btn"+candidates[i].number+"'><span class='glyphicon glyphicon-thumbs-up'></span></a></p></div><div class='media-body'><h4 class='media-heading'>"+candidates[i].name+"&nbsp;<small>"+candidates[i].college+"</small></h4><p>"+candidates[i].describe+"</p></div></li>");
+                    $("#candidates_container").append("<li class='list-group-item'><div class='media-left'><a><div class='media-object Avatar' id='candidate_avatar"+candidates[i].number+"' alt='Public.' style='background-image: url(Public/RESORCE/candidates-img/p"+i+".jpg);'></div></a><p class='button_p'><a class='btn btn-default' role='button' id='vote_btn"+candidates[i].number+"'><span class='glyphicon glyphicon-thumbs-up'></span></a></p></div><div class='media-body'><h4 class='media-heading'>"+candidates[i].name+"&nbsp;<small>"+candidates[i].college+"</small></h4><p>"+candidates[i].describe+"</p></div></li>");
                     (function(i){
                         $("#vote_btn"+candidates[i].number).click(function(){
                             var this_is_voted=false;
