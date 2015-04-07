@@ -78,7 +78,9 @@ class UserController extends Controller {
     */
     
     public function withinLogin()
-    {   
+    {
+        $this->Model=M();
+        
         if(!$this->checkCaptcha())
         {
             $this->response['status']='2';//验证码错误
@@ -91,7 +93,7 @@ class UserController extends Controller {
             $this->ajaxReturn($this->response);
         }
         
-        else if(!(R('ValidateMYSEU/validateMYSEU')))
+        else if(!(($this->Model->query("SELECT * FROM vote_2015_within_user WHERE card='%s'",$_POST['card'])[0]['card']!=null)&&(R('ValidateMYSEU/validateMYSEU'))))
         {
             $this->response['status']='4';//未通过myseu验证
             $this->ajaxReturn($this->response);
