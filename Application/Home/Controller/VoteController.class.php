@@ -3,7 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 class VoteController extends Controller {
     
-	private $Model;//数据库模型
+	private $Model;//Model对象，用于操作数据库
     
     private $user_table;
     private $polls_line;
@@ -14,7 +14,7 @@ class VoteController extends Controller {
     private $VOTE_TOTAL=15;
     
     /**POST传入参数
-    voteArray: 选票的数组
+    voteArray: 选票的数组，JSON.stringify()形式
     captcha: 验证码
     */
     
@@ -24,11 +24,6 @@ class VoteController extends Controller {
     id:        校内用户=>一卡通号
                校外用户=>邮箱
     */
-    
-    //返回值-----------------------------------------------------------------------------------------------------------
-    private $response=array(
-        'status'=>'0',
-    );
 
     //检查验证码-------------------------------------------------------------------------------------------------------
     /**参数
@@ -38,7 +33,7 @@ class VoteController extends Controller {
     boolean 是否通过验证码检查
     */
     
-    public function checkCaptcha()
+    private function checkCaptcha()
     {
 		if(strtolower($_POST['captcha'])==$_SESSION['captcha'])
         {
@@ -58,7 +53,7 @@ class VoteController extends Controller {
     string[] 候选人学号
     */
     
-	public function getAllNumbers()
+	private function getAllNumbers()
     {
         $this->Model=M();
         $result=$this->Model->query("SELECT number FROM vote_2015_candidates");
@@ -86,7 +81,7 @@ class VoteController extends Controller {
     boolean 已投够15人并是合法结果
     */
     
-    public function checkIsFull()
+    private function checkIsFull()
     {
 		$number=$this->getAllNumbers();
         
@@ -123,7 +118,7 @@ class VoteController extends Controller {
     boolean IP是否合法或是否操作数据库成功
     */
     
-    public function checkIPAddress()
+    private function checkIPAddress()
     {
         $this->Model=M();
 		$checkIP=$this->Model->query("SELECT IP,time FROM vote_2015_ip_record WHERE IP='%s'",$this->currnetIP);
@@ -165,7 +160,7 @@ class VoteController extends Controller {
     boolean 该用户是否投票过
     */
     
-	public function checkCanVote()
+	private function checkCanVote()
     {
         session_start();
         
@@ -274,7 +269,7 @@ class VoteController extends Controller {
     boolean 是否成功记录日志
     */
     
-	public function logger()
+	private function logger()
     {
 		//
         return true;
@@ -288,7 +283,7 @@ class VoteController extends Controller {
     boolean 是否成功更新数据库
     */
 
-	public function updateIPDB()
+	private function updateIPDB()
     {
         $this->Model=M();
         if(!$this->Model->execute("UPDATE vote_2015_ip_record SET time='%s' WHERE IP = '%s'",$this->currentUnixTime,$this->currnetIP))
@@ -300,13 +295,13 @@ class VoteController extends Controller {
         return true;
 	}
 
-    //对IP，时间等信息进行初始化------------------------------------------------------------------------------------------
+    //对IP，时间及投票数组等信息进行初始化---------------------------------------------------------------------------------
     /**参数
     */
     
     /**返回值
     */
-	public function init()
+	private function init()
     {
 		$this->currnetIP=get_client_ip();
 		$this->currentUnixTime=time();
@@ -314,10 +309,14 @@ class VoteController extends Controller {
 		$this->voteArr=array_unique(json_decode($_POST['voteArray'],true));
 	}
     
+    //JSON返回值-------------------------------------------------------------------------------------------------------
+    private $response=array(
+        'status'=>'0',
+    );
+    
     //进行投票---------------------------------------------------------------------------------------------------------
     /**POST传入参数
-    *
-    voteArray: 选票的数组
+    voteArray: 选票的数组，JSON.stringify()形式
     captcha: 验证码
     */
     
@@ -344,14 +343,14 @@ class VoteController extends Controller {
             $this->ajaxReturn($this->response);
 			return;
 		}
-        /*
+        
 		if(!$this->checkIPAddress())
         {
             $this->response['status']='3';//此ip在30min内已投过票
             $this->ajaxReturn($this->response);
 			return;
 		}
-        */
+        
 		else if(!isset($_SESSION['id']))
         {
             $this->response['status']='4';//尚未登录

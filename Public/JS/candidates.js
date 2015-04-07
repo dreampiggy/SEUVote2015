@@ -5,7 +5,8 @@ by Jason
 var MAX_CHOSEN=15;//最大可投票数
 
 //GET候选者总表
-$.get("public/RESORCE/json/introduce_all.json",function(candidates,result){
+
+$.getJSON("public/RESORCE/json/introduce_all.json",function(candidates,result){
     if(result=="success")
     {
         reArrangeArray(candidates);
@@ -116,8 +117,8 @@ var type_btn_1=$("#type_btn_1");
 type_btn_1.click(function(){selectCandidatesByStyle(type_btn_1,"学术影响力")});
 var type_btn_2=$("#type_btn_2");
 type_btn_2.click(function(){selectCandidatesByStyle(type_btn_2,"创业影响力")});
-var type_btn_3=$("#type_btn_3");
-type_btn_3.click(function(){selectCandidatesByStyle(type_btn_3,"道德影响力")});
+//var type_btn_3=$("#type_btn_3");
+//type_btn_3.click(function(){selectCandidatesByStyle(type_btn_3,"道德影响力")});
 var type_btn_4=$("#type_btn_4");
 type_btn_4.click(function(){selectCandidatesByStyle(type_btn_4,"公益影响力")});
 var type_btn_5=$("#type_btn_5");

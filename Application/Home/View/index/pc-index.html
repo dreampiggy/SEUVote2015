@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>2015东南大学最具影响力毕业生投票系统</title>
+        <title>2015年东南大学最具影响力毕业生投票系统</title>
         <link href="/public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/public/CSS/form.css" rel="stylesheet">
         <link href="/public/CSS/global.css" rel="stylesheet">
@@ -56,7 +56,9 @@
                 
                 border-radius: 8px;
                 
-                background-color: rgba(255,255,255,1);
+                background-color: rgba(255,255,255,0.90);
+                
+                opacity: 0.95;
                 
                 display: none;
             }
@@ -154,13 +156,13 @@
                 width: 256px;
                 height: 256px;
                 
-                background-image: url(/Public/RESORCE/QR_codes/SEU_student_affair_service_Wechat_m.jpg);
+                background-image: url(/public/RESORCE/QR_codes/SEU_student_affair_service_Wechat_m.jpg);
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
             }
             
-            .weibo_QR
+            .lesser_QR
             {
                 width: 160px;
                 height: 160px;
@@ -178,7 +180,7 @@
                 min-height: 32px;
             }
             
-            .weibo_QR_txt
+            .lesser_QR_txt
             {
                 width: 160px;
                 min-height: 32px;
@@ -364,7 +366,7 @@
                 opacity: 0.5;
             }
             
-            #close_btn_row,#QR_code_row
+            #close_btn_row,.QR_code_row
             {
                 width: 100%;
                 
@@ -379,11 +381,10 @@
                 font-size: 12px;
             }
             
-            #QR_code_row
+            .QR_code_row
             {
                 height: 116px;
                 
-                background-image: url(/Public/RESORCE/QR_codes/SEU_student_affair_service_Wechat_m.jpg);
                 background-size: auto 100%;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -411,10 +412,15 @@
                 <div id="close_btn_row">
                     <span class="glyphicon glyphicon-remove ClickAble" aria-hidden="true" id="close_btn"></span>
                 </div>
-                <div id="QR_code_row" >
+                <div class="QR_code_row" style="background-image: url(/public/RESORCE/QR_codes/SEU_student_affair_service_Wechat_m.jpg);">
                 </div>
-                <div id="text_row">
+                <div class="text_row">
                     <p class="text-center">东南大学学生事务服务中心<br>微信公众平台</p>
+                </div>
+                <div class="QR_code_row" style="background-image: url(/public/RESORCE/QR_codes/SEU_edu_foundation_wechat_m.jpg);">
+                </div>
+                <div class="text_row">
+                    <p class="text-center">东南大学教育基金会<br>微信公众平台</p>
                 </div>
             </div>
             <script>
@@ -728,23 +734,23 @@
                             <div class="col-md-8">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/most_influential_m.jpg);">
+                                        <div class="container-fluid lesser_QR" style="background-image: url(public/RESORCE/QR_codes/most_influential_m.jpg);">
                                         </div>
-                                        <div class="container-fluid QR_txt weibo_QR_txt">
+                                        <div class="container-fluid QR_txt lesser_QR_txt">
                                             <h4 class="text-center">东南大学最具影响力毕业生活动<br>官方微博</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_offical_weibo_m.png);">
+                                        <div class="container-fluid lesser_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_edu_foundation_wechat_m.jpg);">
                                         </div>
-                                        <div class="container-fluid QR_txt weibo_QR_txt">
-                                            <h4 class="text-center">东南大学官方微博</h4>
+                                        <div class="container-fluid QR_txt lesser_QR_txt">
+                                            <h4 class="text-center">东南大学教育基金会<br>微信公众平台</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="container-fluid weibo_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_edu_foundation_weibo_m.png);">
+                                        <div class="container-fluid lesser_QR" style="background-image: url(public/RESORCE/QR_codes/SEU_edu_foundation_weibo_m.png);">
                                         </div>
-                                        <div class="container-fluid QR_txt weibo_QR_txt">
+                                        <div class="container-fluid QR_txt lesser_QR_txt">
                                             <h4 class="text-center">东南大学教育基金会<br>官方微博</h4>
                                         </div>
                                     </div>
@@ -808,7 +814,7 @@
                     <button type="button" class="btn btn-default" id="type_btn_0">显示全部</button>
                     <button type="button" class="btn btn-default" id="type_btn_1">学术影响力</button>
                     <button type="button" class="btn btn-default" id="type_btn_2">创业影响力</button>
-                    <button type="button" class="btn btn-default" id="type_btn_3">道德影响力</button>
+                    <!--<button type="button" class="btn btn-default" id="type_btn_3">道德影响力</button>-->
                     <button type="button" class="btn btn-default" id="type_btn_4">公益影响力</button>
                     <button type="button" class="btn btn-default" id="type_btn_5">自强影响力</button>
                     <button type="button" class="btn btn-default" id="type_btn_6">正义影响力</button>

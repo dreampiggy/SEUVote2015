@@ -57,7 +57,7 @@ class RankController extends Controller
         return true;
     }
     
-    //返回值-----------------------------------------------------------------------------------------------------------
+    //JSON返回值-------------------------------------------------------------------------------------------------------
     
     private $response=array(
         'status'=>'0',
@@ -79,8 +79,12 @@ class RankController extends Controller
     {
         0: ERROR
         1: 获取成功
-        2: 验证码错误
+        2: 用户未登录
     }
+    ranking: maxPoll: 最多得票数
+             rank:    name:   候选人名
+                      number: 候选人学号
+                      poll:   候选人得票数
     */
 	public function getRank()
     {

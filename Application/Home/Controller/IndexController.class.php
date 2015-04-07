@@ -132,7 +132,7 @@ class IndexController extends Controller {
     	R('Rank/getRank');
     }
     
-    //进行投票
+    //提交选票
     public function vote()
     {
     	R('Vote/vote');
