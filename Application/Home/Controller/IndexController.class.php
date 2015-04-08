@@ -103,6 +103,12 @@ class IndexController extends Controller {
         R('User/outsideLogin');
     }
     
+    //退出登录
+    public function logOff()
+    {
+        R('User/logOff');
+    }
+    
     //校外注册
     public function outsideRegister()
     {

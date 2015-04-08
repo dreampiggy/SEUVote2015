@@ -93,7 +93,7 @@ class UserController extends Controller {
             $this->ajaxReturn($this->response);
         }
         
-        else if(!(($this->Model->query("SELECT * FROM vote_2015_within_user WHERE card='%s'",$_POST['card'])[0]['card']!=null)&&(R('ValidateMYSEU/validateMYSEU'))))
+        else if(!R('ValidateMYSEU/validateMYSEU'))
         {
             $this->response['status']='4';//未通过myseu验证
             $this->ajaxReturn($this->response);
@@ -101,6 +101,16 @@ class UserController extends Controller {
         
         else
         {
+            if($this->Model->query("SELECT * FROM vote_2015_within_user WHERE card='%s'",$_POST['card'])[0]['card']==null)
+            {
+                if(!$this->Model->execute("INSERT INTO vote_2015_within_user(card) VALUES ('%s')",$_POST['card']))
+                {
+                    $this->response['status']='0';//系统故障
+                    $this->ajaxReturn($this->response);
+                    die();
+                }
+            }
+            
             session_start();
             $_SESSION['id']=$_POST['card'];
             $_SESSION['loginType']="in";
@@ -217,6 +227,46 @@ class UserController extends Controller {
         else
         {
             $this->response['status']='1';//注册成功
+            $this->ajaxReturn($this->response);
+        }
+    }
+    
+    //退出登录---------------------------------------------------------------------------------------------------------
+    /**POST传入参数
+    *
+    id: 校内用户=>一卡通号
+        校外用户=>邮箱
+    */
+    
+    /**JSON返回值 $response
+    status:
+    {
+        0: ERROR
+        1: 退出登录成功
+    }
+    */
+    
+    public function logOff()
+    {
+        if(!isset($_SESSION['id']))
+        {
+            $this->response['status']='0';//用户未登录
+            $this->ajaxReturn($this->response);
+        }
+        
+        else if($_POST['id']!=$_SESSION['id'])
+        {
+            $this->response['status']='0';//用户验证不正确
+            $this->ajaxReturn($this->response);
+        }
+        
+        else
+        {
+            $_SESSION['id']=null;
+            $_SESSION['loginType']=null;
+            session_unset();
+            
+            $this->response['status']='1';//注销成功
             $this->ajaxReturn($this->response);
         }
     }

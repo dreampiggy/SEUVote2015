@@ -5,6 +5,8 @@ by Jason
 
 var loggedin=false;
 
+var loginID="";
+
 //正则表达式-----------------------------------------------------------------------------------------------------------
 var reg_card=/^[\d]{9}$/;
 var reg_password=/^[a-z\d]{6,18}$/i;
@@ -273,6 +275,19 @@ $("#lb_outside_school_login").click(function(){
     }
 });
 
+//删除全部表单内容------------------------------------------------------------------------------------------------------
+
+function cleanForm()
+{
+    for (fm in forms_shown)
+    {
+        for (input in forms_shown[fm].inputs)
+        {
+            forms_shown[fm].inputs[input].value="";
+        }
+    }
+}
+
 //叫出总表单-----------------------------------------------------------------------------------------------------------
 function showLoginForm()
 {
@@ -297,6 +312,7 @@ function showLoginForm()
 //隐藏总表单-----------------------------------------------------------------------------------------------------------
 function hideLoginForm()
 {
+    cleanForm();
     for (form in forms_shown)
     {
         if(forms_shown[form].isShown==true)
@@ -321,6 +337,7 @@ function hideLoginForm()
 //叫出某表单-----------------------------------------------------------------------------------------------------------
 function callupForm(name)
 {
+    cleanForm();
     for (form in forms_shown)
     {
         if(forms_shown[form].isShown==true)
@@ -490,7 +507,10 @@ function onSubmit(fm)
                                     triggerAlert("within_school_login_form","系统故障");
                                     break;
                                 case "1":
-                                    triggerLoginSuccess();
+                                    loginID=within_school_login.within_school_login_card.value;
+                                    triggerLoginSuccess(function(){
+                                        cleanForm();
+                                    });
                                     break;
                                 case "2":
                                     within_school_login.within_school_login_captcha.value='';
@@ -541,6 +561,7 @@ function onSubmit(fm)
                                     //triggerLoginSuccess();
                                     alert("注册成功，请登录");
                                     callupForm("outside_school_login_form");
+                                    cleanForm();
                                     break;
                                 case "2":
                                     outside_school_register.outside_school_register_email_psw.value='';
@@ -588,7 +609,10 @@ function onSubmit(fm)
                                     triggerAlert("outside_school_login_form","系统故障");
                                     break;
                                 case "1":
-                                    triggerLoginSuccess();
+                                    loginID=outside_school_login.outside_school_login_email.value;
+                                    triggerLoginSuccess(function(){
+                                        cleanForm();
+                                    });
                                     break;
                                 case "2":
                                     outside_school_login.outside_school_login_captcha.value='';

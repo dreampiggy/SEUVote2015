@@ -567,9 +567,9 @@
                 var btn_toLogin_top=$("#btn_toLogin_top");//顶栏登录按钮
                 var btn_toLogin_top_txt=document.getElementById("btn_toLogin_top_txt");//顶栏登陆按钮的文字
                 btn_toLogin_top.click(function(){
-                    if($(window).width()>=770)
+                    if(!loggedin)
                     {
-                        if(!loggedin)
+                        if($(window).width()>=770)
                         {
                             if(!isFormUp)
                             {
@@ -583,13 +583,31 @@
                         }
                         else
                         {
-                            alert("您已登录");
+                            alert("当前设备分辨率过低无法显示候选人列表，或您正采用手机浏览。请至微信公众平台投票。");
+                            $("html,body").animate({scrollTop: $("#jumbotron_mobile_visit").offset().top-50});
                         }
                     }
                     else
                     {
-                        alert("当前设备分辨率过低无法显示候选人列表，或您正采用手机浏览。请至微信公众平台投票。");
-                        $("html,body").animate({scrollTop: $("#jumbotron_mobile_visit").offset().top-50});
+                        var post_json={
+                            "id": loginID,
+                        }
+                        $.post("/logOff",post_json,function(data,status){
+                            if(status=="success")
+                            {
+                                if(data.status=="1")
+                                {
+                                    loggedin=false;
+                                    btn_toLogin_top_txt.innerHTML="登录以投票";
+                                    alert("成功退出登录");
+                                    window.location.reload();
+                                }
+                                else
+                                {
+                                    alert("系统故障,未能退出登录");
+                                }
+                            }
+                        });
                     }
                 });
                 
@@ -606,10 +624,10 @@
                 }
                 
                 //登录成功触发的事件
-                function triggerLoginSuccess()
+                function triggerLoginSuccess(callback)
                 {
                     loggedin=true;
-                    btn_toLogin_top_txt.innerHTML="已登录";
+                    btn_toLogin_top_txt.innerHTML="退出登录";
                     for(fm in forms_shown)
                     {
                         for (input in forms_shown[fm].inputs)
@@ -618,6 +636,10 @@
                         }
                     }
                     hideLoginForm();
+                    if(typeof callback==="function")
+                    {
+                        callback();//回调函数
+                    }
                 }
                 
                 if($(window).width()>=770)
@@ -1073,7 +1095,7 @@
         </div>
         <div id="jumbotron_contact" class="jumbotron">
             <div class="container">
-                <p class="text-center">如遇问题请联系：ippclub@seu.edu.cn<br>
+                <p class="text-center">如遇问题请联系：ippclub@ippclub.org<br>
                     如遇网站使用方面的问题，请在来信中注明浏览器及版本、具体问题以及您的操作流程等情况，谢谢配合。<br>
                     <a href="http://xsc.seu.edu.cn/" target="_blank">东南大学学生处</a>
                     |
