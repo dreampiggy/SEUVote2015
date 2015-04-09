@@ -29,7 +29,7 @@
             <div class="container-fluid">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" >登录与注册</a>
+                        <a class="navbar-brand"><span id="btn_toLogin_top_txt">登录与注册</span></a>
                     </div>
                 </div>
             </div>
@@ -128,9 +128,24 @@
         <script>
             showLoginForm();
             
+            var btn_toLogin_top_txt=document.getElementById("btn_toLogin_top_txt");//顶栏登陆按钮的文字
+            
+            //登录仍在进行
+            function triggerLoginRunning()
+            {
+                btn_toLogin_top_txt.innerHTML="正在进行操作...";
+            }
+            
+            //登录不在进行
+            function triggerLoginNotRunning()
+            {
+                btn_toLogin_top_txt.innerHTML="登录以投票";
+            }
+            
             //登录成功触发的事件
             function triggerLoginSuccess()
             {
+                location.href="/mobile_candidates";
             }
         </script>
     </body>

@@ -38,6 +38,11 @@
                 margin-top: 10px;
                 margin-bottom: 10px;
             }
+            
+            .rank_list_li
+            {
+                padding-bottom: 0px;
+            }
         </style>
         <script src="Public/JS/jquery-1.11.1.js"></script>
         <script src="Public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
@@ -178,7 +183,7 @@
                 for (var i=0;i<ranked_arr['rank'].length;i++)
                 {
                     rank_list.append(
-                        "<li class='list-group-item'>"+
+                        "<li class='list-group-item rank_list_li'>"+
                             "<div class='media-left'>"+
                                 "<a><div class='media-object Avatar' alt='...' style='background-image: url(Public/RESORCE/candidates-img/p"+i+".jpg);'>"+
                                 "</div></a>"+

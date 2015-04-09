@@ -80,7 +80,9 @@ class IndexController extends Controller {
     }
     
     //手机端候选人详情
-    public function mobile_candidate_detail(){
+    public function mobile_candidate_detail($number)
+    {
+        $this->assign('number',$number);
         $this->display('Index:mobile-candidate-detail');
     }
     

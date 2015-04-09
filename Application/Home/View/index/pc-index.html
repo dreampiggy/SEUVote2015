@@ -1053,22 +1053,6 @@
                         })(i);
                     }
                 }
-                
-                //提交选票成功的事件-------------------------------------------------------------------------------------
-                function triggerVoteSubmitSuccess()
-                {
-                    vote_completed=true;
-                    submit_affirm.slideUp(function(){
-                        submit_vote_btn_container.slideUp();
-                        alert("提交选票成功");
-                        $("#goto_ranking_btn_container").slideDown(function(){
-                            $("#goto_ranking_btn").click(function(){
-                                //链接至排名页面
-                                window.location.href="/ranking";
-                            });
-                        });
-                    });
-                }
             </script>
         </div>
         <!-- 分辨率过低 ---------------------------------------------------------------------------------------------->

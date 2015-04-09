@@ -239,7 +239,7 @@ function voteSumbit()
                             submit_affirm_captcha_display.src='/captcha';
                             break;
                         case "3":
-                            triggerSubmitAffirmCaptchaAlert("同一IP两次投票的间隔不能小于30分钟");
+                            triggerSubmitAffirmCaptchaAlert("同一IP两次投票的间隔不能小于一分钟");
                             submit_affirm_captcha_input.value="";
                             submit_affirm_captcha_display.src='/captcha';
                             break;
@@ -270,4 +270,20 @@ function voteSumbit()
             });
         }
     }
+}
+
+//提交选票成功的事件-----------------------------------------------------------------------------------------------------
+function triggerVoteSubmitSuccess()
+{
+    vote_completed=true;
+    submit_affirm.slideUp(function(){
+        submit_vote_btn_container.slideUp();
+        alert("提交选票成功");
+        $("#goto_ranking_btn_container").slideDown(function(){
+            $("#goto_ranking_btn").click(function(){
+                //链接至排名页面
+                window.location.href="/ranking";
+            });
+        });
+    });
 }

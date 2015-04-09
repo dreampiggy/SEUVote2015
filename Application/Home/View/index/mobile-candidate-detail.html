@@ -5,8 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>候选人详情</title>
-        <link href="Public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="Public/CSS/global.css" rel="stylesheet">
+        <link href="/Public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/Public/CSS/global.css" rel="stylesheet">
         <style>
             .caption p
             {
@@ -31,13 +31,13 @@
                     <div class="caption">
                         <h2 id="candidate_name"></h2>
                         <p id="candidate_detail"></p>
-                        <p><a class="btn btn-default" role="button">返回</a></p>
+                        <p><a class="btn btn-default" role="button" id="back_btn">返回</a></p>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="Public/JS/jquery-1.11.1.js"></script>
-        <script src="Public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+        <script src="/Public/JS/jquery-1.11.1.js"></script>
+        <script src="/Public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
         <script>
             var candidate_name_ontop=document.getElementById("candidate_name_ontop");
             var candidate_avatar=document.getElementById("candidate_avatar");
@@ -47,19 +47,25 @@
             //GET候选人详情并输出
             function loadCandidateDetail(number)
             {
-                $.getJSON("Public/RESORCE/json/introduce_"+number+".json",function(cadidateDetail,result){
+                $.getJSON("/Public/RESORCE/json/introduce_"+number+".json",function(cadidateDetail,result){
                     if(result=="success")
                     {
                         candidate_name_ontop.innerHTML=cadidateDetail.name;
                         candidate_name.innerHTML=cadidateDetail.name;
-                        candidate_avatar.src="Public/RESORCE/candidates-img/p"+0+".jpg";
+                        candidate_avatar.src="/Public/RESORCE/candidates-img/p"+0+".jpg";
                         candidate_detail.innerHTML="<h3>PROOF</h3><p>"+cadidateDetail.proof+"</p><h3>INTRODUCE</h3><p>"+cadidateDetail.introduce+"</p>";
                     }
                 });
             }
             
             //可以采取模板引擎方式传入学号
-            loadCandidateDetail("01109109");
+            loadCandidateDetail({$number});
+            
+            var back_btn=$("#back_btn");
+            back_btn.click(function(){
+                history.back();
+            });
+            
         </script>
     </body>
 </html>

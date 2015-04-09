@@ -68,6 +68,18 @@
             {
                 padding: 0px;
             }
+            
+            #goto_ranking_btn_container
+            {
+                display: none;
+                
+                text-align: center;
+            }
+            
+            .candidate_list_li
+            {
+                padding-bottom: 0px;
+            }
         </style>
     </head>
     <body>
@@ -106,7 +118,12 @@
                 </div>
                 <ul class="list-group" id="candidates_container">
                 </ul>
-                <p><span id="submit_vote_btn_container"><a class="btn btn-primary" role="button" id="submit_vote_btn">确认投票</a></span> <a class="btn btn-default" role="button">取消</a></p>
+                <span id="submit_vote_btn_container"><p><a class="btn btn-primary" role="button" id="submit_vote_btn">确认投票</a></p></span>
+                <div class="container" id="goto_ranking_btn_container">    
+                    <div class="btn-group" role="group" aria-label="..." id="goto_ranking_btn">
+                        <button type="button" class="btn btn-primary">查看得票情况</button>
+                    </div>
+                </div>
                 <div class="container-fluid" id="submit_affirm">
                     <div class="container">
                         <h2 class="text-center">确认提交选票吗？<br><small class="text-center">请确认选票信息并输入验证码以提交选票</small></h2>
@@ -143,7 +160,7 @@
                 //输出候选人并注册事件
                 for(var i=0;i<candidates.length;i++)
                 {
-                    $("#candidates_container").append("<li class='list-group-item'><div class='media-left'><a><div class='media-object Avatar' id='candidate_avatar"+candidates[i].number+"' alt='Public.' style='background-image: url(Public/RESORCE/candidates-img/p"+i+".jpg);'></div></a><p class='button_p'><a class='btn btn-default' role='button' id='vote_btn"+candidates[i].number+"'><span class='glyphicon glyphicon-thumbs-up'></span></a></p></div><div class='media-body'><h4 class='media-heading'>"+candidates[i].name+"&nbsp;<small>"+candidates[i].college+"</small></h4><p>"+candidates[i].describe+"</p></div></li>");
+                    $("#candidates_container").append("<li class='list-group-item candidate_list_li'><div class='media-left'><a><div class='media-object Avatar ClickAble' id='candidate_avatar"+candidates[i].number+"' alt='Public.' style='background-image: url(Public/RESORCE/candidates-img/p"+i+".jpg);'></div></a><p class='button_p'><a class='btn btn-default' role='button' id='vote_btn"+candidates[i].number+"'><span class='glyphicon glyphicon-thumbs-up'></span></a></p></div><div class='media-body'><h4 class='media-heading'>"+candidates[i].name+"&nbsp;<small>"+candidates[i].college+"</small></h4><p>"+candidates[i].describe+"</p></div></li>");
                     (function(i){
                         $("#vote_btn"+candidates[i].number).click(function(){
                             var this_is_voted=false;
@@ -191,13 +208,11 @@
                                 }
                             }
                         });
+                        $("#candidate_avatar"+candidates[i].number).click(function(){
+                            window.location.href="/mobile_candidate_detail/number/"+candidates[i].number;
+                        })
                     })(i);
                 }
-            }
-            
-            //提交选票成功的事件
-            function triggerVoteSubmitSuccess()
-            {
             }
         </script>
     </body>

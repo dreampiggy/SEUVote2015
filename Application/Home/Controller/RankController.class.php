@@ -79,7 +79,6 @@ class RankController extends Controller
     {
         0: ERROR
         1: 获取成功
-        2: 用户未登录
     }
     ranking: maxPoll: 最多得票数
              rank:    name:   候选人名
@@ -88,14 +87,15 @@ class RankController extends Controller
     */
 	public function getRank()
     {
-        
+        /*
 		if(!$this->checkVoted())
         {
             $this->response['status']='2';//用户未登录
             $this->ajaxReturn($this->response);
         }
+        */
         
-        else
+        //else
         {
             $this->Model=M();
             $maxRow=$this->Model->query("SELECT %s FROM vote_2015_candidates WHERE %s=(SELECT max(%s) FROM vote_2015_candidates)","polls_".$_POST['type'],"polls_".$_POST['type'],"polls_".$_POST['type']);

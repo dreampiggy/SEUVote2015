@@ -130,7 +130,7 @@ class VoteController extends Controller {
             $this->isNewIP=true;
 			$timeInDB=$checkIP[0]['time'];
 			$timeGap=$this->currentUnixTime-$timeInDB;
-			if($timeGap<=1800)
+			if($timeGap<=60)
 			{
 				return false;
 			}
