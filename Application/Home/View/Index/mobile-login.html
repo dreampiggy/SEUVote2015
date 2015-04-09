@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>登录与注册</title>
+        <link href="Public/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="Public/CSS/form.css" rel="stylesheet">
+        <link href="Public/CSS/global.css" rel="stylesheet">
+        <style>
+            #send_email_btn_container
+            {
+                width: 100%;
+                
+                margin-top: 4px;
+            }
+            
+            #send_email_btn
+            {
+                width: 100%;
+            }
+        </style>
+        <script src="Public/JS/jquery-1.11.1.js"></script>
+        <script src="Public/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand"><span id="btn_toLogin_top_txt">登录与注册</span></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div id="jumbotron_main" class="jumbotron">
+            <div class="container" id="form_container">
+                <div class="thumbnail">
+                    <ul class="nav nav-pills nav-stacked">
+                      <li role="presentation" id="lb_within_school_login" class="active"><a class="ClickAble">校内投票</a></li>
+                      <li role="presentation" id="lb_outside_school_register"><a class="ClickAble">校外注册</a></li>
+                      <li role="presentation" id="lb_outside_school_login"><a class="ClickAble">校外登录</a></li>
+                    </ul>
+                </div>
+                <!-- 校内登录表单 ------------------------------------------------------------------------------------->
+                <div class="container" id="within_school_login_form">
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span></span>
+                        <input id="within_school_login_card" type="text" class="form-control" placeholder="一卡通号" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
+                        <input id="within_school_login_password" type="password" class="form-control" placeholder="统一身份认证密码" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <input id="within_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
+                        <span class="input-group-addon ClickAble" id="basic-addon2" style="padding: 0px;padding-left: 8px; padding-right: 8px;"><img class="captcha" id="within_school_login_captcha_display"></img></span>
+                    </div>
+                    <div class="container-fluid" id="alert_container_within_school_login_form">
+                        <div id="alert_within_school_login_form" class="alert alert-danger ClickAble" role="alert">
+                            <strong id="alert_txt_within_school_login_form"></strong>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_within_school_login_form">
+                        <button id="submit_within_school_login_form" type="button" class="btn btn-default login_btn">登录</button>
+                        <button type="button" class="btn btn-default cancle_btn">取消</button>
+                    </div>
+                </div>
+                <!-- 校外注册表单 ------------------------------------------------------------------------------------->
+                <div class="container" id="outside_school_register_form">
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+                        <input id="outside_school_register_email" type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="btn-group" role="group" aria-label="..." id="send_email_btn_container">
+                        <button type="button" class="btn btn-default" id="send_email_btn"><span id="send_email_btn_txt">发送验证邮件</span></button>
+                    </div>
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
+                        <input id="outside_school_register_email_psw" type="text" class="form-control" placeholder="邮件验证码" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span></span>
+                        <input id="outside_school_register_password" type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span></span>
+                        <input id="outside_school_register_repassword" type="password" class="form-control" placeholder="密码确认" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="container-fluid" id="alert_container_outside_school_register_form">
+                        <div id="alert_outside_school_register_form" class="alert alert-danger ClickAble" role="alert">
+                            <strong id="alert_txt_outside_school_register_form"></strong>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_register_form">
+                        <button type="button" id="submit_outside_school_register" class="btn btn-default login_btn">注册</button>
+                        <button type="button" class="btn btn-default cancle_btn">取消</button>
+                    </div>
+                </div>
+                <!-- 校外登录表单 ------------------------------------------------------------------------------------->
+                <div class="container" id="outside_school_login_form">
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+                        <input id="outside_school_login_email" type="text" class="form-control" placeholder="邮箱地址" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <span class="input-group-addon" id="sizing-addon1"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></span>
+                        <input id="outside_school_login_password" type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon1">
+                    </div>
+                    <div class="input-group input-group-lg login_form_inputs">
+                        <input id="outside_school_login_captcha" type="text" class="form-control" placeholder="验证码" aria-describedby="basic-addon2">
+                        <span class="input-group-addon ClickAble" id="basic-addon2" style="padding: 0px;padding-left: 8px; padding-right: 8px;"><img class="captcha" id="outside_school_login_captcha_display"></img></span>
+                    </div>
+                    <div class="container-fluid" id="alert_container_outside_school_login_form">
+                        <div id="alert_outside_school_login_form" class="alert alert-danger ClickAble" role="alert">
+                            <strong id="alert_txt_outside_school_login_form"></strong>
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-lg" role="group" aria-label="..." id="btn_outside_school_login_form">
+                        <button type="button" id="submit_outside_school_login" class="btn btn-default login_btn">登录</button>
+                        <button type="button" class="btn btn-default cancle_btn">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="Public/JS/login.js"></script>
+        <script>
+            showLoginForm();
+            
+            var btn_toLogin_top_txt=document.getElementById("btn_toLogin_top_txt");//顶栏登陆按钮的文字
+            
+            //登录仍在进行
+            function triggerLoginRunning()
+            {
+                btn_toLogin_top_txt.innerHTML="正在进行操作...";
+            }
+            
+            //登录不在进行
+            function triggerLoginNotRunning()
+            {
+                btn_toLogin_top_txt.innerHTML="登录以投票";
+            }
+            
+            //登录成功触发的事件
+            function triggerLoginSuccess()
+            {
+                location.href="/mobile_candidates";
+            }
+        </script>
+    </body>
+</html>
