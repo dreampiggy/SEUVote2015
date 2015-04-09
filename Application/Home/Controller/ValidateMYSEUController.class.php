@@ -22,8 +22,8 @@ class ValidateMYSEUController extends Controller {
     	$result = $this->sendPost(validatURL,$postData);
         
     	//验证通过，返回json为{"status":1}，否则为{"status":0}
-        if(validateTrue==$result)//用于windows
-	    //if(strcmp(validateTrue,$result))//用于linux
+        //if(validateTrue==$result)
+	    if(strcmp(validateTrue,$result))
         {
 	    	return true;
 	    }
